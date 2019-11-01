@@ -40,8 +40,8 @@ export class StartupService {
       this.httpClient.get('assets/tmp/app-data.json')
     ).pipe(
       catchError(([langData, appData]) => {
-          resolve(null);
-          return [langData, appData];
+        resolve(null);
+        return [langData, appData];
       })
     ).subscribe(([langData, appData]) => {
       // Setting language data
@@ -61,82 +61,16 @@ export class StartupService {
       // Can be set page suffix title, https://ng-alain.com/theme/title
       this.titleService.suffix = res.app.name;
     },
-    () => { },
-    () => {
-      resolve(null);
-    });
-  }
-  
-  private viaMockI18n(resolve: any, reject: any) {
-    this.httpClient
-      .get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`)
-      .subscribe(langData => {
-        this.translate.setTranslation(this.i18n.defaultLang, langData);
-        this.translate.setDefaultLang(this.i18n.defaultLang);
-
-        this.viaMock(resolve, reject);
+      () => { },
+      () => {
+        resolve(null);
       });
   }
-  
-  private viaMock(resolve: any, reject: any) {
-    const tokenData = this.tokenService.get();
-    if (!tokenData.token) {
-      this.injector.get(Router).navigateByUrl('/passport/login');
-      resolve({});
-      return;
-    }
-    // mock
-    const app: any = {
-      name: `weixiao`,
-      description: `weixiaoqaq`
-    };
-    const user: any = {
-      name: 'weixiao',
-      avatar: './assets/tmp/img/avatar.jpg',
-      email: '943885179@qq.com',
-      token: '123456789'
-    };
-    // Application information: including site name, description, year
-    this.settingService.setApp(app);
-    // User information: including name, avatar, email address
-    this.settingService.setUser(user);
-    // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
-    this.aclService.setFull(true);
-    // Menu data, https://ng-alain.com/theme/menu
-    //this.menuService.add(this.menuService.getPathByUrl("",true));
-    this.menuService.add([
-      {
-        text: 'Main',
-        group: true,
-        children: [
-          {
-            text: 'Dashboardassd',
-            link: '/dashboard',
-            icon: { type: 'icon', value: 'appstore' }
-          },
-          {
-            text: 'Quick Menu',
-            icon: { type: 'icon', value: 'rocket' },
-            shortcutRoot: true
-          }
-        ]
-      }
-    ]);
-    // Can be set page suffix title, https://ng-alain.com/theme/title
-    this.titleService.suffix = app.name;
-
-    resolve({});
-  }
-
   load(): Promise<any> {
     // only works with promises
     // https://github.com/angular/angular/issues/15088
     return new Promise((resolve, reject) => {
-      // http
-       this.viaHttp(resolve, reject);
-      // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
-      //this.viaMockI18n(resolve, reject);
-
+      this.viaHttp(resolve, reject);
     });
   }
 }
