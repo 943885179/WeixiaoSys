@@ -1,5 +1,8 @@
 {
-  "menu.search.placeholder": "搜索：員工、文件、照片等",
+  "status": 0,
+  "msg": "中文",
+  "data": {
+    "menu.search.placeholder": "搜索：員工、文件、照片等",
   "menu.fullscreen": "全屏",
   "menu.fullscreen.exit": "退出全屏",
   "menu.clear.local.storage": "清理在地緩存",
@@ -149,4 +152,5 @@
   "validation.date.required": "請選擇起止日期",
   "validation.goal.required": "請輸入目標描述",
   "validation.standard.required": "請輸入衡量標淮"
+}
 }

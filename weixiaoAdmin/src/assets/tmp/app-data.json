@@ -1,14 +1,22 @@
 {
-  "app": {
-    "name": "weixiao",
-    "description": "weixiaoqaq"
+  "data": {
+    "app": {
+      "name": "weixiao",
+      "description": "weixiaoqaq"
+    },
+    "user": {
+      "name": "weixiao",
+      "avatar": "./assets/tmp/img/avatar.jpg",
+      "email": "943885179@qq.com"
+    },
+    "menu": [],
+    "ApiUrl": "https://localhost:5001/api/",
+    "ApiRole": {
+      "Login": "User/Login",
+      "Menu": "Menu/Menu",
+      "Menus": "Menu/Menus"
+    }
   },
-  "user": {
-    "name": "weixiao",
-    "avatar": "./assets/tmp/img/avatar.jpg",
-    "email": "943885179@qq.com"
-  },
-  "menu": [
-  ],
-  "ApiUrl":"https://localhost:5001/api"
+  "status": 0,
+  "msg": "基础信息"
 }

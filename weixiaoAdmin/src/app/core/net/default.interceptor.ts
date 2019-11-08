@@ -7,6 +7,7 @@ import {
   HttpErrorResponse,
   HttpEvent,
   HttpResponseBase,
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
@@ -38,7 +39,7 @@ const CODEMESSAGE = {
  */
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
-  constructor(private injector: Injector) {}
+  constructor(private injector: Injector, private msg: NzMessageService) { }
 
   private get notification(): NzNotificationService {
     return this.injector.get(NzNotificationService);
@@ -63,6 +64,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       this.injector.get(_HttpClient).end();
     }
     this.checkStatus(ev);
+    console.log(ev);
     // 业务处理：一些通用操作
     switch (ev.status) {
       case 200:
@@ -71,20 +73,21 @@ export class DefaultInterceptor implements HttpInterceptor {
         //  错误内容：{ status: 1, msg: '非法参数' }
         //  正确内容：{ status: 0, response: {  } }
         // 则以下代码片断可直接适用
-        // if (event instanceof HttpResponse) {
-        //     const body: any = event.body;
-        //     if (body && body.status !== 0) {
-        //         this.msg.error(body.msg);
-        //         // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
-        //         // this.http.get('/').subscribe() 并不会触发
-        //         return throwError({});
-        //     } else {
-        //         // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
-        //         return of(new HttpResponse(Object.assign(event, { body: body.response })));
-        //         // 或者依然保持完整的格式
-        //         return of(event);
-        //     }
-        // }
+        if (ev instanceof HttpResponse) {
+          const body: any = ev.body;
+          if (body && body.status !== 0) {
+            this.msg.error(body.msg);
+            // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：
+            // this.http.get('/').subscribe() 并不会触发
+            return throwError({});
+          } else {
+            // 重新修改 `body` 内容为 `response` 内容，对于绝大多数场景已经无须再关心业务状态码
+            return of(new HttpResponse({ ...ev, body: body.data }));
+            // return of(new HttpResponse({ ...ev, body: body.response }));
+            // 或者依然保持完整的格式
+            // return of(event);
+          }
+        }
         break;
       case 401:
         this.notification.error(`未登录或登录已过期，请重新登录。`, ``);

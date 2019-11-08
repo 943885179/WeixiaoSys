@@ -15,6 +15,9 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 // single pages
 import { CallbackComponent } from './callback/callback.component';
 import { UserLockComponent } from './passport/lock/lock.component';
+import { Exception403Component } from './exception/403.component';
+import { Exception500Component } from './exception/500.component';
+import { Exception404Component } from './exception/404.component';
 
 const routes: Routes = [
   {
@@ -25,17 +28,18 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
+      { path: 'sys', loadChildren: './sys/sys.module#SysModule' }
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
     ]
   },
   // 全屏布局
-  // {
-  //     path: 'fullscreen',
-  //     component: LayoutFullScreenComponent,
-  //     children: [
-  //     ]
-  // },
+  {
+    path: 'fullscreen',
+    component: LayoutFullScreenComponent,
+    children: [
+    ]
+  },
   // passport
   {
     path: 'passport',
@@ -56,11 +60,11 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(
       routes, {
-        useHash: environment.useHash,
-        // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
-        // Pls refer to https://ng-alain.com/components/reuse-tab
-        scrollPositionRestoration: 'top',
-      }
+      useHash: environment.useHash,
+      // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
+      // Pls refer to https://ng-alain.com/components/reuse-tab
+      scrollPositionRestoration: 'top',
+    }
     )],
   exports: [RouterModule],
 })
