@@ -8,6 +8,7 @@ import { from } from 'rxjs';
 import { MenuService } from 'src/app/service/menu.service';
 import { BasicService } from 'src/app/service/basic.service';
 import { type } from 'os';
+import { SysMenuViewComponent } from './view/view.component';
 @Component({
   selector: 'app-sys-menu',
   templateUrl: './menu.component.html',
@@ -47,22 +48,35 @@ export class SysMenuComponent implements OnInit {
       filter: {
         type: 'keyword',
         fn: (filter, record) => {
-          console.log(filter, record);
           return !filter.value || record.name.indexOf(filter.value) !== -1;
         },
       },
     },
-    { title: '图标', index: 'icon', format: (item, col, index) => item.icon == null ? "" : `<i class='` + item.icon + `'></i> ` + item.icon },
+    { title: '图标', index: 'icon', },
+    // { title: '图标', index: 'icon', format: (item, col, index) => item.icon == null ? "" : `<i class='${item.icon}'></i> ${item.icon}` },
     {
       title: '操作',
       buttons: [
-        { text: '查看', icon: "search", click: (item: any) => `view/${item.id}` },
+        {
+          text: '查看', icon: "search", type: "drawer", drawer: {
+            component: SysMenuViewComponent,
+            title: "详情",
+            params: (item) => {
+              return { id: 1 };
+            }
+
+          }
+        },
         { text: "删除", icon: "delete", type: "del" },
         {
           text: '编辑',
           icon: 'edit',
           type: "static",
-          component: SysMenuEditComponent,
+          // component: SysMenuEditComponent,
+          modal: {
+            component: SysMenuEditComponent,
+            params: (item: any) => item
+          },
           click: (item: any) => item
         },
 

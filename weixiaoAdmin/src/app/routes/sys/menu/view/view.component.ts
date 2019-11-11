@@ -1,26 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { Component, OnInit, Input } from '@angular/core';
+import { NzModalRef, NzDrawerRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-
+import { BasicService } from 'src/app/service/basic.service';
 @Component({
   selector: 'app-sys-menu-view',
   templateUrl: './view.component.html',
 })
 export class SysMenuViewComponent implements OnInit {
-  record: any = {};
-  i: any;
 
+  @Input()
+  record: any;
+  i: any;
   constructor(
-    private modal: NzModalRef,
+    // private modal: NzModalRef,
     public msgSrv: NzMessageService,
-    public http: _HttpClient
+    public http: _HttpClient,
+    private drawer: NzDrawerRef,
+    private basic: BasicService
   ) { }
 
   ngOnInit(): void {
-    this.http.get(`/user/${this.record.id}`).subscribe(res => this.i = res);
+    console.log("view", this.record);
+    this.http.get(this.basic.ApiUrl + this.basic.ApiRole.MenuById + `/${this.record.id}`).subscribe(res => this.i = res);
   }
-
+  ok() {
+    this.drawer.close(`new time: ${+new Date()}`);
+    this.cancel();
+  }
+  cancel() {
+    this.drawer.close();
+  }
   close() {
-    this.modal.destroy();
+    // this.modal.destroy();
+    this.drawer.close();
   }
 }

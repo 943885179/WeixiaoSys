@@ -50,7 +50,7 @@ export class StartupService {
         return [langData, menuData];
       })
     ).subscribe(([langData, menuData]) => {
-
+      console.log("菜单", menuData);
       // Setting language data
       this.translate.setTranslation(this.i18n.defaultLang, langData);
       this.translate.setDefaultLang(this.i18n.defaultLang);

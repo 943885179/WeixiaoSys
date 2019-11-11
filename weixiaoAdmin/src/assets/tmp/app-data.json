@@ -14,7 +14,10 @@
     "ApiRole": {
       "Login": "User/Login",
       "Menu": "Menu/Menu",
-      "Menus": "Menu/Menus"
+      "Menus": "Menu/Menus",
+      "MenuById": "Menu/MenuById",
+      "AddOrEditMenu": "Menu/AddOrEditMenu",
+      "DeleteMenu": "Menu/DeleteMenu"
     }
   },
   "status": 0,
