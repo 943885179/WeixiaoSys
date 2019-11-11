@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BasicsApi.Dto;
 using BasicsApi.Models;
+using BasicsApi.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,18 +20,21 @@ namespace BasicsApi.Controllers
 
         private readonly IMapper _mapper;
         private WeixiaoSysContext _db;
+        private static MenuService bll;
+        private static ResponseDto result;
         public MenuController(WeixiaoSysContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
+            bll = new MenuService(db);
+            result = new ResponseDto();
         }
         [HttpGet("Menu")]
-        public ActionResult<ResponseDto> Menu()
+        public async Task<ActionResult<ResponseDto>> Menu()
         {
-            var result = new ResponseDto();
             try
             {
-                result.data = _mapper.Map<List<Menu>, List<MenuDto>>(menus(null));
+                result.data = _mapper.Map<List<Menu>, List<MenuDto>>(await bll.Menus(null));
             }
             catch (Exception ex)
             {
@@ -40,12 +44,11 @@ namespace BasicsApi.Controllers
             return result;
         }
         [HttpGet("Menus")]
-        public ActionResult<ResponseDto> Menus()
+        public async Task<ActionResult<ResponseDto>> Menus()
         {
-            var result = new ResponseDto();
             try
             {
-                result.data = _db.Menu.ToList();
+                result.data = _mapper.Map<List<Menu>, List<MenuDto>>(await bll.MenuList());
             }
             catch (Exception ex)
             {
@@ -54,20 +57,44 @@ namespace BasicsApi.Controllers
             }
             return result;
         }
-        private List<Menu> menus(int? id)
+        [HttpGet("MenuById/{id}")]
+        public async Task<ActionResult<ResponseDto>> MenuById(int id)
         {
-            var results = new List<Menu>();
-            results = _db.Menu.Where(o => o.Pid == id).ToList();
-            if (results.Count() == 0)
-            {
-                return new List<Menu>();
-            }
-            foreach (var result in results)
-            {
-                result.Children = menus(result.Id);
-            }
-            return results;
+            result.data=_mapper.Map<Menu,MenuDto>(await bll.MenuById(id));
+            return result;
         }
-
+        [HttpPost("AddOrEditMenu")]
+        public async Task<ActionResult<ResponseDto>> AddOrEditMenu(Menu menu)
+        {
+            try
+            {
+                if (menu.Id>0)
+                {
+                    result.data = await bll.Edit(menu);
+                }
+                else
+                {
+                    result.data = await bll.Add(menu);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.msg=ex.ToString();
+            }
+            return result;
+        }
+        [HttpPost("DeleteMenu/{id}")]
+        public async Task<ActionResult<ResponseDto>> DeleteMenu(int id)
+        {
+            try
+            {
+                result.data = await bll.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                result.msg = ex.ToString();
+            }
+            return result;
+        }
     }
 }
