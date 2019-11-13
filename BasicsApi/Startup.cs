@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using BasicsApi.Dto;
 using BasicsApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -76,7 +77,7 @@ namespace BasicsApi
                     //                    "http://www.contoso.com");
                 });
             });
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(cfg=>cfg.AddProfile<AutoMapperConfigs>(), typeof(Startup));
             services.AddDbContext<WeixiaoSysContext>(op => op.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddControllers();
         }

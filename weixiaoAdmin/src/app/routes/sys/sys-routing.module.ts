@@ -8,16 +8,16 @@ import { SysMenuViewComponent } from './menu/view/view.component';
 import { SysMenuEditComponent } from './menu/edit/edit.component';
 
 const routes: Routes = [
-
-  { path: 'menu', component: SysMenuComponent },
-  { path: 'menu/view', component: SysMenuViewComponent },
+  { path: 'menu', component: SysMenuComponent, data: { title: `菜单管理` } },
+  // { path: 'menu/view', component: SysMenuViewComponent },
   // { path: 'menu/Edit/:id', component: SysMenuEditComponent },
   { path: 'dep', component: SysDepComponent },
   { path: 'user', component: SysUserComponent },
-  { path: 'company', component: SysCompanyComponent }];
+  { path: 'company', component: SysCompanyComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SysRoutingModule { }
+export class SysRoutingModule {}

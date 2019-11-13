@@ -19,8 +19,8 @@ namespace BasicsApi.Dto
         public string Badge { get; set; }
         public string BadgeDot { get; set; }
         public string BadgeStatus { get; set; }
-        public string Disabled { get; set; }
-        public string Hide { get; set; }
+        public Boolean? Disabled { get; set; }
+        public Boolean? Hide { get; set; }
         public string HideInBreadcrumb { get; set; }
         public string Acl { get; set; }
         public string Shortcut { get; set; }

@@ -9,6 +9,7 @@ import { MenuService } from 'src/app/service/menu.service';
 import { BasicService } from 'src/app/service/basic.service';
 import { type } from 'os';
 import { SysMenuViewComponent } from './view/view.component';
+import { NzMessageService } from 'ng-zorro-antd';
 @Component({
   selector: 'app-sys-menu',
   templateUrl: './menu.component.html',
@@ -62,12 +63,28 @@ export class SysMenuComponent implements OnInit {
             component: SysMenuViewComponent,
             title: "详情",
             params: (item) => {
-              return { id: 1 };
+              return { id: item.Id };
             }
 
           }
         },
-        { text: "删除", icon: "delete", type: "del" },
+        {
+          text: "删除", icon: "delete", type: "del",
+          pop: {
+            title: "确认删除吗？", trigger: "click", placement: "bottomRight",
+            okType: 'danger',
+            icon: 'delete',
+          },
+          iif: record => record.children.length === 0,
+          click: (record, _modal, comp) => {
+            this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenu + `/${record.id}`).subscribe(res => {
+              if (res != null) {
+                this.message.success(`成功删除【${record.text}】`);
+                comp!.removeRow(record);
+              }
+            })
+          },
+        },
         {
           text: '编辑',
           icon: 'edit',
@@ -84,7 +101,7 @@ export class SysMenuComponent implements OnInit {
     }
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper, private csv: CacheService, private menuService: MenuService, private basic: BasicService) {
+  constructor(private message: NzMessageService, private http: _HttpClient, private modal: ModalHelper, private csv: CacheService, private menuService: MenuService, private basic: BasicService) {
 
   }
 

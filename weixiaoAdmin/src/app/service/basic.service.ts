@@ -14,6 +14,9 @@ export class BasicService {
   constructor(private csv: CacheService, private http: _HttpClient) {
     // this.csv.clearNotify();
     // this.csv.clear();
+    // this.csv.remove("assets/tmp/app-data.json");
+    // this.csv.has = () => false;
+    // this.csv.freq = 20;
     // this.csv.get("assets/tmp/app-data.json", { mode: "promise", type: "s", expire: 10 }
     zip(this.csv.get("assets/tmp/app-data.json", { mode: "promise", type: "s", expire: 60 * 60 }))
       .pipe(
