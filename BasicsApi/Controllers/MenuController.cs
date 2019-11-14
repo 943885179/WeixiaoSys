@@ -59,13 +59,13 @@ namespace BasicsApi.Controllers
             }
             return result;
         }
-        [HttpGet("Menus")]
-        public async Task<ActionResult<ResponseDto>> Menus()
+        [HttpPost("Menus")]
+        public async Task<ActionResult<ResponseDto>> Menus(MenuDto dto)
         {
             result = new ResponseDto();
             try
             {
-                result.data = _mapper.Map<List<Menu>, List<MenuDto>>(await bll.MenuList());
+                result.data = _mapper.Map<ResultPageDto<List<Menu>>,ResultPageDto<List<MenuDto>>>(await bll.MenuList(dto));
             }
             catch (Exception ex)
             {
@@ -111,6 +111,21 @@ namespace BasicsApi.Controllers
             try
             {
                 result.data = await bll.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                result.status = -1;
+                result.msg = ex.Message.ToString();
+            }
+            return result;
+        }
+       [HttpPost("DeleteMenus")]
+        public async Task<ActionResult<ResponseDto>> DeleteMenus(List<EntityDto> ids)
+        {
+            result = new ResponseDto();
+            try
+            {
+                result.data = await bll.Deletes(ids);
             }
             catch (Exception ex)
             {

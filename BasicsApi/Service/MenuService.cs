@@ -19,9 +19,25 @@ namespace BasicsApi.Service
         ///
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Menu>> MenuList()
+        public async Task<ResultPageDto<List<Menu>>> MenuList(MenuDto dto)
         {
-            return await db.Menu.ToListAsync();
+            var resultPage=new ResultPageDto<List<Menu>>();
+            //resultPage.pi=page.pi;
+            //resultPage.ps=page.ps;
+            resultPage.total= await db.Menu.CountAsync();
+            var menu=db.Menu.Where(menu=>1==1);
+            if(!string.IsNullOrEmpty(dto.Text)&& dto.Text!="ascend"&&dto.Text!="descend"){
+                menu=menu.Where(menu=>menu.Text.Contains(dto.Text));
+            }
+            else if(dto.Text=="ascend"){
+                menu=menu.OrderBy(m=>m.Text);
+            }
+             else if(dto.Text=="ascend"){
+               menu= menu.OrderByDescending(m=>m.Text);
+            }
+            else{}
+            resultPage.list = await menu.Skip(dto.ps*(dto.pi-1)).Take(dto.ps).ToListAsync();
+            return resultPage;
         }
         /// <summary>
         ///
@@ -86,6 +102,16 @@ namespace BasicsApi.Service
                 throw new Exception("请先删除子菜单！");
             }
             db.Menu.Remove(del);
+            return await db.SaveChangesAsync();
+        }
+        public async Task<int> Deletes(List<EntityDto> ids)
+        {
+            var delId = ids.Select(o=>o.Id).ToArray();
+            var deles = await db.Menu.Include(m=>m.Children).Where(o =>delId.Contains(o.Id)).ToListAsync();
+            if(deles.Any(o=>o.Children.Count>0 && o.Children.Any(c=>!delId.Contains(c.Id)))){
+                throw new Exception("存在未删除的子菜单！");
+            }
+            db.Menu.RemoveRange(deles);
             return await db.SaveChangesAsync();
         }
     }

@@ -34,7 +34,7 @@ function genData(params: any) {
     ret = ret.filter(data => data.no.indexOf(params.no) > -1);
   }
 
-  return { total: ret.length, list: ret.slice(start, ps * pi) };
+  return { status: 0, msg: '成功', data: { total: ret.length, list: ret.slice(start, ps * pi) } };
 }
 
 function saveData(id: number, value: any) {

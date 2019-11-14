@@ -18,7 +18,8 @@
       "MenuById": "Menu/MenuById",
       "AddOrEditMenu": "Menu/AddOrEditMenu",
       "DeleteMenu": "Menu/DeleteMenu",
-      "SelectMenu":"Menu/SelectMenu"
+      "SelectMenu":"Menu/SelectMenu",
+      "DeleteMenus": "Menu/DeleteMenus"
     }
   },
   "status": 0,

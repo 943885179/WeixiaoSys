@@ -10,6 +10,7 @@ namespace BasicsApi.Dto
     public class AutoMapperConfigs:Profile
     {
         public AutoMapperConfigs() {
+            CreateMap<ResultPageDto<List<Menu>>,ResultPageDto<List<MenuDto>>>();
             CreateMap<Menu, MenuDto>();
             CreateMap<Menu, SelectDto>()
                 .ForMember(o=>o.children,m=>m.MapFrom(t=>t.Children))

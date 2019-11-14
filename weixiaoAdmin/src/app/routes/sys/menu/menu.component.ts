@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { STColumn, STComponent } from '@delon/abc';
-import { SFSchema } from '@delon/form';
+import { STColumn, STComponent, STReq, STChange } from '@delon/abc';
+import { SFSchema, SFButton } from '@delon/form';
 import { SysMenuEditComponent } from './edit/edit.component';
 import { CacheService } from '@delon/cache';
 import { from } from 'rxjs';
@@ -18,10 +18,11 @@ export class SysMenuComponent implements OnInit {
   url: string;
   searchSchema: SFSchema = {
     properties: {
-      id: {
+      text: {
         type: 'string',
-        title: '编号'
-      }
+        title: '菜单名称',
+        //  description: `支持模糊查询`
+      },
     }
   };
   @ViewChild('st', { static: false }) st: STComponent;
@@ -53,7 +54,7 @@ export class SysMenuComponent implements OnInit {
         },
       },
     },
-    { title: '图标', index: 'icon', },
+    { title: { text: '图标', optionalHelp: `https://ng.ant.design/components/icon/zh#components-icon-demo-basic` }, render: 'icon', },
     // { title: '图标', index: 'icon', format: (item, col, index) => item.icon == null ? "" : `<i class='${item.icon}'></i> ${item.icon}` },
     {
       title: '操作',
@@ -69,7 +70,9 @@ export class SysMenuComponent implements OnInit {
           }
         },
         {
-          text: "删除", icon: "delete", type: "del",
+          text: "删除",
+          icon: "delete",
+          type: "del",
           pop: {
             title: "确认删除吗？", trigger: "click", placement: "bottomRight",
             okType: 'danger',
@@ -94,13 +97,42 @@ export class SysMenuComponent implements OnInit {
             component: SysMenuEditComponent,
             params: (item: any) => item
           },
-          click: (item: any) => item
+          click: 'reload'
         },
 
       ]
     }
   ];
-
+  req: STReq = {
+    method: "post",
+    allInBody: true,
+  };
+  changeMenus: any = [];
+  change(e: STChange) {
+    if (e.type === 'checkbox') {
+      this.changeMenus = [];
+      for (const item of e.checkbox) {
+        this.changeMenus.push({ id: item.id });
+      }
+    }
+    // this.changeMenus = e.checkbox;
+    // tslint:disable-next-line: forin
+    // e.checkbox.forEach(x => {
+    //   this.changeMenus.push({ id: x.id });
+    //   console.log(this.changeMenus);
+    // })
+    // console.log('change', e.checkbox);
+  }
+  async deleteAll() {
+    if (this.changeMenus == null || this.changeMenus.length === 0) {
+      this.message.error("请选择数据");
+      return;
+    }
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, this.changeMenus).subscribe(res => {
+      this.message.success("删除成功");
+      this.st.reload();
+    })
+  }
   constructor(private message: NzMessageService, private http: _HttpClient, private modal: ModalHelper, private csv: CacheService, private menuService: MenuService, private basic: BasicService) {
 
   }
