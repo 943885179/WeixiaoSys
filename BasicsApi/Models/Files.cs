@@ -7,13 +7,13 @@ namespace BasicsApi.Models
     {
         public Files()
         {
-            RoleFile = new HashSet<RoleFile>();
+            RoleFile = new List<RoleFile>();
         }
 
         public int Id { get; set; }
         public string FileName { get; set; }
         public string FilePath { get; set; }
 
-        public virtual ICollection<RoleFile> RoleFile { get; set; }
+        public virtual List<RoleFile> RoleFile { get; set; }
     }
 }

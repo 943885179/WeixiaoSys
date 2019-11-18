@@ -15,6 +15,7 @@ namespace BasicsApi.Models
         {
         }
 
+        public virtual DbSet<Area> Area { get; set; }
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<CompanyLog> CompanyLog { get; set; }
         public virtual DbSet<Department> Department { get; set; }
@@ -50,12 +51,40 @@ namespace BasicsApi.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=weixiaoSys;User ID=sa;Password=123;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Weixiaosys;User ID=sa;Password=123;MultipleActiveResultSets=true");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Area>(entity =>
+            {
+                entity.HasKey(e => e.Id)
+                    .HasName("PK_AREA")
+                    .IsClustered(false);
+
+                entity.ToTable("area");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.District)
+                    .IsRequired()
+                    .HasColumnName("district")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Level).HasColumnName("level");
+
+                entity.Property(e => e.Pid).HasColumnName("pid");
+
+                entity.HasOne(d => d.P)
+                    .WithMany(p => p.Children)
+                    .HasForeignKey(d => d.Pid)
+                    .HasConstraintName("FK_AREA_AREA_AREA_AREA");
+            });
+
             modelBuilder.Entity<Company>(entity =>
             {
                 entity.HasKey(e => e.Id)
@@ -64,14 +93,14 @@ namespace BasicsApi.Models
 
                 entity.ToTable("company");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Address)
                     .HasColumnName("address")
                     .HasMaxLength(200)
                     .IsUnicode(false);
-
-                entity.Property(e => e.Area).HasColumnName("area");
 
                 entity.Property(e => e.Code)
                     .IsRequired()
@@ -82,6 +111,11 @@ namespace BasicsApi.Models
                 entity.Property(e => e.Email)
                     .HasColumnName("email")
                     .HasMaxLength(80)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Idcard)
+                    .IsRequired()
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.LegalPerson)
@@ -102,13 +136,13 @@ namespace BasicsApi.Models
 
                 entity.Property(e => e.Pid).HasColumnName("pid");
 
+
                 entity.HasOne(d => d.P)
-                    .WithMany(p => p.InverseP)
+                    .WithMany(p => p.Children)
                     .HasForeignKey(d => d.Pid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_COMPANY_COM_COM_COMPANY");
             });
-
             modelBuilder.Entity<CompanyLog>(entity =>
             {
                 entity.HasKey(e => e.Id)
@@ -164,7 +198,9 @@ namespace BasicsApi.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Pid).HasColumnName("pid");
+                entity.Property(e => e.Pid)
+                    .HasColumnName("pid")
+                    .HasDefaultValueSql("((0))");
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.Department)
@@ -173,9 +209,8 @@ namespace BasicsApi.Models
                     .HasConstraintName("FK_DEPARTME_DEP_COMPA_COMPANY");
 
                 entity.HasOne(d => d.P)
-                    .WithMany(p => p.InverseP)
+                    .WithMany(p => p.Children)
                     .HasForeignKey(d => d.Pid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DEPARTME_DEP_DEP_DEPARTME");
             });
 
@@ -523,17 +558,11 @@ namespace BasicsApi.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PageId)
-                    .HasColumnName("pageId")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.PageId).HasColumnName("pageId");
 
-                entity.Property(e => e.Pagepageid)
-                    .HasColumnName("pagepageid")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.Pagepageid).HasColumnName("pagepageid");
 
-                entity.Property(e => e.Pid)
-                    .HasColumnName("pid")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.Pid).HasColumnName("pid");
 
                 entity.Property(e => e.Reuse)
                     .HasColumnName("reuse")
@@ -991,7 +1020,6 @@ namespace BasicsApi.Models
                 entity.HasOne(d => d.C)
                     .WithMany(p => p.Shareholder)
                     .HasForeignKey(d => d.Cid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SHAREHOL_COMPANY_C_COMPANY");
             });
 

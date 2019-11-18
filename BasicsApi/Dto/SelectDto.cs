@@ -11,6 +11,7 @@ namespace BasicsApi.Dto
         public string label { get; set; }
         public string value { get; set; }
         public int key { get; set; }
+        public bool isLeaf { get; set; }
         public bool isChecked { get; set; }
         public bool IsHave { get; set; }
         public bool disabled { get; set; }

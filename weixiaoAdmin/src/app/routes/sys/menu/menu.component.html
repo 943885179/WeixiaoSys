@@ -1,19 +1,16 @@
-<page-header [action]="phActionTpl">
+<page-header [breadcrumb]="breadcrumb" [content]="content">
   <ng-template #breadcrumb>
-  </ng-template>
-  <ng-template #phActionTpl>
     <nz-breadcrumb>
       <nz-breadcrumb-item>
         <a [routerLink]="['/']">首页</a>
       </nz-breadcrumb-item>
       <nz-breadcrumb-item>
-        <a [routerLink]="['/']">基础信息管理</a>
+        <a [routerLink]="['/sys']">基础信息管理</a>
       </nz-breadcrumb-item>
       <nz-breadcrumb-item>菜单管理</nz-breadcrumb-item>
     </nz-breadcrumb>
-    <button (click)="add()" nz-button nzType="primary">
-      <i nz-icon nzType='anticon anticon-folder-add'></i> 添加
-    </button>
+  </ng-template>
+  <ng-template #content>
   </ng-template>
 </page-header>
 <nz-card>
@@ -29,6 +26,9 @@
     </button>
     <button nz-button nzType="danger" (click)="deleteAll()">
       <i nz-icon nzType='anticon anticon-delete'></i>批量删除
+    </button>
+    <button (click)="add()" nz-button nzType="primary">
+      <i nz-icon nzType='anticon anticon-folder-add'></i> 添加
     </button>
   </sf>
   <st #st [data]="url" [columns]="columns" [req]="req" [ps]="10" (change)="change($event)">

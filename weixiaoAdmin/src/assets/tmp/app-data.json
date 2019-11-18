@@ -13,13 +13,25 @@
     "ApiUrl": "https://localhost:5001/api/",
     "ApiRole": {
       "Login": "User/Login",
+
       "Menu": "Menu/Menu",
       "Menus": "Menu/Menus",
       "MenuById": "Menu/MenuById",
       "AddOrEditMenu": "Menu/AddOrEditMenu",
       "DeleteMenu": "Menu/DeleteMenu",
-      "SelectMenu":"Menu/SelectMenu",
-      "DeleteMenus": "Menu/DeleteMenus"
+      "SelectMenu": "Menu/SelectMenu",
+      "DeleteMenus": "Menu/DeleteMenus",
+
+      "Company": "Company/Company",
+      "Companys": "Company/Companys",
+      "CompanyById": "Company/CompanyById",
+      "AddOrEditCompany": "Company/AddOrEditCompany",
+      "DeleteCompany": "Company/DeleteCompany",
+      "SelectCompany": "Company/SelectCompany",
+      "DeleteCompanys": "Company/DeleteCompanys",
+
+      "Area": "Area/Area",
+      "SelectArea": "Area/SelectArea"
     }
   },
   "status": 0,

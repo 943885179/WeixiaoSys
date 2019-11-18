@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using BasicsApi.Dto;
+using BasicsApi.conmon;
 
 namespace BasicsApi.Service
 {
@@ -99,7 +100,7 @@ namespace BasicsApi.Service
         {
             var del = await db.Menu.Include(m=>m.Children).FirstOrDefaultAsync(o => o.Id == id);
             if(del.Children.Count>0){
-                throw new Exception("请先删除子菜单！");
+                throw new WeixiaoException("请先删除子菜单！");
             }
             db.Menu.Remove(del);
             return await db.SaveChangesAsync();
@@ -109,7 +110,7 @@ namespace BasicsApi.Service
             var delId = ids.Select(o=>o.Id).ToArray();
             var deles = await db.Menu.Include(m=>m.Children).Where(o =>delId.Contains(o.Id)).ToListAsync();
             if(deles.Any(o=>o.Children.Count>0 && o.Children.Any(c=>!delId.Contains(c.Id)))){
-                throw new Exception("存在未删除的子菜单！");
+                throw new WeixiaoException("存在未删除的子菜单！");
             }
             db.Menu.RemoveRange(deles);
             return await db.SaveChangesAsync();

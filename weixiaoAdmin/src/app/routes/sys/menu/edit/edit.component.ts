@@ -23,26 +23,7 @@ export class SysMenuEditComponent implements OnInit {
   i: any;
   schema: SFSchema = {
     properties: {
-      id: { title: '编号', type: 'string' },
-      text: { type: 'string', title: '菜单名称', maxLength: 15 },
-      icon: { type: 'string', title: '图标' },
-      pid: {
-        type: 'string',
-        title: '上级菜单',
-      },
-      i18n: { type: 'string', title: 'i18n' },
-      link: { type: 'string', title: '路由' },
-      externalLink: { type: 'string', title: '外部链接' },
-      target: {
-        type: `string`,
-        title: '链接target',
-      },
-      disabled: {
-        type: "boolean",
-        title: "是否使用",
-      }
-    },
-    required: ['text'],
+    }
   };
   ui: SFUISchema = {
     '*': {

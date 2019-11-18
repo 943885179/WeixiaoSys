@@ -1,4 +1,5 @@
 ﻿//using Newtonsoft.Json;
+using BasicsApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
@@ -9,6 +10,7 @@ namespace BasicsApi.Dto
     {
         public int pi { get; set; }//当前页码
         public int ps { get; set; }//每页数量，当设置为 0 表示不分页，默认：10
+
         public int Id { get; set; }
         public int? Pid { get; set; }
         public string Text { get; set; }
@@ -21,15 +23,15 @@ namespace BasicsApi.Dto
         public string Badge { get; set; }
         public string BadgeDot { get; set; }
         public string BadgeStatus { get; set; }
-        public Boolean? Disabled { get; set; }
-        public Boolean? Hide { get; set; }
+        public bool? Disabled { get; set; }
+        public bool? Hide { get; set; }
         public string HideInBreadcrumb { get; set; }
         public string Acl { get; set; }
         public string Shortcut { get; set; }
         public string ShortcutRoot { get; set; }
         public string Link { get; set; }
         public string Reuse { get; set; }
-       //[JsonIgnore]
+
         public  List<MenuDto> Children { get; set; }
     }
 }

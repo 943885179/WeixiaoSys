@@ -7,8 +7,8 @@ namespace BasicsApi.Models
     {
         public Operation()
         {
-            Element = new HashSet<Element>();
-            RoleOpretion = new HashSet<RoleOpretion>();
+            Element = new List<Element>();
+            RoleOpretion = new List<RoleOpretion>();
         }
 
         public int Id { get; set; }
@@ -16,7 +16,7 @@ namespace BasicsApi.Models
         public string Code { get; set; }
         public int Pid { get; set; }
 
-        public virtual ICollection<Element> Element { get; set; }
-        public virtual ICollection<RoleOpretion> RoleOpretion { get; set; }
+        public virtual List<Element> Element { get; set; }
+        public virtual List<RoleOpretion> RoleOpretion { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace BasicsApi.Models
     {
         public Element()
         {
-            ElementElementCelement = new HashSet<ElementElement>();
-            ElementElementPelement = new HashSet<ElementElement>();
-            RoleElement = new HashSet<RoleElement>();
+            ElementElementCelement = new List<ElementElement>();
+            ElementElementPelement = new List<ElementElement>();
+            RoleElement = new List<RoleElement>();
         }
 
         public int Id { get; set; }
@@ -21,8 +21,8 @@ namespace BasicsApi.Models
         public virtual Operation Operation { get; set; }
         public virtual ElementType TypeNavigation { get; set; }
         public virtual PageElement PageElement { get; set; }
-        public virtual ICollection<ElementElement> ElementElementCelement { get; set; }
-        public virtual ICollection<ElementElement> ElementElementPelement { get; set; }
-        public virtual ICollection<RoleElement> RoleElement { get; set; }
+        public virtual List<ElementElement> ElementElementCelement { get; set; }
+        public virtual List<ElementElement> ElementElementPelement { get; set; }
+        public virtual List<RoleElement> RoleElement { get; set; }
     }
 }

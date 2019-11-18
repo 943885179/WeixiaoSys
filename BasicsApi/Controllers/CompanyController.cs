@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net.Http;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BasicsApi.conmon;
@@ -10,26 +12,26 @@ using BasicsApi.Models;
 using BasicsApi.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BasicsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MenuController : BacsicsController
+    public class CompanyController : BacsicsController
     {
-        private readonly MenuService bll ;
-        public MenuController(WeixiaoSysContext db, IMapper mapper):base(db,mapper)
+        private readonly CompanyService bll ;
+        public CompanyController(WeixiaoSysContext db, IMapper mapper):base(db,mapper)
         {
-            bll = new MenuService(db);
+            bll = new CompanyService(db);
         }
-        [HttpGet("Menu")]
-        public async Task<ActionResult<ResponseDto>> Menu()
+        [HttpGet("Company")]
+        public async Task<ActionResult<ResponseDto>> Company()
         {
             try
             {
-                result.data = _mapper.Map<List<MenuDto>>(await bll.Menus(null));
+                result.data = _mapper.Map<List<CompanyDto>>(await bll.Companys(null));
             }
             catch(WeixiaoException ex)
             {
@@ -46,13 +48,13 @@ namespace BasicsApi.Controllers
             }
             return result;
         }
-        [HttpGet("SelectMenu")]
-        public async Task<ActionResult<ResponseDto>> SelectMenu()
+        [HttpGet("SelectCompany")]
+        public async Task<ActionResult<ResponseDto>> SelectCompany()
         {
             result = new ResponseDto();
             try
             {
-                result.data =await bll.SelectMenus(null);
+                result.data =await bll.SelectCompanys(null);
             }
             catch (WeixiaoException ex)
             {
@@ -65,12 +67,12 @@ namespace BasicsApi.Controllers
             }
             return result;
         }
-        [HttpPost("Menus")]
-        public async Task<ActionResult<ResponseDto>> Menus(MenuDto dto)
+        [HttpPost("Companys")]
+        public async Task<ActionResult<ResponseDto>> Companys(CompanyDto dto)
         {
             try
             {
-                result.data = _mapper.Map<ResultPageDto<List<Menu>>,ResultPageDto<List<MenuDto>>>(await bll.MenuList(dto));
+                result.data = _mapper.Map<ResultPageDto<List<Company>>,ResultPageDto<List<CompanyDto>>>(await bll.CompanyList(dto));
             }
             catch (WeixiaoException ex)
             {
@@ -83,25 +85,25 @@ namespace BasicsApi.Controllers
             }
             return result;
         }
-        [HttpGet("MenuById/{id}")]
-        public async Task<ActionResult<ResponseDto>> MenuById(int id)
+        [HttpGet("CompanyById/{id}")]
+        public async Task<ActionResult<ResponseDto>> CompanyById(int id)
         {
-            var menu=await bll.MenuById(id);
-            result.data = _mapper.Map<MenuDto>(menu);
+            var Company=await bll.CompanyById(id);
+            result.data = _mapper.Map<CompanyDto>(Company);
             return result;
         }
-        [HttpPost("AddOrEditMenu")]
-        public async Task<ActionResult<ResponseDto>> AddOrEditMenu(Menu menu)
+        [HttpPost("AddOrEditCompany")]
+        public async Task<ActionResult<ResponseDto>> AddOrEditCompany(Company Company)
         {
             try
             {
-                if (menu.Id > 0)
+                if (Company.Id > 0)
                 {
-                    result.data = await bll.Edit(menu);
+                    result.data = await bll.Edit(Company);
                 }
                 else
                 {
-                    result.data = await bll.Add(menu);
+                    result.data = await bll.Add(Company);
                 }
             }
             catch (WeixiaoException ex)
@@ -115,8 +117,8 @@ namespace BasicsApi.Controllers
             }
             return result;
         }
-        [HttpPost("DeleteMenu/{id}")]
-        public async Task<ActionResult<ResponseDto>> DeleteMenu(int id)
+        [HttpPost("DeleteCompany/{id}")]
+        public async Task<ActionResult<ResponseDto>> DeleteCompany(int id)
         {
             try
             {
@@ -133,8 +135,8 @@ namespace BasicsApi.Controllers
             }
             return result;
         }
-       [HttpPost("DeleteMenus")]
-        public async Task<ActionResult<ResponseDto>> DeleteMenus(List<EntityDto> ids)
+       [HttpPost("DeleteCompanys")]
+        public async Task<ActionResult<ResponseDto>> DeleteCompanys(List<EntityDto> ids)
         {
             try
             {

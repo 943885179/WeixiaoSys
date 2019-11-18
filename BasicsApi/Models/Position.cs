@@ -7,7 +7,7 @@ namespace BasicsApi.Models
     {
         public Position()
         {
-            EmployePosition = new HashSet<EmployePosition>();
+            EmployePosition = new List<EmployePosition>();
         }
 
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace BasicsApi.Models
         public string Code { get; set; }
         public string Describes { get; set; }
 
-        public virtual ICollection<EmployePosition> EmployePosition { get; set; }
+        public virtual List<EmployePosition> EmployePosition { get; set; }
     }
 }

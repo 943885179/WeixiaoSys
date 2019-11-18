@@ -1,24 +1,29 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema, SFTreeSelectWidgetSchema, SFCascaderWidgetSchema } from '@delon/form';
+import { BasicService } from 'src/app/service/basic.service';
+import { CacheService } from '@delon/cache';
 
 @Component({
   selector: 'app-sys-company-edit',
   templateUrl: './edit.component.html',
 })
 export class SysCompanyEditComponent implements OnInit {
+
+  constructor(
+    // private modal: NzModalRef,
+    private msgSrv: NzMessageService,
+    public http: _HttpClient,
+    private basic: BasicService,
+    private csv: CacheService,
+    private drawer: NzDrawerRef
+  ) { }
   record: any = {};
   i: any;
   schema: SFSchema = {
     properties: {
-      no: { type: 'string', title: '编号' },
-      owner: { type: 'string', title: '姓名', maxLength: 15 },
-      callNo: { type: 'number', title: '调用次数' },
-      href: { type: 'string', title: '链接', format: 'uri' },
-      description: { type: 'string', title: '描述', maxLength: 140 },
-    },
-    required: ['owner', 'callNo', 'href', 'description'],
+    }
   };
   ui: SFUISchema = {
     '*': {
@@ -36,26 +41,69 @@ export class SysCompanyEditComponent implements OnInit {
       grid: { span: 24 },
     },
   };
-
-  constructor(
-    private modal: NzModalRef,
-    private msgSrv: NzMessageService,
-    public http: _HttpClient,
-  ) {}
-
-  ngOnInit(): void {
-    if (this.record.id > 0)
-    this.http.get(`/user/${this.record.id}`).subscribe(res => (this.i = res));
+  async ngOnInit(): Promise<void> {
+    if (this.record.id > 0) {
+      await this.http
+        .get(this.basic.ApiUrl + this.basic.ApiRole.CompanyById + `/${this.record.id}`)
+        .subscribe(res => {
+          this.i = res;
+          this.getSelectCompany(res);
+        });
+      // await this.getSelectMenu();
+    }
+    else {
+      await this.getSelectCompany(null);
+    }
   }
-
-  save(value: any) {
-    this.http.post(`/user/${this.record.id}`, value).subscribe(res => {
-      this.msgSrv.success('保存成功');
-      this.modal.close(true);
+  async getSelectCompany(menu: any) {
+    this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectArea).subscribe(res => {
+      this.schema = {
+        properties: {
+          name: { type: 'string', title: '姓名' },
+          code: { type: 'string', title: '编码', maxLength: 15 },
+          area: {
+            type: 'string',
+            title: '地址',
+            enum: res,
+            // default: [],
+            // tslint:disable-next-line: no-object-literal-type-assertion
+            ui: {
+              widget: 'cascader',
+              showSearch: true,
+              showArrow: true,
+              showInput: true,
+            } as SFCascaderWidgetSchema,
+            // ui: {
+            //   widget: 'tree-select',
+            //   showExpand: true,
+            //   showLine: true,
+            //   dropdownMatchSelectWidth: false,
+            //   dropdownStyle: {
+            //     // width: '100%',
+            //     overflow: 'auto',
+            //     height: '200px',
+            //   },
+            //   allowClear: true,
+            //   // multiple: true,
+            //   // checkable: true,
+            //   // asyncData: () => [{}]
+            // } as SFTreeSelectWidgetSchema,
+          },
+          address: { type: 'string', title: '详细地址' },
+          legal_person: { type: 'string', title: '法人' },
+          email: { type: 'string', title: '邮箱' },
+          phone: { type: 'string', title: '电话', format: "mobile" },
+          pid: { type: 'string', title: '上级Id' },
+        },
+        required: ['name'],
+      };
     });
   }
-
-  close() {
-    this.modal.destroy();
+  save(value: any) {
+    value.area = value.area.join();
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditCompany, value).subscribe(res => {
+      this.msgSrv.success('保存成功');
+      this.drawer.close(true);
+    });
   }
 }
