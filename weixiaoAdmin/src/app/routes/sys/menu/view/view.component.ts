@@ -20,7 +20,6 @@ export class SysMenuViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("view", this.record);
     this.http.get(this.basic.ApiUrl + this.basic.ApiRole.MenuById + `/${this.record.id}`).subscribe(res => this.i = res);
   }
   ok() {

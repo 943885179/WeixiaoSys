@@ -7,16 +7,16 @@ namespace BasicsApi.Models
     {
         public Role()
         {
-            EmpRole = new List<EmpRole>();
-            RolePower = new List<RolePower>();
-            UsergroupRole = new List<UsergroupRole>();
+            EmpRole = new HashSet<EmpRole>();
+            RolePower = new HashSet<RolePower>();
+            UsergroupRole = new HashSet<UsergroupRole>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual List<EmpRole> EmpRole { get; set; }
-        public virtual List<RolePower> RolePower { get; set; }
-        public virtual List<UsergroupRole> UsergroupRole { get; set; }
+        public virtual ICollection<EmpRole> EmpRole { get; set; }
+        public virtual ICollection<RolePower> RolePower { get; set; }
+        public virtual ICollection<UsergroupRole> UsergroupRole { get; set; }
     }
 }

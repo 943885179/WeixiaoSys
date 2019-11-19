@@ -7,8 +7,8 @@ namespace BasicsApi.Models
     {
         public Department()
         {
-            Employee = new List<Employee>();
-            Children = new List<Department>();
+            Employee = new HashSet<Employee>();
+            Children = new HashSet<Department>();
         }
 
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace BasicsApi.Models
 
         public virtual Company Company { get; set; }
         public virtual Department P { get; set; }
-        public virtual List<Employee> Employee { get; set; }
-        public virtual List<Department> Children { get; set; }
+        public virtual ICollection<Employee> Employee { get; set; }
+        public virtual ICollection<Department> Children { get; set; }
     }
 }

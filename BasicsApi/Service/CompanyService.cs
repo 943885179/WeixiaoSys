@@ -76,7 +76,8 @@ namespace BasicsApi.Service
         public async Task<List<SelectDto>> SelectCompanys(int? id)
         {
             var results = new List<SelectDto>();
-            var Companys = await db.Company.Where(o => o.Pid == id).Include(x => x.Children).ToListAsync();
+            var s = db.Company.Where(o => o.Pid == id || (id == null && o.Pid == 0));
+            var Companys = await db.Company.Where(o => o.Pid == id || (id==null && o.Pid==0)).Include(x => x.Children).ToListAsync();
             foreach (var x in Companys)
             {
                 var dto = new SelectDto()
@@ -90,16 +91,39 @@ namespace BasicsApi.Service
             };
             return results;
         }
-        public async Task<int> Add(Company Company)
+        public async Task<int> Add(Company company)
         {
-            db.Company.Add(Company);
+            //Company.Pid=Company.Pid == 0 ? null : Company.Pid;
+            db.Company.Add(company);
             return await db.SaveChangesAsync();
         }
-        public async Task<int> Edit(Company Company)
+        public async Task<int> Edit(Company company)
         {
-            db.Company.Update(Company);
+            if (company.Pid != null && company.Pid != 0)
+            {
+                var cIds = await this.CIds(company.Id);
+                if (cIds.Contains(company.Pid ?? 1))
+                {
+                    throw new WeixiaoException("上级不可为该项的子集或者本身!");
+                }
+            }
+            db.Company.Update(company);
             return await db.SaveChangesAsync();
         }
+        private async Task<List<int>> CIds(int id){
+            var result = new List<int>();
+            var company =await db.Company.Include(x=>x.Children).AsNoTracking().FirstOrDefaultAsync(o=>o.Id==id);
+            if (company!=null)
+            {
+                result.Add(company.Id);
+            }
+            foreach (var x in company.Children)
+            {
+                 result.AddRange(await CIds(x.Id));
+            }
+            return result;
+        }
+
         public async Task<int> Delete(int id)
         {
             var del = await db.Company.Include(m => m.Children).FirstOrDefaultAsync(o => o.Id == id);

@@ -7,10 +7,10 @@ namespace BasicsApi.Models
     {
         public Power()
         {
-            RoleElement = new List<RoleElement>();
-            RoleOpretion = new List<RoleOpretion>();
-            RolePage = new List<RolePage>();
-            RolePower = new List<RolePower>();
+            RoleElement = new HashSet<RoleElement>();
+            RoleOpretion = new HashSet<RoleOpretion>();
+            RolePage = new HashSet<RolePage>();
+            RolePower = new HashSet<RolePower>();
         }
 
         public int Id { get; set; }
@@ -18,9 +18,9 @@ namespace BasicsApi.Models
 
         public virtual RoleFile RoleFile { get; set; }
         public virtual RoleMenu RoleMenu { get; set; }
-        public virtual List<RoleElement> RoleElement { get; set; }
-        public virtual List<RoleOpretion> RoleOpretion { get; set; }
-        public virtual List<RolePage> RolePage { get; set; }
-        public virtual List<RolePower> RolePower { get; set; }
+        public virtual ICollection<RoleElement> RoleElement { get; set; }
+        public virtual ICollection<RoleOpretion> RoleOpretion { get; set; }
+        public virtual ICollection<RolePage> RolePage { get; set; }
+        public virtual ICollection<RolePower> RolePower { get; set; }
     }
 }

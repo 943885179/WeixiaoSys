@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
+import { BasicService } from 'src/app/service/basic.service';
 
 @Component({
   selector: 'app-sys-company-view',
@@ -9,18 +10,23 @@ import { _HttpClient } from '@delon/theme';
 export class SysCompanyViewComponent implements OnInit {
   record: any = {};
   i: any;
-
+  area: string;
   constructor(
-    private modal: NzModalRef,
+    private drawer: NzDrawerRef,
     public msgSrv: NzMessageService,
-    public http: _HttpClient
+    public http: _HttpClient,
+    private basic: BasicService,
   ) { }
 
-  ngOnInit(): void {
-    this.http.get(`/user/${this.record.id}`).subscribe(res => this.i = res);
+  async ngOnInit(): Promise<void> {
+    // await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.CompanyById + `/${this.record.id}`).subscribe(res => this.i = res);
+    this.i = this.record;
+    await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.GetAreaByIds + `/${this.record.area}`).subscribe(res => this.area = res);
+    console.log(this.i);
+
   }
 
   close() {
-    this.modal.destroy();
+    this.drawer.close();
   }
 }

@@ -7,7 +7,7 @@ namespace BasicsApi.Models
     {
         public Area()
         {
-            Children = new List<Area>();
+            Children = new HashSet<Area>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace BasicsApi.Models
         public int Level { get; set; }
 
         public virtual Area P { get; set; }
-        public virtual List<Area> Children { get; set; }
+        public virtual ICollection<Area> Children { get; set; }
     }
 }

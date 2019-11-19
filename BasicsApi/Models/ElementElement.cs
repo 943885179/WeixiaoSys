@@ -7,7 +7,7 @@ namespace BasicsApi.Models
     {
         public ElementElement()
         {
-            PageElements = new List<PageElements>();
+            PageElements = new HashSet<PageElements>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace BasicsApi.Models
 
         public virtual Element Celement { get; set; }
         public virtual Element Pelement { get; set; }
-        public virtual List<PageElements> PageElements { get; set; }
+        public virtual ICollection<PageElements> PageElements { get; set; }
     }
 }

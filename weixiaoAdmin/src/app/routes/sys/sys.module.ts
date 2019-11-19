@@ -13,6 +13,7 @@ import { SysCompanyEditComponent } from './company/edit/edit.component';
 import { SysCompanyViewComponent } from './company/view/view.component';
 import { SysDepViewComponent } from './dep/view/view.component';
 import { SysDepEditComponent } from './dep/edit/edit.component';
+import { SysCompanyShareholderComponent } from './company/shareholder/shareholder.component';
 
 const COMPONENTS = [
   SysMenuComponent,
@@ -27,7 +28,8 @@ const COMPONENTS_NOROUNT = [
   SysCompanyEditComponent,
   SysCompanyViewComponent,
   SysDepViewComponent,
-  SysDepEditComponent];
+  SysDepEditComponent,
+  SysCompanyShareholderComponent];
 
 @NgModule({
   imports: [

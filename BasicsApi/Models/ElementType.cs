@@ -7,13 +7,13 @@ namespace BasicsApi.Models
     {
         public ElementType()
         {
-            Element = new List<Element>();
+            Element = new HashSet<Element>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
 
-        public virtual List<Element> Element { get; set; }
+        public virtual ICollection<Element> Element { get; set; }
     }
 }

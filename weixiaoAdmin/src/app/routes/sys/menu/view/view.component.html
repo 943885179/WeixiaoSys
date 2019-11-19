@@ -1,12 +1,13 @@
-<div class="modal-header">
+<!-- <div class="modal-header">
   <div class="modal-title">查看 {{ record.text }} 信息</div>
-</div>
+</div> -->
 <nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
-<div sv-container *ngIf="i">
+<sv-container *ngIf="i" col="1">
+  <sv-title>{{record.text}}</sv-title>
   <sv label="菜单名称">{{ i.text }}</sv>
-  <sv label="菜单图标">{{ i.icon }}  </sv>
-  <sv label="地址">{{ i.Link }}</sv>
-</div>
+  <sv label="菜单图标"><i nz-icon [nzType]="i.icon"></i>{{ i.icon }} </sv>
+  <sv label="路由">{{ i.link }}</sv>
+</sv-container>
 <div class="modal-footer">
   <button nz-button type="button" (click)="close()">关闭</button>
 </div>

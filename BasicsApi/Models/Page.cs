@@ -7,23 +7,23 @@ namespace BasicsApi.Models
     {
         public Page()
         {
-            Menu = new List<Menu>();
-            PageElement = new List<PageElement>();
-            PageElements = new List<PageElements>();
-            PagePageCpage = new List<PagePage>();
-            PagePagePpage = new List<PagePage>();
-            RolePage = new List<RolePage>();
+            Menu = new HashSet<Menu>();
+            PageElement = new HashSet<PageElement>();
+            PageElements = new HashSet<PageElements>();
+            PagePageCpage = new HashSet<PagePage>();
+            PagePagePpage = new HashSet<PagePage>();
+            RolePage = new HashSet<RolePage>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
 
-        public virtual List<Menu> Menu { get; set; }
-        public virtual List<PageElement> PageElement { get; set; }
-        public virtual List<PageElements> PageElements { get; set; }
-        public virtual List<PagePage> PagePageCpage { get; set; }
-        public virtual List<PagePage> PagePagePpage { get; set; }
-        public virtual List<RolePage> RolePage { get; set; }
+        public virtual ICollection<Menu> Menu { get; set; }
+        public virtual ICollection<PageElement> PageElement { get; set; }
+        public virtual ICollection<PageElements> PageElements { get; set; }
+        public virtual ICollection<PagePage> PagePageCpage { get; set; }
+        public virtual ICollection<PagePage> PagePagePpage { get; set; }
+        public virtual ICollection<RolePage> RolePage { get; set; }
     }
 }

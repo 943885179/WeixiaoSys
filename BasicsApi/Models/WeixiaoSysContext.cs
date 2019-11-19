@@ -51,7 +51,7 @@ namespace BasicsApi.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Weixiaosys;User ID=sa;Password=123;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=WeixiaoSys;User ID=sa;Password=123;MultipleActiveResultSets=true");
             }
         }
 
@@ -65,9 +65,7 @@ namespace BasicsApi.Models
 
                 entity.ToTable("area");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.District)
                     .IsRequired()
@@ -93,13 +91,16 @@ namespace BasicsApi.Models
 
                 entity.ToTable("company");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Address)
                     .HasColumnName("address")
                     .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Area)
+                    .HasColumnName("area")
+                    .HasMaxLength(80)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Code)
@@ -119,6 +120,7 @@ namespace BasicsApi.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.LegalPerson)
+                    .IsRequired()
                     .HasColumnName("legal_person")
                     .HasMaxLength(20)
                     .IsUnicode(false);
@@ -136,13 +138,12 @@ namespace BasicsApi.Models
 
                 entity.Property(e => e.Pid).HasColumnName("pid");
 
-
                 entity.HasOne(d => d.P)
                     .WithMany(p => p.Children)
                     .HasForeignKey(d => d.Pid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_COMPANY_COM_COM_COMPANY");
             });
+
             modelBuilder.Entity<CompanyLog>(entity =>
             {
                 entity.HasKey(e => e.Id)
@@ -505,57 +506,48 @@ namespace BasicsApi.Models
 
                 entity.Property(e => e.Acl)
                     .HasColumnName("acl")
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Badge)
-                    .HasColumnName("badge")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.Badge).HasColumnName("badge");
 
                 entity.Property(e => e.BadgeDot)
                     .HasColumnName("badgeDot")
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.BadgeStatus)
                     .HasColumnName("badgeStatus")
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Disabled)
-                    .HasColumnName("disabled")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.Disabled).HasColumnName("disabled");
 
                 entity.Property(e => e.ExternalLink)
                     .HasColumnName("externalLink")
-                    .HasMaxLength(100)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Hide)
-                    .HasColumnName("hide")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.Hide).HasColumnName("hide");
 
                 entity.Property(e => e.HideInBreadcrumb)
                     .HasColumnName("hideInBreadcrumb")
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.I18n)
                     .HasColumnName("i18n")
-                    .HasMaxLength(80)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Icon)
                     .HasColumnName("icon")
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Link)
                     .HasColumnName("link")
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.PageId).HasColumnName("pageId");
@@ -566,27 +558,27 @@ namespace BasicsApi.Models
 
                 entity.Property(e => e.Reuse)
                     .HasColumnName("reuse")
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Shortcut)
                     .HasColumnName("shortcut")
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ShortcutRoot)
                     .HasColumnName("shortcutRoot")
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Target)
                     .HasColumnName("target")
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Text)
                     .HasColumnName("text")
-                    .HasMaxLength(200)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Page)

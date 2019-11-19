@@ -13,11 +13,11 @@ const routes: Routes = [
   // { path: 'menu/Edit/:id', component: SysMenuEditComponent },
   { path: 'dep', component: SysDepComponent },
   { path: 'user', component: SysUserComponent },
-  { path: 'company', component: SysCompanyComponent },
+  { path: 'company', component: SysCompanyComponent, data: { title: `公司管理` } },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SysRoutingModule {}
+export class SysRoutingModule { }

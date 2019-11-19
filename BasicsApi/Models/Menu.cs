@@ -7,8 +7,8 @@ namespace BasicsApi.Models
     {
         public Menu()
         {
-            Children = new List<Menu>();
-            RoleMenu = new List<RoleMenu>();
+            Children = new HashSet<Menu>();
+            RoleMenu = new HashSet<RoleMenu>();
         }
 
         public int Id { get; set; }
@@ -20,7 +20,7 @@ namespace BasicsApi.Models
         public int? Pagepageid { get; set; }
         public string ExternalLink { get; set; }
         public string Target { get; set; }
-        public string Badge { get; set; }
+        public int? Badge { get; set; }
         public string BadgeDot { get; set; }
         public string BadgeStatus { get; set; }
         public bool? Disabled { get; set; }
@@ -35,7 +35,7 @@ namespace BasicsApi.Models
         public virtual Menu P { get; set; }
         public virtual Page Page { get; set; }
         public virtual PagePage Pagepage { get; set; }
-        public virtual List<Menu> Children { get; set; }
-        public virtual List<RoleMenu> RoleMenu { get; set; }
+        public virtual ICollection<Menu> Children { get; set; }
+        public virtual ICollection<RoleMenu> RoleMenu { get; set; }
     }
 }

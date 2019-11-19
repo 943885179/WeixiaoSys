@@ -7,9 +7,9 @@ namespace BasicsApi.Models
     {
         public Employee()
         {
-            EmpRole = new List<EmpRole>();
-            EmployePosition = new List<EmployePosition>();
-            UserUsergroup = new List<UserUsergroup>();
+            EmpRole = new HashSet<EmpRole>();
+            EmployePosition = new HashSet<EmployePosition>();
+            UserUsergroup = new HashSet<UserUsergroup>();
         }
 
         public int Id { get; set; }
@@ -29,8 +29,8 @@ namespace BasicsApi.Models
         public DateTime? Enddate { get; set; }
 
         public virtual Department Dep { get; set; }
-        public virtual List<EmpRole> EmpRole { get; set; }
-        public virtual List<EmployePosition> EmployePosition { get; set; }
-        public virtual List<UserUsergroup> UserUsergroup { get; set; }
+        public virtual ICollection<EmpRole> EmpRole { get; set; }
+        public virtual ICollection<EmployePosition> EmployePosition { get; set; }
+        public virtual ICollection<UserUsergroup> UserUsergroup { get; set; }
     }
 }

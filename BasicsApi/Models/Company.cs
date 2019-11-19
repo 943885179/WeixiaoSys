@@ -16,13 +16,13 @@ namespace BasicsApi.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
-        public int Pid { get; set; }
+        public int? Pid { get; set; }
         public string LegalPerson { get; set; }
         public string Idcard { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string Area { get; set; }
         public string Address { get; set; }
+        public string Area { get; set; }
 
         public virtual Company P { get; set; }
         public virtual ICollection<CompanyLog> CompanyLog { get; set; }

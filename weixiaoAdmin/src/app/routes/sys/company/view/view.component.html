@@ -1,14 +1,21 @@
-<div class="modal-header">
-  <div class="modal-title">查看 {{ record.id }} 信息</div>
-</div>
+<!-- <div class="modal-header">
+  <div class="modal-title">查看 {{ record.name }} 信息</div>
+</div> -->
 <nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
-<div sv-container *ngIf="i">
-  <sv label="姓名">{{ i.owner }}</sv>
-  <sv label="会员卡号">32943898021309809423</sv>
-  <sv label="身份证">3321944288191034921</sv>
-  <sv label="联系方式">18112345678</sv>
-  <sv label="联系地址">曲丽丽 18100000000 浙江省杭州市西湖区黄姑山路工专路交叉路口</sv>
-</div>
+<sv-container *ngIf="i" layout="horizontal" col="1">
+  <sv-title>{{ record.name }}</sv-title>
+  <sv label="名称">{{ i.name }}</sv>
+  <sv label="CEO">{{i.legalPerson}}</sv>
+  <sv label="身份证">{{i.idcard}}</sv>
+  <sv label="联系方式" type="success">{{i.phone}}</sv>
+  <sv label="邮箱">{{i.email}}</sv>
+  <sv label="地址">{{area}}{{i.address}}</sv>
+  <sv-container *ngFor="let item of i.shareholder" layout="horizontal" col="3">
+    <sv label="名称">{{item.name}}</sv>
+    <sv label="比例">{{item.proportion}}</sv>
+    <sv label="金额">{{item.payMoney}}</sv>
+  </sv-container>
+</sv-container>
 <div class="modal-footer">
   <button nz-button type="button" (click)="close()">关闭</button>
 </div>

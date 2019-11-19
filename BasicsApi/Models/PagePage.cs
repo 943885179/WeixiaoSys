@@ -7,7 +7,7 @@ namespace BasicsApi.Models
     {
         public PagePage()
         {
-            Menu = new List<Menu>();
+            Menu = new HashSet<Menu>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace BasicsApi.Models
 
         public virtual Page Cpage { get; set; }
         public virtual Page Ppage { get; set; }
-        public virtual List<Menu> Menu { get; set; }
+        public virtual ICollection<Menu> Menu { get; set; }
     }
 }

@@ -93,8 +93,29 @@ namespace BasicsApi.Service
         }
         public async Task<int> Edit(Menu menu)
         {
+             if (menu.Pid != null && menu.Pid != 0)
+            {
+                var cIds = await this.CIds(menu.Id);
+                if (cIds.Contains(menu.Pid ?? 1))
+                {
+                    throw new WeixiaoException("上级不可为该项的子集或者本身!");
+                }
+            }
             db.Menu.Update(menu);
             return await db.SaveChangesAsync();
+        }
+        private async Task<List<int>> CIds(int id){
+            var result = new List<int>();
+            var menu =await db.Menu.Include(x=>x.Children).AsNoTracking().FirstOrDefaultAsync(o=>o.Id==id);
+            if (menu!=null)
+            {
+                result.Add(menu.Id);
+            }
+            foreach (var x in menu.Children)
+            {
+                 result.AddRange(await CIds(x.Id));
+            }
+            return result;
         }
         public async Task<int> Delete(int id)
         {

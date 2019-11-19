@@ -7,14 +7,14 @@ namespace BasicsApi.Models
     {
         public EmpGroup()
         {
-            UserUsergroup = new List<UserUsergroup>();
-            UsergroupRole = new List<UsergroupRole>();
+            UserUsergroup = new HashSet<UserUsergroup>();
+            UsergroupRole = new HashSet<UsergroupRole>();
         }
 
         public int Id { get; set; }
         public string GroupName { get; set; }
 
-        public virtual List<UserUsergroup> UserUsergroup { get; set; }
-        public virtual List<UsergroupRole> UsergroupRole { get; set; }
+        public virtual ICollection<UserUsergroup> UserUsergroup { get; set; }
+        public virtual ICollection<UsergroupRole> UsergroupRole { get; set; }
     }
 }

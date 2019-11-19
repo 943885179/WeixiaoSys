@@ -93,17 +93,17 @@ namespace BasicsApi.Controllers
             return result;
         }
         [HttpPost("AddOrEditCompany")]
-        public async Task<ActionResult<ResponseDto>> AddOrEditCompany(Company Company)
+        public async Task<ActionResult<ResponseDto>> AddOrEditCompany(Company company)
         {
             try
             {
-                if (Company.Id > 0)
+                if (company.Id > 0)
                 {
-                    result.data = await bll.Edit(Company);
+                    result.data = await bll.Edit(company);
                 }
                 else
                 {
-                    result.data = await bll.Add(Company);
+                    result.data = await bll.Add(company);
                 }
             }
             catch (WeixiaoException ex)

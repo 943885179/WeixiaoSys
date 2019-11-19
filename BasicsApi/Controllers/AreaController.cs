@@ -62,6 +62,24 @@ namespace BasicsApi.Controllers
             }
             return result;
         }
-
+        [HttpGet("GetAreaByIds/{ids}")]
+        public async Task<ActionResult<ResponseDto>> GetAreaByIds(string ids)
+        {
+            result = new ResponseDto();
+            try
+            {
+                result.data = await bll.GetAreaByIds(ids);
+            }
+            catch (WeixiaoException ex)
+            {
+                result.status = -1;
+                result.msg = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
     }
 }

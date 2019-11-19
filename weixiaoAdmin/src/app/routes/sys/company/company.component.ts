@@ -6,6 +6,7 @@ import { SysCompanyEditComponent } from './edit/edit.component';
 import { BasicService } from 'src/app/service/basic.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { SysCompanyViewComponent } from './view/view.component';
+import { SysCompanyShareholderComponent } from './shareholder/shareholder.component';
 
 @Component({
   selector: 'app-sys-company',
@@ -15,7 +16,7 @@ export class SysCompanyComponent implements OnInit {
   url = ``;
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      name: {
         type: 'string',
         title: '编号'
       }
@@ -40,8 +41,9 @@ export class SysCompanyComponent implements OnInit {
         },
       },
     },
-    { title: "Code", index: 'code' },
-    { title: { text: '法人' }, render: 'legal_person', },
+    { title: "编码", index: 'code' },
+    { title: { text: '法人' }, index: "legalPerson" },
+    { title: { text: '法人身份证' }, index: "idcard" },
     // { title: '图标', index: 'icon', format: (item, col, index) => item.icon == null ? "" : `<i class='${item.icon}'></i> ${item.icon}` },
     {
       title: '操作',
@@ -51,6 +53,7 @@ export class SysCompanyComponent implements OnInit {
             component: SysCompanyViewComponent,
             title: "详情",
             params: (item) => {
+              console.log(item);
               return { id: item.Id };
             }
 
@@ -78,13 +81,22 @@ export class SysCompanyComponent implements OnInit {
         {
           text: '编辑',
           icon: 'edit',
-          type: "drawer",
-          drawer: {
+          type: "modal",
+          modal: {
             component: SysCompanyEditComponent,
             params: (item: any) => item
           },
           click: 'reload'
         },
+        {
+          text: "添加投资人",
+          icon: "anticon anticon-folder-add",
+          type: "modal",
+          modal: {
+            component: SysCompanyShareholderComponent,
+            params: item => item
+          }
+        }
 
       ]
     }
@@ -128,14 +140,14 @@ export class SysCompanyComponent implements OnInit {
   }
 
   add() {
-    /* this.modal
-       .createStatic(SysCompanyEditComponent, { i: { id: 0 } })
-       .subscribe(() => this.st.reload());*/
+    this.modal
+      .createStatic(SysCompanyEditComponent, { i: { id: 0 } })
+      .subscribe(() => this.st.reload());
 
     // this.modal.open(SysCompanyEditComponent, { i: { id: 0 } }, "lg", { nzTitle: "添加" })
     //   .subscribe(() => this.st.reload());
-    this.drawer.create("添加", SysCompanyEditComponent, { i: { id: 0 } }, { drawerOptions: { nzPlacement: "right", nzClosable: true } })
-      .subscribe(() => this.st.reload());
+    // this.drawer.create("添加", SysCompanyEditComponent, { i: { id: 0 } }, { drawerOptions: { nzPlacement: "right", nzClosable: true } })
+    //   .subscribe(() => this.st.reload());
   }
 
 }

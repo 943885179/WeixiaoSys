@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema, SFSchemaEnumType } from '@delon/form';
+import { SFSchema, SFUISchema, SFSchemaEnumType, SFTextWidgetSchema } from '@delon/form';
 import { BasicService } from 'src/app/service/basic.service';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -65,7 +65,11 @@ export class SysMenuEditComponent implements OnInit {
     this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectMenu).subscribe(res => {
       this.schema = {
         properties: {
-          id: { title: '编号', type: 'string' },
+          id: {
+            title: '编号', type: 'number',
+            // tslint:disable-next-line: no-object-literal-type-assertion
+            ui: { widget: 'text' } as SFTextWidgetSchema
+          },
           text: { type: 'string', title: '菜单名称', maxLength: 15 },
           icon: { type: 'string', title: '图标' },
           pid: {

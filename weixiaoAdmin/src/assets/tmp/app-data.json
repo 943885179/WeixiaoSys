@@ -31,7 +31,8 @@
       "DeleteCompanys": "Company/DeleteCompanys",
 
       "Area": "Area/Area",
-      "SelectArea": "Area/SelectArea"
+      "SelectArea": "Area/SelectArea",
+      "GetAreaByIds": "Area/GetAreaByIds"
     }
   },
   "status": 0,

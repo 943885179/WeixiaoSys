@@ -34,7 +34,19 @@ namespace BasicsApi.Service
             }
             return results;
         }
-
+        public async Task<string> GetAreaByIds(string ids){
+            var idArr = ids.Split(',').ToList().ConvertAll(Convert.ToInt32).ToList();
+            var reslut = "";
+            foreach (var item in idArr)
+            {
+                var area = await db.Area.Where(a => a.Id == item).Select(a => a.District).FirstOrDefaultAsync();
+                if (!string.IsNullOrEmpty(area))
+                {
+                    reslut += area + "/";
+                }
+            }
+            return reslut;
+        }
         public async Task<List<SelectDto>> SelectAreas(int? id)
         {
             var results = new List<SelectDto>();
@@ -46,7 +58,7 @@ namespace BasicsApi.Service
                     title = x.District,
                     label = x.District,
                     key = x.Id,
-                    value = x.Id.ToString(),
+                    value = x.Id,
                     isLeaf=true,
                 };
                 dto.children = await SelectAreas(x.Id);

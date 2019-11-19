@@ -9,7 +9,7 @@ namespace BasicsApi.Dto
     {
         public string title { get; set; }
         public string label { get; set; }
-        public string value { get; set; }
+        public int value { get; set; }
         public int key { get; set; }
         public bool isLeaf { get; set; }
         public bool isChecked { get; set; }
