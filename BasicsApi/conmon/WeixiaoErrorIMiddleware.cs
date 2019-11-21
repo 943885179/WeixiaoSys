@@ -11,10 +11,11 @@ namespace BasicsApi.conmon
     public class WeixiaoErrorIMiddleware : IMiddleware
     {
         private readonly ILogger  logger;
-
-        public WeixiaoErrorIMiddleware(ILogger<WeixiaoErrorIMiddleware> logger)
+        private readonly ILoggerHelper log4;
+        public WeixiaoErrorIMiddleware(ILogger<WeixiaoErrorIMiddleware> logger,ILoggerHelper log4)
         {
             this.logger = logger;
+            this.log4 = log4;
         }
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
@@ -29,6 +30,7 @@ namespace BasicsApi.conmon
             }
             catch (Exception ex)
             {
+                log4.Error("系统异常!",ex);
                 logger.LogError("系统异常！",ex);
                 msg = ex.Message;
             }

@@ -3,3 +3,11 @@
 ################################################################################
 
 /BasicsApi/.vs/BasicsApi
+/BasicsApi/.vscode
+/BasicsApi/bin/Debug/netcoreapp3.0
+/BasicsApi/obj
+/IdentityServer/bin/Debug/netcoreapp3.0
+/IdentityServer/obj/Debug/netcoreapp3.0
+/IdentityServer/obj
+/RLAPI/bin/Debug/netcoreapp3.0
+/RLAPI/obj

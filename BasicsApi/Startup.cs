@@ -35,6 +35,7 @@ namespace BasicsApi
             //将appsettings.json中的JwtSettings部分文件读取到JwtSettings中，这是给其他地方用的
             services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
             services.AddScoped<WeixiaoErrorIMiddleware>();
+            services.AddSingleton<ILoggerHelper,LoggerHelper>();
             //由于初始化的时候我们就需要用，所以使用Bind的方式读取配置
             //将配置绑定到JwtSettings实例中
             var jwtSettings = new JwtSettings();
