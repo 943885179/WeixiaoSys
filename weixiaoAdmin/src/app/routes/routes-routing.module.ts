@@ -28,10 +28,13 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
       { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
-      { path: 'sys', loadChildren: './sys/sys.module#SysModule', data: { title: `基础管理` } },
+      { path: 'sys', loadChildren: './sys/sys.module#SysModule', data: { title: `基础管理`, breadcrumb: "基础管理" } },
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
     ],
+    data: {
+      title: `首页`, breadcrumb: "首页"
+    }
   },
   // 全屏布局
   {
@@ -66,4 +69,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class RouteRoutingModule {}
+export class RouteRoutingModule { }

@@ -8,6 +8,7 @@ namespace BasicsApi.Models
         public int Id { get; set; }
         public int? Cid { get; set; }
         public string Name { get; set; }
+        public string Idcard { get; set; }
         public decimal Proportion { get; set; }
         public decimal PayMoney { get; set; }
 

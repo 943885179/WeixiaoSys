@@ -29,6 +29,8 @@
       "DeleteCompany": "Company/DeleteCompany",
       "SelectCompany": "Company/SelectCompany",
       "DeleteCompanys": "Company/DeleteCompanys",
+      "ShareholderByCid": "Company/ShareholderByCid",
+      "CompanyLogByCid": "Company/CompanyLogByCid",
 
       "Area": "Area/Area",
       "SelectArea": "Area/SelectArea",

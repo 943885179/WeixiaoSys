@@ -10,10 +10,15 @@
   <sv label="联系方式" type="success">{{i.phone}}</sv>
   <sv label="邮箱">{{i.email}}</sv>
   <sv label="地址">{{area}}{{i.address}}</sv>
-  <sv-container *ngFor="let item of i.shareholder" layout="horizontal" col="3">
-    <sv label="名称">{{item.name}}</sv>
-    <sv label="比例">{{item.proportion}}</sv>
-    <sv label="金额">{{item.payMoney}}</sv>
+  <sv label="简介">
+    <simplemde
+               [ngModel]="i.briefing"></simplemde>
+  </sv>
+  <sv-container *ngFor="let item of i.shareholder" layout="horizontal" col="4">
+    <sv label="姓名">{{item.name}}</sv>
+    <sv label="身份证">{{item.idcard}}</sv>
+    <sv label="比例" type="success">{{item.proportion}}%</sv>
+    <sv label="金额" type="danger">￥{{item.payMoney}}</sv>
   </sv-container>
 </sv-container>
 <div class="modal-footer">

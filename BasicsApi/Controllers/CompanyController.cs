@@ -29,60 +29,32 @@ namespace BasicsApi.Controllers
         [HttpGet("Company")]
         public async Task<ActionResult<ResponseDto>> Company()
         {
-            try
-            {
                 result.data = _mapper.Map<List<CompanyDto>>(await bll.Companys(null));
-            }
-            catch(WeixiaoException ex)
-            {
-                result.status = -1;
-                result.msg = ex.Message;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-                //return NotFound();//404
-                //return BadRequest();//400
-                //return Ok(result.msg);
-               // return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { };
-            }
             return result;
         }
         [HttpGet("SelectCompany")]
         public async Task<ActionResult<ResponseDto>> SelectCompany()
         {
-            result = new ResponseDto();
-            try
-            {
-                result.data =await bll.SelectCompanys(null);
-            }
-            catch (WeixiaoException ex)
-            {
-                result.status = -1;
-                result.msg = ex.Message;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            result.data =await bll.SelectCompanys(null);
             return result;
         }
         [HttpPost("Companys")]
         public async Task<ActionResult<ResponseDto>> Companys(CompanyDto dto)
         {
-            try
-            {
-                result.data = _mapper.Map<ResultPageDto<List<Company>>,ResultPageDto<List<CompanyDto>>>(await bll.CompanyList(dto));
-            }
-            catch (WeixiaoException ex)
-            {
-                result.status = -1;
-                result.msg = ex.Message;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+
+             result.data = _mapper.Map<ResultPageDto<List<Company>>,ResultPageDto<List<CompanyDto>>>(await bll.CompanyList(dto));
+            return result;
+        }
+        [HttpGet("ShareholderByCid/{cid}")]
+        public async Task<ActionResult<ResponseDto>> ShareholderByCid(int cid)
+        {
+            result.data =await bll.ShareholderByCid(cid);
+            return result;
+        }
+        [HttpGet("CompanyLogByCid/{cid}")]
+        public async Task<ActionResult<ResponseDto>> CompanyLogByCid(int cid)
+        {
+            result.data = await bll.CompanyLogByCid(cid);
             return result;
         }
         [HttpGet("CompanyById/{id}")]
@@ -92,65 +64,31 @@ namespace BasicsApi.Controllers
             result.data = _mapper.Map<CompanyDto>(Company);
             return result;
         }
-        [HttpPost("AddOrEditCompany")]
-        public async Task<ActionResult<ResponseDto>> AddOrEditCompany(Company company)
+        [HttpPost("AddOrEditCompany/{isShare=0}")]
+        public async Task<ActionResult<ResponseDto>> AddOrEditCompany(Company company,int isShare)
         {
-            try
-            {
+
                 if (company.Id > 0)
                 {
-                    result.data = await bll.Edit(company);
+                    result.data = await bll.Edit(company,isShare);
                 }
                 else
                 {
                     result.data = await bll.Add(company);
                 }
-            }
-            catch (WeixiaoException ex)
-            {
-                result.status = -1;
-                result.msg = ex.Message;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
             return result;
         }
         [HttpPost("DeleteCompany/{id}")]
         public async Task<ActionResult<ResponseDto>> DeleteCompany(int id)
         {
-            try
-            {
-                result.data = await bll.Delete(id);
-            }
-            catch (WeixiaoException ex)
-            {
-                result.status = -1;
-                result.msg = ex.Message;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            result.data = await bll.Delete(id);
             return result;
         }
        [HttpPost("DeleteCompanys")]
         public async Task<ActionResult<ResponseDto>> DeleteCompanys(List<EntityDto> ids)
         {
-            try
-            {
-                result.data = await bll.Deletes(ids);
-            }
-            catch (WeixiaoException ex)
-            {
-                result.status = -1;
-                result.msg = ex.Message;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+
+            result.data = await bll.Deletes(ids);
             return result;
         }
     }

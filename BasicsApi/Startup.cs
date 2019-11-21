@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using BasicsApi.conmon;
 namespace BasicsApi
 {
     public class Startup
@@ -33,18 +34,20 @@ namespace BasicsApi
         {
             //将appsettings.json中的JwtSettings部分文件读取到JwtSettings中，这是给其他地方用的
             services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
-
+            services.AddScoped<WeixiaoErrorIMiddleware>();
             //由于初始化的时候我们就需要用，所以使用Bind的方式读取配置
             //将配置绑定到JwtSettings实例中
             var jwtSettings = new JwtSettings();
             Configuration.Bind("JwtSettings", jwtSettings);
 
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 //认证middleware配置
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(o => {
+            .AddJwtBearer(o =>
+            {
                 //主要是jwt  token参数设置
                 o.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
@@ -73,11 +76,11 @@ namespace BasicsApi
                     .AllowAnyMethod()
                     //.AllowAnyOrigin()
                     .AllowCredentials();
-                   // builder.WithOrigins("http://example.com",
+                    // builder.WithOrigins("http://example.com",
                     //                    "http://www.contoso.com");
                 });
             });
-            services.AddAutoMapper(cfg=>cfg.AddProfile<AutoMapperConfigs>(), typeof(Startup));
+            services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperConfigs>(), typeof(Startup));
             services.AddDbContext<WeixiaoSysContext>(op => op.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddControllers();
         }
@@ -89,7 +92,8 @@ namespace BasicsApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            //ErrorHandlingExtensions.UseErrorHandling(app);
+            app.UseWeixiaoError();
             app.UseHttpsRedirection();
 
             app.UseRouting();

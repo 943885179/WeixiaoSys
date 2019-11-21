@@ -32,5 +32,9 @@
   "ngschematics.schematics": [
     "ng-alain"
   ],
-  "editor.fontLigatures": true
+  "editor.fontLigatures": true,
+  "search.followSymlinks": false,
+  "cSpell.words": [
+    "simplemde"
+  ]
 }

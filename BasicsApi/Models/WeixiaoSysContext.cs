@@ -15,6 +15,7 @@ namespace BasicsApi.Models
         {
         }
 
+        #region 实体
         public virtual DbSet<Area> Area { get; set; }
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<CompanyLog> CompanyLog { get; set; }
@@ -45,6 +46,7 @@ namespace BasicsApi.Models
         public virtual DbSet<Shareholder> Shareholder { get; set; }
         public virtual DbSet<UserUsergroup> UserUsergroup { get; set; }
         public virtual DbSet<UsergroupRole> UsergroupRole { get; set; }
+        #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -142,6 +144,7 @@ namespace BasicsApi.Models
                     .WithMany(p => p.Children)
                     .HasForeignKey(d => d.Pid)
                     .HasConstraintName("FK_COMPANY_COM_COM_COMPANY");
+                entity.HasMany(d => d.Shareholder).WithOne(p => p.C).HasForeignKey(d => d.Cid);
             });
 
             modelBuilder.Entity<CompanyLog>(entity =>

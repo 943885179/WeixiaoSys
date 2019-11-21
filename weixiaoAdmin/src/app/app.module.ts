@@ -92,16 +92,26 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { RoutesModule } from './routes/routes.module';
 import { LayoutModule } from './layout/layout.module';
+import { WidgetRegistry } from '@delon/form';
+import { ProductWidgetRangeInputComponent } from './myWidget/ProductWidgetRangeInputComponent/ProductWidgetRangeInputComponent';
+import { MarkdownWidget } from './widgets-third/markdown/markdown.widget';
+import { TinymceWidget } from './widgets-third/tinymce/tinymce.widget';
+import { UeditorWidget } from './widgets-third/ueditor/ueditor.widget';
+import { SimplemdeModule } from "ngx-simplemde";
+import { UEditorModule } from 'ngx-ueditor';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, ProductWidgetRangeInputComponent, MarkdownWidget, TinymceWidget, UeditorWidget
   ],
+  entryComponents: [ProductWidgetRangeInputComponent, MarkdownWidget, TinymceWidget, UeditorWidget],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     DelonModule.forRoot(),
+    SimplemdeModule.forRoot({}),
+    UEditorModule,// .forRoot({}),
     CoreModule,
     SharedModule,
     LayoutModule,
@@ -118,4 +128,11 @@ import { LayoutModule } from './layout/layout.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(widgetRegistry: WidgetRegistry) {
+    widgetRegistry.register(ProductWidgetRangeInputComponent.KEY, ProductWidgetRangeInputComponent);
+    widgetRegistry.register(MarkdownWidget.KEY, MarkdownWidget);
+    widgetRegistry.register(TinymceWidget.KEY, TinymceWidget);
+    widgetRegistry.register(UeditorWidget.KEY, UeditorWidget);
+  }
+}

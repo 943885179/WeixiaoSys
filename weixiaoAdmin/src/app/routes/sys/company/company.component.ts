@@ -7,6 +7,7 @@ import { BasicService } from 'src/app/service/basic.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { SysCompanyViewComponent } from './view/view.component';
 import { SysCompanyShareholderComponent } from './shareholder/shareholder.component';
+import { SysCompanyLogComponent } from './log/log.component';
 
 @Component({
   selector: 'app-sys-company',
@@ -18,7 +19,7 @@ export class SysCompanyComponent implements OnInit {
     properties: {
       name: {
         type: 'string',
-        title: '编号'
+        title: '名称'
       }
     }
   };
@@ -52,11 +53,7 @@ export class SysCompanyComponent implements OnInit {
           text: '查看', icon: "search", type: "drawer", drawer: {
             component: SysCompanyViewComponent,
             title: "详情",
-            params: (item) => {
-              console.log(item);
-              return { id: item.Id };
-            }
-
+            params: item => item
           }
         },
         {
@@ -94,6 +91,15 @@ export class SysCompanyComponent implements OnInit {
           type: "modal",
           modal: {
             component: SysCompanyShareholderComponent,
+            params: item => item
+          }
+        },
+        {
+          text: "变更记录",
+          icon: "anticon anticon-menu",
+          type: "drawer",
+          drawer: {
+            component: SysCompanyLogComponent,
             params: item => item
           }
         }

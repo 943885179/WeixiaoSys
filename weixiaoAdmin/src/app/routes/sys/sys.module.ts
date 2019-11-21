@@ -14,6 +14,7 @@ import { SysCompanyViewComponent } from './company/view/view.component';
 import { SysDepViewComponent } from './dep/view/view.component';
 import { SysDepEditComponent } from './dep/edit/edit.component';
 import { SysCompanyShareholderComponent } from './company/shareholder/shareholder.component';
+import { SysCompanyLogComponent } from './company/log/log.component';
 
 const COMPONENTS = [
   SysMenuComponent,
@@ -27,6 +28,7 @@ const COMPONENTS_NOROUNT = [
   SysUserViewComponent,
   SysCompanyEditComponent,
   SysCompanyViewComponent,
+  SysCompanyLogComponent,
   SysDepViewComponent,
   SysDepEditComponent,
   SysCompanyShareholderComponent];

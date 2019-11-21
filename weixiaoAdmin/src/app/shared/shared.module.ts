@@ -10,6 +10,8 @@ import { DelonFormModule } from '@delon/form';
 // i18n
 import { TranslateModule } from '@ngx-translate/core';
 
+import { SimplemdeModule } from 'ngx-simplemde';
+import { UEditorModule } from 'ngx-ueditor';
 // #region third libs
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
@@ -52,7 +54,8 @@ const DIRECTIVES = [];
     DelonACLModule,
     DelonFormModule,
     // i18n
-    TranslateModule,
+    TranslateModule, UEditorModule,
+    SimplemdeModule,
     // third libs
     ...THIRDMODULES,
     // your components

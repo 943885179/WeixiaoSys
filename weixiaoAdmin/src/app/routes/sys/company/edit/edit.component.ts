@@ -109,6 +109,13 @@ export class SysCompanyEditComponent implements OnInit {
                 widget: 'tree-select'
               } as SFTreeSelectWidgetSchema
             },
+            briefing: {
+              type: "string",
+              title: "描述",
+              ui: {
+                widget: "md"
+              }
+            }
             // Shareholder: {
             //   maxItems: 10,
 

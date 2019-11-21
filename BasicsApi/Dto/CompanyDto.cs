@@ -21,6 +21,7 @@ namespace BasicsApi.Dto
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Area { get; set; }
+        public string Briefing { get; set; }
        // public virtual CompanyDto P { get; set; }
         public virtual List<CompanyLog> CompanyLog { get; set; }
         public virtual List<Department> Department { get; set; }

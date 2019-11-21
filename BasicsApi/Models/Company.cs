@@ -23,6 +23,7 @@ namespace BasicsApi.Models
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Area { get; set; }
+        public string Briefing { get; set; }
 
         public virtual Company P { get; set; }
         public virtual ICollection<CompanyLog> CompanyLog { get; set; }

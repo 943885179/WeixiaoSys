@@ -21,9 +21,7 @@ export class SysCompanyViewComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     // await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.CompanyById + `/${this.record.id}`).subscribe(res => this.i = res);
     this.i = this.record;
-    await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.GetAreaByIds + `/${this.record.area}`).subscribe(res => this.area = res);
-    console.log(this.i);
-
+    await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.ShareholderByCid + `/${this.record.id}`).subscribe(res => this.i.shareholder = res);
   }
 
   close() {
