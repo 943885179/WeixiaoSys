@@ -3,12 +3,19 @@ using System.Threading.Tasks;
 using BasicsApi.Dto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace BasicsApi.conmon
 {
     public class WeixiaoErrorIMiddleware : IMiddleware
     {
+        private readonly ILogger  logger;
+
+        public WeixiaoErrorIMiddleware(ILogger<WeixiaoErrorIMiddleware> logger)
+        {
+            this.logger = logger;
+        }
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
            var msg = "";
@@ -22,6 +29,7 @@ namespace BasicsApi.conmon
             }
             catch (Exception ex)
             {
+                logger.LogError("系统异常！",ex);
                 msg = ex.Message;
             }
             finally{
