@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using log4net;
+using log4net.Appender;
 using log4net.Config;
 
 namespace BasicsApi.conmon
@@ -10,6 +11,7 @@ namespace BasicsApi.conmon
         void Info(string message, Exception exception = null);
         void Warn(string message, Exception exception = null);
         void Error(string message, Exception exception = null);
+        void Debug(string message, Exception exception = null);
 
     }
     public class LoggerHelper: ILoggerHelper
@@ -63,6 +65,27 @@ namespace BasicsApi.conmon
                 logger.Error(message);
             else
                 logger.Error(message, exception);
+        }
+
+        public void Debug(string message, Exception exception = null)
+        {
+             if (exception == null)
+                logger.Debug(message);
+            else
+                logger.Debug(message, exception);
+        }
+    }
+     public class MinimalLockDeleteEmpty : FileAppender.MinimalLock
+    {
+        public override void ReleaseLock()
+        {
+            base.ReleaseLock();
+
+            var logFile = new FileInfo(CurrentAppender.File);
+            if (logFile.Exists && logFile.Length <= 0)
+            {
+                logFile.Delete();
+            }
         }
     }
 }

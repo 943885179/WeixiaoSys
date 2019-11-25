@@ -22,7 +22,7 @@ namespace BasicsApi.Controllers
     public class PowerController : BacsicsController
     {
         private readonly CompanyService bll ;
-        public PowerController(WeixiaoSysContext db, IMapper mapper):base(db,mapper)
+        public PowerController(WeixiaoSysContext db, IMapper mapper,IOptions<RSASettings> setting):base(db,mapper,setting)
         {
             bll = new CompanyService(db);
         }

@@ -150,7 +150,7 @@ export class SysCompanyEditComponent implements OnInit {
   }
   save(value: any) {
     value.area = value.areaCasCarder.join();
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditCompany, value).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditCompany+'/0', value).subscribe(res => {
       this.msgSrv.success('保存成功');
       this.modal.close(true);
       // this.drawer.close(true);

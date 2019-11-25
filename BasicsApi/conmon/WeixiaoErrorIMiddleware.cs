@@ -19,7 +19,7 @@ namespace BasicsApi.conmon
         }
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-           var msg = "";
+            var msg = "";
             try
             {
                 await next(context);
@@ -47,6 +47,10 @@ namespace BasicsApi.conmon
                 else if (statusCode == 502)
                 {
                     msg = "请求错误";
+                }
+                else if (statusCode == 405)
+                {
+                    msg = "请求方式错误";
                 }
                else if (statusCode != 200 && statusCode != 201 && statusCode != 202 && statusCode != 203 && statusCode != 204 && statusCode != 205 && statusCode != 206)
                 {

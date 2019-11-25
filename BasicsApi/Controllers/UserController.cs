@@ -12,24 +12,25 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace BasicsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BacsicsController
     {
         private JwtSettings _jwtSettings;
         private readonly IMapper _mapper;
         private WeixiaoSysContext _db;
-        public UserController(WeixiaoSysContext db, IMapper mapper, IOptions<JwtSettings> _jwtSettingsAccesser)
+        public UserController(WeixiaoSysContext db, IMapper mapper, IOptions<JwtSettings> _jwtSettingsAccesser,IOptions<RSASettings> setting):base(db,mapper,setting)
         {
             _db = db;
             _mapper = mapper;
             _jwtSettings = _jwtSettingsAccesser.Value;
         }
         [HttpPost("Login")]
-        public ResponseDto Login(Employee user){
+        public RsaResponseDto Login(Employee user){
             var result = new ResponseDto();
             var users =  _db.Employee.Where(o => o.LoginName == user.LoginName && o.LoginPwd == user.LoginPwd).FirstOrDefault();
             if (users==null ||(user.LoginName!="admin" || user.LoginPwd!="123"))
@@ -48,7 +49,8 @@ namespace BasicsApi.Controllers
 
                 result.data= new { token = new JwtSecurityTokenHandler().WriteToken(token) };
             }
-            return result;
+            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            return res;
         }
     }
 }

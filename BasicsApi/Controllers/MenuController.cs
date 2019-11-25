@@ -11,6 +11,7 @@ using BasicsApi.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace BasicsApi.Controllers
@@ -20,41 +21,41 @@ namespace BasicsApi.Controllers
     public class MenuController : BacsicsController
     {
         private readonly MenuService bll ;
-        public MenuController(WeixiaoSysContext db, IMapper mapper):base(db,mapper)
+        public MenuController(WeixiaoSysContext db, IMapper mapper,IOptions<RSASettings> setting):base(db,mapper,setting)
         {
             bll = new MenuService(db);
         }
         [HttpGet("Menu")]
-        public async Task<ActionResult<ResponseDto>> Menu()
+        public async Task<RsaResponseDto> Menu()
         {
-                result.data = _mapper.Map<List<MenuDto>>(await bll.Menus(null));
-
-            return result;
+            result.data = _mapper.Map<List<MenuDto>>(await bll.Menus(null));
+            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            return res;
         }
         [HttpGet("SelectMenu")]
-        public async Task<ActionResult<ResponseDto>> SelectMenu()
+        public async Task<RsaResponseDto> SelectMenu()
         {
-                result.data =await bll.SelectMenus(null);
-
-            return result;
+            result.data =await bll.SelectMenus(null);
+            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            return res;
         }
         [HttpPost("Menus")]
-        public async Task<ActionResult<ResponseDto>> Menus(MenuDto dto)
+        public async Task<RsaResponseDto> Menus(MenuDto dto)
         {
-
-                result.data = _mapper.Map<ResultPageDto<List<Menu>>,ResultPageDto<List<MenuDto>>>(await bll.MenuList(dto));
-
-            return result;
+            result.data = _mapper.Map<ResultPageDto<List<Menu>>,ResultPageDto<List<MenuDto>>>(await bll.MenuList(dto));
+            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            return res;
         }
         [HttpGet("MenuById/{id}")]
-        public async Task<ActionResult<ResponseDto>> MenuById(int id)
+        public async Task<RsaResponseDto> MenuById(int id)
         {
             var menu=await bll.MenuById(id);
             result.data = _mapper.Map<MenuDto>(menu);
-            return result;
+            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            return res;
         }
         [HttpPost("AddOrEditMenu")]
-        public async Task<ActionResult<ResponseDto>> AddOrEditMenu(Menu menu)
+        public async Task<RsaResponseDto> AddOrEditMenu(Menu menu)
         {
                 if (menu.Id > 0)
                 {
@@ -65,19 +66,22 @@ namespace BasicsApi.Controllers
                     result.data = await bll.Add(menu);
                 }
 
-            return result;
+            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            return res;
         }
         [HttpPost("DeleteMenu/{id}")]
-        public async Task<ActionResult<ResponseDto>> DeleteMenu(int id)
+        public async Task<RsaResponseDto> DeleteMenu(int id)
         {
-                result.data = await bll.Delete(id);
-            return result;
+            result.data = await bll.Delete(id);
+            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            return res;
         }
        [HttpPost("DeleteMenus")]
-        public async Task<ActionResult<ResponseDto>> DeleteMenus(List<EntityDto> ids)
+        public async Task<RsaResponseDto> DeleteMenus(List<EntityDto> ids)
         {
                 result.data = await bll.Deletes(ids);
-            return result;
+            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            return res;
         }
     }
 }

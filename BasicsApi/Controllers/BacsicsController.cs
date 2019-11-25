@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using BasicsApi.conmon;
 using BasicsApi.Dto;
 using BasicsApi.Models;
 using BasicsApi.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace BasicsApi.Controllers
 {
@@ -18,8 +21,11 @@ namespace BasicsApi.Controllers
         protected readonly IMapper _mapper;
         protected WeixiaoSysContext _db;
         protected static ResponseDto result;
-        public BacsicsController(WeixiaoSysContext db, IMapper mapper)
+        protected static RsaResponseDto res;
+        protected static RSAHelper rsa;
+        public BacsicsController(WeixiaoSysContext db, IMapper mapper,IOptions<RSASettings> setting)
         {
+            rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, setting.Value.PrivateKey, setting.Value.PublicKey);
             result = new ResponseDto();
             if (_db==null)
             {
