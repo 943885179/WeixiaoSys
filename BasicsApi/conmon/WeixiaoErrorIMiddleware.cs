@@ -1,9 +1,11 @@
 using System;
+using System.Text;
 using System.Threading.Tasks;
 using BasicsApi.Dto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace BasicsApi.conmon
@@ -12,10 +14,13 @@ namespace BasicsApi.conmon
     {
         private readonly ILogger  logger;
         private readonly ILoggerHelper log4;
-        public WeixiaoErrorIMiddleware(ILogger<WeixiaoErrorIMiddleware> logger,ILoggerHelper log4)
+        private  RSAHelper rsa;
+        private RSASettings setting;
+        public WeixiaoErrorIMiddleware(ILogger<WeixiaoErrorIMiddleware> logger,ILoggerHelper log4,IOptions<RSASettings>  setting)
         {
             this.logger = logger;
             this.log4 = log4;
+            this.setting = setting.Value;
         }
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
@@ -64,11 +69,15 @@ namespace BasicsApi.conmon
 
            // throw new System.NotImplementedException();
         }
-        private static async Task HandleExceptionAsync(HttpContext context, int statusCode, string msg)
+        private async Task HandleExceptionAsync(HttpContext context, int statusCode, string msg)
         {
-                var result = new ResponseDto() { status=-1,msg=msg };
-                context.Response.ContentType = "application/json;charset=utf-8";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
+            rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, setting.PrivateKey, setting.PublicKey,setting.AppKey,setting.SplitStr);
+            var result = new RsaResponseDto()
+            {
+                Data =rsa.AppEncrypt(new ResponseDto() { status = -1, msg = msg })
+            };
+            context.Response.ContentType = "application/json;charset=utf-8";
+                await context.Response.WriteAsync( JsonConvert.SerializeObject(result));
         }
     }
     public static class WeixiaoErrorIMiddlewareExceptions{

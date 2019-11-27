@@ -25,7 +25,8 @@ namespace BasicsApi.Controllers
         protected static RSAHelper rsa;
         public BacsicsController(WeixiaoSysContext db, IMapper mapper,IOptions<RSASettings> setting)
         {
-            rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, setting.Value.PrivateKey, setting.Value.PublicKey);
+            rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, setting.Value.PrivateKey, setting.Value.PublicKey,setting.Value.AppKey,setting.Value.SplitStr);
+            res = new RsaResponseDto();
             result = new ResponseDto();
             if (_db==null)
             {

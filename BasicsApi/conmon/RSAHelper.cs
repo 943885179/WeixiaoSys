@@ -3,44 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using BasicsApi.Dto;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace BasicsApi.conmon
 {
-    public interface IRSAHelper
-    {
-
-        /// <summary>
-        /// 使用私钥签名
-        /// </summary>
-        /// <param name="data">原始数据</param>
-        /// <returns></returns>
-        string Sign(string data);
-        /// <summary>
-        /// 使用公钥验证签名
-        /// </summary>
-        /// <param name="data">原始数据</param>
-        /// <param name="sign">签名</param>
-        /// <returns></returns>
-        bool Verify(string data, string sign);
-        /// <summary>
-        /// 解密
-        /// </summary>
-        string Decrypt(string cipherText);
-        /// <summary>
-        /// 加密
-        /// </summary>
-        string Encrypt(string text);
-
-    }
-    /// <summary>
-    /// RSA加解密 使用OpenSSL的公钥加密/私钥解密
-    /// </summary>
-    public class RSAHelper:IRSAHelper
+    public class RSAHelper
     {
         private readonly RSA _privateKeyRsaProvider;
         private readonly RSA _publicKeyRsaProvider;
-        private readonly List<RSA> _publicAppKeyRsaProvider;
+        private readonly RSA _publicAppKeyRsaProvider;
         private readonly HashAlgorithmName _hashAlgorithmName;
+        private readonly string _splitStr;
         private readonly Encoding _encoding;
         /// <summary>
         /// 实例化RSAHelper
@@ -49,7 +24,7 @@ namespace BasicsApi.conmon
         /// <param name="encoding">编码类型</param>
         /// <param name="privateKey">私钥</param>
         /// <param name="publicKey">公钥</param>
-        public RSAHelper(RSAType rsaType, Encoding encoding, string privateKey, string publicKey = null,string[] appKeys)
+        public RSAHelper(RSAType rsaType, Encoding encoding, string privateKey, string publicKey = null,string appKey = null,string splitStr=null)
         {
             _encoding = encoding;
             if (!string.IsNullOrWhiteSpace(privateKey))
@@ -60,11 +35,12 @@ namespace BasicsApi.conmon
             {
                 _publicKeyRsaProvider = CreateRsaProviderFromPublicKey(publicKey);
             }
-            foreach (var appkey in appkeys)
+            if (!string.IsNullOrWhiteSpace(appKey))
             {
-                _publicAppKeyRsaProvider.Add(CreateRsaProviderFromPublicKey(publicKey));
+             _publicAppKeyRsaProvider=CreateRsaProviderFromPublicKey(appKey);
             }
             _hashAlgorithmName = rsaType == RSAType.RSA ? HashAlgorithmName.SHA1 : HashAlgorithmName.SHA256;
+            _splitStr = splitStr;
         }
         #region 使用私钥签名
 
@@ -112,9 +88,18 @@ namespace BasicsApi.conmon
             {
                 throw new Exception("_privateKeyRsaProvider is null");
             }
+            var ss = Convert.FromBase64String(cipherText);
             return Encoding.UTF8.GetString(_privateKeyRsaProvider.Decrypt(Convert.FromBase64String(cipherText), RSAEncryptionPadding.Pkcs1));
         }
-
+        public T Decrypt<T>(string cipherText) where T:class
+        {
+            if (_privateKeyRsaProvider == null)
+            {
+                throw new Exception("_privateKeyRsaProvider is null");
+            }
+            var str= Encoding.UTF8.GetString(_privateKeyRsaProvider.Decrypt(Convert.FromBase64String(cipherText), RSAEncryptionPadding.Pkcs1));
+            return JsonConvert.DeserializeObject<T>(str);
+        }
         #endregion
 
         #region 加密
@@ -126,6 +111,38 @@ namespace BasicsApi.conmon
                 throw new Exception("_publicKeyRsaProvider is null");
             }
             return Convert.ToBase64String(_publicKeyRsaProvider.Encrypt(Encoding.UTF8.GetBytes(text), RSAEncryptionPadding.Pkcs1));
+        }
+        public string AppOldEncrypt(string text)
+        {
+            if (_publicAppKeyRsaProvider == null)
+            {
+                throw new Exception("_publicAppKeyRsaProvider is null");
+            }
+            return Convert.ToBase64String(_publicAppKeyRsaProvider.Encrypt(Encoding.UTF8.GetBytes(text), RSAEncryptionPadding.Pkcs1));
+        }
+        public string AppEncrypt(ResponseDto dto){
+            //Formatting.Indented生成良好的显示格式,可读性更好。 另一方面,Formatting.None会跳过不必要的空格和换行符
+            var jsonStr = JsonConvert.SerializeObject(dto, Formatting.Indented, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+            return this.AppEncrypt(jsonStr);
+        }
+        public string AppEncrypt(string text)
+        {
+            if (_publicAppKeyRsaProvider == null)
+            {
+                throw new Exception("_publicAppKeyRsaProvider is null");
+            }
+            var result = "";
+            int t = (int)(Math.Ceiling((double)text.Length / (double)50));
+            //分割明文
+            for (int i = 0; i <= t-1; i++)
+            {
+                var x = text.Substring(i * 50, text.Length - (i * 50) > 50 ? 50 : text.Length - (i * 50));
+                result += Convert.ToBase64String(_publicAppKeyRsaProvider.Encrypt(Encoding.UTF8.GetBytes(x), RSAEncryptionPadding.Pkcs1)) + _splitStr;
+            }
+            return result.Substring(0,result.Length-_splitStr.Length);
         }
 
         #endregion
@@ -332,6 +349,69 @@ namespace BasicsApi.conmon
             return Encoding.UTF8.GetString(type);
         }
         #endregion
+        /// <summary>
+        /// RAS加密
+        /// </summary>
+        /// <param name="xmlPublicKey">公钥</param>
+        /// <param name="EncryptString">明文</param>
+        /// <returns>密文</returns>
+
+        public static string RSAEncrypt(string xmlPublicKey, string EncryptString)
+        {
+            byte[] PlainTextBArray;
+            byte[] CypherTextBArray;
+            string Result=String.Empty;
+            System.Security.Cryptography.RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            rsa.FromXmlString(xmlPublicKey);
+            int t = (int)(Math.Ceiling((double)EncryptString.Length / (double)50));
+            //分割明文
+            for (int i = 0; i <= t-1; i++)
+            {
+
+                PlainTextBArray = (new UnicodeEncoding()).GetBytes(EncryptString.Substring(i * 50, EncryptString.Length - (i * 50) > 50 ? 50 : EncryptString.Length - (i * 50)));
+                CypherTextBArray = rsa.Encrypt(PlainTextBArray, false);
+                Result += Convert.ToBase64String(CypherTextBArray) + "ThisIsSplit";
+            }
+            return Result;
+        }
+        /// <summary>
+        /// RAS解密
+        /// </summary>
+        /// <param name="xmlPrivateKey">私钥</param>
+        /// <param name="DecryptString">密文</param>
+        /// <returns>明文</returns>
+        public static string RSADecrypt(string xmlPrivateKey, string DecryptString)
+        {
+            byte[] PlainTextBArray;
+            byte[] DypherTextBArray;
+            string Result=String.Empty;
+            System.Security.Cryptography.RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            rsa.FromXmlString(xmlPrivateKey);
+            string[] Split = new string[1];
+            Split[0] = "ThisIsSplit";
+            //分割密文
+            string[] mis = DecryptString.Split(Split, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < mis.Length; i++)
+            {
+                PlainTextBArray = Convert.FromBase64String(mis[i]);
+                DypherTextBArray = rsa.Decrypt(PlainTextBArray, false);
+                Result += (new UnicodeEncoding()).GetString(DypherTextBArray);
+            }
+            return Result;
+        }
+
+        /// <summary>
+        /// 产生公钥和私钥对
+        /// </summary>
+        /// <returns>string[] 0:私钥;1:公钥</returns>
+        public static string[] RSAKey()
+        {
+            string[] keys = new string[2];
+            System.Security.Cryptography.RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            keys[0] = rsa.ToXmlString(true);
+            keys[1] = rsa.ToXmlString(false);
+            return keys;
+        }
     }
 
     /// <summary>

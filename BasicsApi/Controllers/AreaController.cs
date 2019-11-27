@@ -27,7 +27,7 @@ namespace BasicsApi.Controllers
         public async Task<RsaResponseDto> Area()
         {
             result.data = _mapper.Map<List<AreaDto>>(await bll.Areas(null));
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpGet("SelectArea")]
@@ -35,7 +35,7 @@ namespace BasicsApi.Controllers
         {
             result = new ResponseDto();
             result.data = await bll.SelectAreas(null);
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpGet("GetAreaByIds/{ids}")]
@@ -43,7 +43,7 @@ namespace BasicsApi.Controllers
         {
             result = new ResponseDto();
             result.data = await bll.GetAreaByIds(ids);
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
     }

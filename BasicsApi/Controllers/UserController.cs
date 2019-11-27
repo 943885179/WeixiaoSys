@@ -30,7 +30,8 @@ namespace BasicsApi.Controllers
             _jwtSettings = _jwtSettingsAccesser.Value;
         }
         [HttpPost("Login")]
-        public RsaResponseDto Login(Employee user){
+        public RsaResponseDto Login(RsaRequestDto dto){
+            var user = rsa.Decrypt<LoginDto>(dto.Data);
             var result = new ResponseDto();
             var users =  _db.Employee.Where(o => o.LoginName == user.LoginName && o.LoginPwd == user.LoginPwd).FirstOrDefault();
             if (users==null ||(user.LoginName!="admin" || user.LoginPwd!="123"))
@@ -49,7 +50,7 @@ namespace BasicsApi.Controllers
 
                 result.data= new { token = new JwtSecurityTokenHandler().WriteToken(token) };
             }
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
     }

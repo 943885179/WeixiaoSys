@@ -40,7 +40,8 @@ const CODEMESSAGE = {
  */
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
-  constructor(private injector: Injector, private msg: NzMessageService, private rsa: RSA) { }
+  constructor(private injector: Injector, private msg: NzMessageService, private rsa: RSA) {
+  }
 
   private get notification(): NzNotificationService {
     return this.injector.get(NzNotificationService);
@@ -60,6 +61,8 @@ export class DefaultInterceptor implements HttpInterceptor {
   }
 
   private handleData(ev: HttpResponseBase): Observable<any> {
+
+    console.log(ev);
     // 可能会因为 `throw` 导出无法执行 `_HttpClient` 的 `end()` 操作
     if (ev.status > 0) {
       this.injector.get(_HttpClient).end();
@@ -73,8 +76,15 @@ export class DefaultInterceptor implements HttpInterceptor {
         //  错误内容：{ status: 1, msg: '非法参数' }
         //  正确内容：{ status: 0, response: {  } }
         // 则以下代码片断可直接适用
+        // (ev instanceof HttpErrorResponse); 如果json中有注释就会返回错误
         if (ev instanceof HttpResponse) {
-          const body: any = this.rsa.Decrypt(ev.body);
+          let body: any;// = ev.body;
+          if (ev.url.endsWith(".json")) {// 读取json文件不需要加密
+            body = ev.body;
+          }
+          else { body = JSON.parse(this.rsa.Decrypt(ev.body.data)); }
+
+          console.log(body);
           if (body && body.status !== 0) {
             this.msg.error(body.msg);
             // 继续抛出错误中断后续所有 Pipe、subscribe 操作，因此：

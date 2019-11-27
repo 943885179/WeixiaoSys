@@ -29,21 +29,21 @@ namespace BasicsApi.Controllers
         public async Task<RsaResponseDto> Menu()
         {
             result.data = _mapper.Map<List<MenuDto>>(await bll.Menus(null));
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpGet("SelectMenu")]
         public async Task<RsaResponseDto> SelectMenu()
         {
             result.data =await bll.SelectMenus(null);
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpPost("Menus")]
         public async Task<RsaResponseDto> Menus(MenuDto dto)
         {
             result.data = _mapper.Map<ResultPageDto<List<Menu>>,ResultPageDto<List<MenuDto>>>(await bll.MenuList(dto));
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpGet("MenuById/{id}")]
@@ -51,7 +51,7 @@ namespace BasicsApi.Controllers
         {
             var menu=await bll.MenuById(id);
             result.data = _mapper.Map<MenuDto>(menu);
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpPost("AddOrEditMenu")]
@@ -66,21 +66,21 @@ namespace BasicsApi.Controllers
                     result.data = await bll.Add(menu);
                 }
 
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpPost("DeleteMenu/{id}")]
         public async Task<RsaResponseDto> DeleteMenu(int id)
         {
             result.data = await bll.Delete(id);
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
        [HttpPost("DeleteMenus")]
         public async Task<RsaResponseDto> DeleteMenus(List<EntityDto> ids)
         {
                 result.data = await bll.Deletes(ids);
-            res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+            res.Data= rsa.AppEncrypt(result);
             return res;
         }
     }

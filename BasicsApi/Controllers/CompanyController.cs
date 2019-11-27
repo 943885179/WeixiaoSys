@@ -31,14 +31,14 @@ namespace BasicsApi.Controllers
         public async Task<RsaResponseDto> Company()
         {
              result.data = _mapper.Map<List<CompanyDto>>(await bll.Companys(null));
-             res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+             res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpGet("SelectCompany")]
         public async Task<RsaResponseDto> SelectCompany()
         {
             result.data =await bll.SelectCompanys(null);
-             res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+             res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpPost("Companys")]
@@ -46,21 +46,21 @@ namespace BasicsApi.Controllers
         {
 
              result.data = _mapper.Map<ResultPageDto<List<Company>>,ResultPageDto<List<CompanyDto>>>(await bll.CompanyList(dto));
-             res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+             res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpGet("ShareholderByCid/{cid}")]
         public async Task<RsaResponseDto> ShareholderByCid(int cid)
         {
             result.data =await bll.ShareholderByCid(cid);
-             res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+             res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpGet("CompanyLogByCid/{cid}")]
         public async Task<RsaResponseDto> CompanyLogByCid(int cid)
         {
             result.data = await bll.CompanyLogByCid(cid);
-             res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+             res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpGet("CompanyById/{id}")]
@@ -68,7 +68,7 @@ namespace BasicsApi.Controllers
         {
             var Company=await bll.CompanyById(id);
             result.data = _mapper.Map<CompanyDto>(Company);
-             res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+             res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpPost("AddOrEditCompany/{isShare=0}")]
@@ -83,14 +83,14 @@ namespace BasicsApi.Controllers
                 {
                     result.data = await bll.Add(company);
                 }
-             res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+             res.Data= rsa.AppEncrypt(result);
             return res;
         }
         [HttpPost("DeleteCompany/{id}")]
         public async Task<RsaResponseDto> DeleteCompany(int id)
         {
             result.data = await bll.Delete(id);
-             res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+             res.Data= rsa.AppEncrypt(result);
             return res;
         }
        [HttpPost("DeleteCompanys")]
@@ -98,7 +98,7 @@ namespace BasicsApi.Controllers
         {
 
             result.data = await bll.Deletes(ids);
-             res.Data= rsa.Encrypt(JsonConvert.SerializeObject(result));
+             res.Data= rsa.AppEncrypt(result);
             return res;
         }
     }

@@ -37,7 +37,8 @@ namespace BasicsApi
             services.Configure<RSASettings>(Configuration.GetSection("RSASettings"));
             services.AddScoped<WeixiaoErrorIMiddleware>();
             services.AddSingleton<ILoggerHelper,LoggerHelper>();
-            services.AddSingleton<IRSAHelper, RSAHelper>();
+            //services.AddSingleton<RSAHelper>();
+            //services.AddSingleton<IRSAHelper, RSAHelper>();
             //由于初始化的时候我们就需要用，所以使用Bind的方式读取配置
             //将配置绑定到JwtSettings实例中
             var jwtSettings = new JwtSettings();

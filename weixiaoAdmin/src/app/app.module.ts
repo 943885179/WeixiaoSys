@@ -71,11 +71,19 @@ const GLOBAL_THIRD_MODULES = [
 // #endregion
 
 // #region Startup Service
+import { BasicService } from './service/basic.service';
+import { CacheService } from '@delon/cache';
+import { RSA } from '@shared/utils/RSA';
 import { StartupService } from '@core/startup/startup.service';
 export function StartupServiceFactory(startupService: StartupService) {
   return () => startupService.load();
 }
 const APPINIT_PROVIDES = [
+  // tslint:disable-next-line: no-use-before-declare
+  CacheService,
+  // tslint:disable-next-line: no-use-before-declare
+  // BasicService,
+  // RSA,
   StartupService,
   {
     provide: APP_INITIALIZER,
@@ -116,6 +124,7 @@ import { UEditorModule } from 'ngx-ueditor';
     SharedModule,
     LayoutModule,
     RoutesModule,
+    // RSA,
     ...I18NSERVICE_MODULES,
     ...FORM_MODULES,
     ...GLOBAL_THIRD_MODULES

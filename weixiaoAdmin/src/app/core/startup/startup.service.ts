@@ -37,11 +37,16 @@ export class StartupService {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
   private viaHttp(resolve: any, reject: any) {
+    if (this.basic.ApiUrl == null) {
+      setTimeout(() => {
+
+      }, 0.2);
+    }
     zip(
       this.cacheServer.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
       // this.cacheServer.get('assets/tmp/app-data.json'),
       this.httpClient.get(this.basic.ApiUrl + this.basic.ApiRole.Menu)
-      // this.cacheServer.get("https://localhost:44361/api/menu/menu")
+      // this.httpClient.get("https://localhost:5001/api/menu/menu")
     ).pipe(
       retry(3), // 可以重试三次
       // map(units => this.httpClient.get(`/user`)),
@@ -76,6 +81,7 @@ export class StartupService {
       });
   }
   load(): Promise<any> {
+    console.log(this.basic);
     // only works with promises
     // https://github.com/angular/angular/issues/15088
     return new Promise((resolve, reject) => {
