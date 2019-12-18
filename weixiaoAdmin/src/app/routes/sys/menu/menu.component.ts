@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { STColumn, STComponent, STReq, STChange } from '@delon/abc';
+import { STColumn, STComponent, STReq, STChange, STReqReNameType, STRequestOptions } from '@delon/abc';
 import { SFSchema, SFButton } from '@delon/form';
 import { SysMenuEditComponent } from './edit/edit.component';
 import { CacheService } from '@delon/cache';
@@ -10,11 +10,15 @@ import { BasicService } from 'src/app/service/basic.service';
 import { type } from 'os';
 import { SysMenuViewComponent } from './view/view.component';
 import { NzMessageService } from 'ng-zorro-antd';
+import { RSA } from '@shared/utils/RSA';
 @Component({
   selector: 'app-sys-menu',
   templateUrl: './menu.component.html',
 })
 export class SysMenuComponent implements OnInit {
+  constructor(private message: NzMessageService, private http: _HttpClient, private modal: ModalHelper, private csv: CacheService, private menuService: MenuService, private basic: BasicService, private rsa: RSA) {
+
+  }
   url: string;
   searchSchema: SFSchema = {
     properties: {
@@ -106,8 +110,23 @@ export class SysMenuComponent implements OnInit {
   req: STReq = {
     method: "post",
     allInBody: true,
+    headers: { "Content-Type": "application/json" },
+    // lazyLoad: true,开启后进入界面没数据
+    process: (options: STRequestOptions) => {
+      options.body = { data: this.rsa.ApiEncrypt(JSON.stringify(options.body)) };
+      return options;
+    }
   };
   changeMenus: any = [];
+  // header: any = {
+  //   "Content-Type": "application/json"
+  // }
+  // rname: STReqReNameType = {
+  //   "pi"
+  // }
+  proces() {
+
+  }
   change(e: STChange) {
     if (e.type === 'checkbox') {
       this.changeMenus = [];
@@ -132,9 +151,6 @@ export class SysMenuComponent implements OnInit {
       this.message.success("删除成功");
       this.st.reload();
     })
-  }
-  constructor(private message: NzMessageService, private http: _HttpClient, private modal: ModalHelper, private csv: CacheService, private menuService: MenuService, private basic: BasicService) {
-
   }
 
   ngOnInit() {

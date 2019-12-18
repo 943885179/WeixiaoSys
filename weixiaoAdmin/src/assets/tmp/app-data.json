@@ -32,8 +32,8 @@
       "ShareholderByCid": "Company/ShareholderByCid",
       "CompanyLogByCid": "Company/CompanyLogByCid",
 
-      "Area": "Area/Area",
-      "SelectArea": "Area/SelectArea",
+      "Area": "Area/Area.json",
+      "SelectArea": "Area/SelectArea.json",
       "GetAreaByIds": "Area/GetAreaByIds"
     },
     "RSA": {

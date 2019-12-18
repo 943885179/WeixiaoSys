@@ -60,7 +60,7 @@ export class UserLoginComponent implements OnDestroy {
   }
   form: FormGroup;
   error = '';
-  type = 0;
+  Types = 0;
 
   // #region get captcha
 
@@ -70,7 +70,7 @@ export class UserLoginComponent implements OnDestroy {
   // #endregion
 
   switch(ret: any) {
-    this.type = ret.index;
+    this.Types = ret.index;
   }
 
   getCaptcha() {
@@ -92,7 +92,7 @@ export class UserLoginComponent implements OnDestroy {
 
   submit() {
     this.error = '';
-    if (this.type === 0) {
+    if (this.Types === 0) {
       this.userName.markAsDirty();
       this.userName.updateValueAndValidity();
       this.password.markAsDirty();
@@ -113,11 +113,12 @@ export class UserLoginComponent implements OnDestroy {
     // 默认配置中对所有HTTP请求都会强制 [校验](https://ng-alain.com/auth/getting-started) 用户 Token
     // 然一般来说登录请求不需要校验，因此可以在请求URL加上：`/login?_allow_anonymous=true` 表示不触发用户 Token 校验
     const data = {
-      type: this.type,
+      // Types: this.Types,
       LoginName: this.userName.value,
       LoginPwd: this.password.value,
     };
     const reaData = this.rsa.ApiEncrypt(JSON.stringify(data));
+    console.log(reaData);
     this.http
       .post(this.basic.ApiUrl + this.basic.ApiRole.Login + '?_allow_anonymous=true', { data: reaData })
       .subscribe((res: any) => {

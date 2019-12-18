@@ -111,12 +111,12 @@ export class SysCompanyComponent implements OnInit {
     method: "post",
     allInBody: true,
   };
-  changeMenus: any = [];
+  changeComponents: any = [];
   change(e: STChange) {
     if (e.type === 'checkbox') {
-      this.changeMenus = [];
+      this.changeComponents = [];
       for (const item of e.checkbox) {
-        this.changeMenus.push({ id: item.id });
+        this.changeComponents.push({ id: item.id });
       }
     }
     // this.changeMenus = e.checkbox;
@@ -128,11 +128,11 @@ export class SysCompanyComponent implements OnInit {
     // console.log('change', e.checkbox);
   }
   async deleteAll() {
-    if (this.changeMenus == null || this.changeMenus.length === 0) {
+    if (this.changeComponents == null || this.changeComponents.length === 0) {
       this.message.error("请选择数据");
       return;
     }
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, this.changeMenus).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteCompanys, this.changeComponents).subscribe(res => {
       this.message.success("删除成功");
       this.st.reload();
     })

@@ -79,11 +79,14 @@ export class DefaultInterceptor implements HttpInterceptor {
         // (ev instanceof HttpErrorResponse); 如果json中有注释就会返回错误
         if (ev instanceof HttpResponse) {
           let body: any;// = ev.body;
+          // tslint:disable-next-line: prefer-conditional-expression
           if (ev.url.endsWith(".json")) {// 读取json文件不需要加密
             body = ev.body;
           }
-          else { body = JSON.parse(this.rsa.Decrypt(ev.body.data)); }
-
+          else {
+            console.log(ev.body.Data);
+            body = JSON.parse(this.rsa.Decrypt(ev.body.data));
+          }
           console.log(body);
           if (body && body.status !== 0) {
             this.msg.error(body.msg);
