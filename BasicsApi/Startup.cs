@@ -36,7 +36,8 @@ namespace BasicsApi
             services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
             services.Configure<RSASettings>(Configuration.GetSection("RSASettings"));
             services.AddScoped<WeixiaoErrorIMiddleware>();
-            services.AddSingleton<ILoggerHelper,LoggerHelper>();
+            services.AddScoped<WeixiaoRequestIMiddleware>();
+            services.AddSingleton<ILoggerHelper, LoggerHelper>();
             //services.AddSingleton<RSAHelper>();
             //services.AddSingleton<IRSAHelper, RSAHelper>();
             //由于初始化的时候我们就需要用，所以使用Bind的方式读取配置
@@ -98,6 +99,7 @@ namespace BasicsApi
             }
             //ErrorHandlingExtensions.UseErrorHandling(app);
             app.UseWeixiaoError();
+            app.UserWeixiaoRequest();
             app.UseHttpsRedirection();
 
             app.UseRouting();

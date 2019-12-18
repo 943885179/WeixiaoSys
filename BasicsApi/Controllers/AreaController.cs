@@ -19,32 +19,30 @@ namespace BasicsApi.Controllers
     public class AreaController : BacsicsController
     {
         private readonly AreaService bll;
-        public AreaController(WeixiaoSysContext db, IMapper mapper,IOptions<RSASettings> setting):base(db,mapper,setting)
+        public AreaController(WeixiaoSysContext db, IMapper mapper, IOptions<RSASettings> setting) : base(db, mapper, setting)
         {
             bll = new AreaService(db);
         }
-        [HttpGet("Area")]
-        public async Task<RsaResponseDto> Area()
+        [HttpGet("Area.json")]
+        public async Task<object> Area()
         {
             result.data = _mapper.Map<List<AreaDto>>(await bll.Areas(null));
-            res.Data= rsa.AppEncrypt(result);
-            return res;
+            res.Data = rsa.AppEncrypt(result);// 加密
+            return result;
         }
-        [HttpGet("SelectArea")]
-        public async Task<RsaResponseDto> SelectArea()
+        [HttpGet("SelectArea.json")]
+        public async Task<object> SelectArea()
         {
-            result = new ResponseDto();
             result.data = await bll.SelectAreas(null);
-            res.Data= rsa.AppEncrypt(result);
-            return res;
+            res.Data = rsa.AppEncrypt(result);
+            // return res;
+            return result;
         }
         [HttpGet("GetAreaByIds/{ids}")]
-        public async Task<RsaResponseDto> GetAreaByIds(string ids)
+        public async Task<ResponseDto> GetAreaByIds(string ids)
         {
-            result = new ResponseDto();
             result.data = await bll.GetAreaByIds(ids);
-            res.Data= rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
     }
 }

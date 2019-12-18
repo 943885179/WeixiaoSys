@@ -21,8 +21,8 @@ namespace BasicsApi.Controllers
     [ApiController]
     public class PowerController : BacsicsController
     {
-        private readonly CompanyService bll ;
-        public PowerController(WeixiaoSysContext db, IMapper mapper,IOptions<RSASettings> setting):base(db,mapper,setting)
+        private readonly CompanyService bll;
+        public PowerController(WeixiaoSysContext db, IMapper mapper, IOptions<RSASettings> setting) : base(db, mapper, setting)
         {
             bll = new CompanyService(db);
         }
@@ -33,7 +33,7 @@ namespace BasicsApi.Controllers
             {
                 result.data = _mapper.Map<List<CompanyDto>>(await bll.Companys(null));
             }
-            catch(WeixiaoException ex)
+            catch (WeixiaoException ex)
             {
                 result.status = -1;
                 result.msg = ex.Message;
@@ -44,7 +44,7 @@ namespace BasicsApi.Controllers
                 //return NotFound();//404
                 //return BadRequest();//400
                 //return Ok(result.msg);
-               // return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { };
+                // return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError) { };
             }
             return result;
         }
@@ -54,7 +54,7 @@ namespace BasicsApi.Controllers
             result = new ResponseDto();
             try
             {
-                result.data =await bll.SelectCompanys(null);
+                result.data = await bll.SelectCompanys(null);
             }
             catch (WeixiaoException ex)
             {
@@ -72,7 +72,7 @@ namespace BasicsApi.Controllers
         {
             try
             {
-                result.data = _mapper.Map<ResultPageDto<List<Company>>,ResultPageDto<List<CompanyDto>>>(await bll.CompanyList(dto));
+                result.data = _mapper.Map<ResultPageDto<List<Company>>, ResultPageDto<List<CompanyDto>>>(await bll.CompanyList(dto));
             }
             catch (WeixiaoException ex)
             {
@@ -90,7 +90,7 @@ namespace BasicsApi.Controllers
         {
             try
             {
-                result.data =await bll.ShareholderByCid(cid);
+                result.data = await bll.ShareholderByCid(cid);
             }
             catch (WeixiaoException ex)
             {
@@ -124,18 +124,18 @@ namespace BasicsApi.Controllers
         [HttpGet("CompanyById/{id}")]
         public async Task<ActionResult<ResponseDto>> CompanyById(int id)
         {
-            var Company=await bll.CompanyById(id);
+            var Company = await bll.CompanyById(id);
             result.data = _mapper.Map<CompanyDto>(Company);
             return result;
         }
         [HttpPost("AddOrEditCompany/{isShare=0}")]
-        public async Task<ActionResult<ResponseDto>> AddOrEditCompany(Company company,int isShare)
+        public async Task<ActionResult<ResponseDto>> AddOrEditCompany(Company company, int isShare)
         {
             try
             {
                 if (company.Id > 0)
                 {
-                    result.data = await bll.Edit(company,isShare);
+                    result.data = await bll.Edit(company, isShare);
                 }
                 else
                 {
@@ -171,7 +171,7 @@ namespace BasicsApi.Controllers
             }
             return result;
         }
-       [HttpPost("DeleteCompanys")]
+        [HttpPost("DeleteCompanys")]
         public async Task<ActionResult<ResponseDto>> DeleteCompanys(List<EntityDto> ids)
         {
             try

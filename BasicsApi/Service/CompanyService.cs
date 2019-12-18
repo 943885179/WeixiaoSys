@@ -117,7 +117,7 @@ namespace BasicsApi.Service
                 }
             }
         }
-        public async Task<bool> Edit(Company company,int isShare)
+        public async Task<bool> Edit(Company company, int isShare)
         {
             using (var tran = db.Database.BeginTransaction())
             {
@@ -141,7 +141,7 @@ namespace BasicsApi.Service
                     {
                         msg += $"公司CEO变更{oldcom.LegalPerson}[{oldcom.LegalPerson}]=>{company.LegalPerson}[{company.Idcard}];";
                     }
-                    if (!oldcom.Area.Equals(company.Area)|| !oldcom.Address.Equals(company.Address))
+                    if (!oldcom.Area.Equals(company.Area) || !oldcom.Address.Equals(company.Address))
                     {
                         msg += $"公司地址变更{oldcom.Area}{oldcom.Address}=>{company.Area}{company.Address};";
                     }
@@ -162,12 +162,12 @@ namespace BasicsApi.Service
                         msg += $"公司简介变更{oldcom.Briefing}=>{company.Briefing};";
                     }
                     //获取旧投资人
-                    var oldshar =await db.Shareholder.Where(o => o.Cid == company.Id).AsNoTracking().ToListAsync();
+                    var oldshar = await db.Shareholder.Where(o => o.Cid == company.Id).AsNoTracking().ToListAsync();
                     var oldIdcard = oldshar.Select(o => o.Idcard).ToList();
                     var addIdcard = company.Shareholder.Select(o => o.Idcard).ToList();
                     var addShare = company.Shareholder.Where(n => !oldIdcard.Contains(n.Idcard)).ToList();
                     var removeShare = oldshar.Where(n => !addIdcard.Contains(n.Idcard)).ToList();
-                    var up = company.Shareholder.Where(n =>oldIdcard.Contains(n.Idcard)).ToList();
+                    var up = company.Shareholder.Where(n => oldIdcard.Contains(n.Idcard)).ToList();
                     if (isShare == 1)
                     {
                         foreach (var a in removeShare)
@@ -179,13 +179,13 @@ namespace BasicsApi.Service
                     foreach (var a in addShare)
                     {
                         //a.Cid = company.Id;
-                       // db.Shareholder.Add(a);
+                        // db.Shareholder.Add(a);
                         msg += $"添加股东{a.Name}【{a.Idcard}】投资{a.PayMoney}元，占股{a.Proportion};";
                     }
                     foreach (var a in up)
                     {
                         var old = oldshar.FirstOrDefault(o => o.Id == a.Id);
-                        if (old.Name!=a.Name)
+                        if (old.Name != a.Name)
                         {
                             msg += $"修改股东{old.Name}为{a.Name};";
                         }
@@ -209,7 +209,7 @@ namespace BasicsApi.Service
                         Cid = company.Id,
                         Content = msg
                     });
-                   // company.Shareholder = null;
+                    // company.Shareholder = null;
                     db.Company.Update(company);
                     await db.SaveChangesAsync();
                     await tran.CommitAsync();

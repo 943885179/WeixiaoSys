@@ -14,14 +14,17 @@ namespace BasicsApi.Service
             db = context;
         }
 
-        public async  Task<List<Department>> Departments(){
-           return await db.Department.ToListAsync();
+        public async Task<List<Department>> Departments()
+        {
+            return await db.Department.ToListAsync();
         }
-        public async  Task<int> Add(Department Department){
+        public async Task<int> Add(Department Department)
+        {
             await db.Department.AddAsync(Department);
             return await db.SaveChangesAsync();
         }
-        public async Task<Department> DepartmentById(int id){
+        public async Task<Department> DepartmentById(int id)
+        {
             return await db.Department.FindAsync(id);
         }
     }

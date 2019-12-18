@@ -9,7 +9,7 @@ namespace BasicsApi
     {
         public string PrivateKey { get; set; }
         public string PublicKey { get; set; }
-        public string AppKey{ get; set; }
+        public string AppKey { get; set; }
         public string SplitStr { get; set; }
     }
 }

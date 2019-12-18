@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace BasicsApi.Service
 {
+    //功能操作
     public class OperationService
     {
         private WeixiaoSysContext db;
@@ -14,14 +15,17 @@ namespace BasicsApi.Service
             db = context;
         }
 
-        public async  Task<List<Operation>> Operations(){
-           return await db.Operation.ToListAsync();
+        public async Task<List<Operation>> Operations()
+        {
+            return await db.Operation.ToListAsync();
         }
-        public async  Task<int> Add(Operation Operation){
+        public async Task<int> Add(Operation Operation)
+        {
             await db.Operation.AddAsync(Operation);
             return await db.SaveChangesAsync();
         }
-        public async Task<Operation> OperationById(int id){
+        public async Task<Operation> OperationById(int id)
+        {
             return await db.Operation.FindAsync(id);
         }
     }

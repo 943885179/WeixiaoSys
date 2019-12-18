@@ -20,68 +20,60 @@ namespace BasicsApi.Controllers
     [ApiController]
     public class MenuController : BacsicsController
     {
-        private readonly MenuService bll ;
-        public MenuController(WeixiaoSysContext db, IMapper mapper,IOptions<RSASettings> setting):base(db,mapper,setting)
+        private readonly MenuService bll;
+        public MenuController(WeixiaoSysContext db, IMapper mapper, IOptions<RSASettings> setting) : base(db, mapper, setting)
         {
             bll = new MenuService(db);
         }
         [HttpGet("Menu")]
-        public async Task<RsaResponseDto> Menu()
+        public async Task<ResponseDto> Menu()
         {
             result.data = _mapper.Map<List<MenuDto>>(await bll.Menus(null));
-            res.Data= rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
         [HttpGet("SelectMenu")]
-        public async Task<RsaResponseDto> SelectMenu()
+        public async Task<ResponseDto> SelectMenu()
         {
-            result.data =await bll.SelectMenus(null);
-            res.Data= rsa.AppEncrypt(result);
-            return res;
+            result.data = await bll.SelectMenus(null);
+            return result;
         }
         [HttpPost("Menus")]
-        public async Task<RsaResponseDto> Menus(MenuDto dto)
+        public async Task<ResponseDto> Menus(MenuDto dto)
         {
-            result.data = _mapper.Map<ResultPageDto<List<Menu>>,ResultPageDto<List<MenuDto>>>(await bll.MenuList(dto));
-            res.Data= rsa.AppEncrypt(result);
-            return res;
+            result.data = _mapper.Map<ResultPageDto<List<Menu>>, ResultPageDto<List<MenuDto>>>(await bll.MenuList(dto));
+            return result;
         }
         [HttpGet("MenuById/{id}")]
-        public async Task<RsaResponseDto> MenuById(int id)
+        public async Task<ResponseDto> MenuById(int id)
         {
-            var menu=await bll.MenuById(id);
+            var menu = await bll.MenuById(id);
             result.data = _mapper.Map<MenuDto>(menu);
-            res.Data= rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
         [HttpPost("AddOrEditMenu")]
-        public async Task<RsaResponseDto> AddOrEditMenu(Menu menu)
+        public async Task<ResponseDto> AddOrEditMenu(Menu menu)
         {
-                if (menu.Id > 0)
-                {
-                    result.data = await bll.Edit(menu);
-                }
-                else
-                {
-                    result.data = await bll.Add(menu);
-                }
-
-            res.Data= rsa.AppEncrypt(result);
-            return res;
+            if (menu.Id > 0)
+            {
+                result.data = await bll.Edit(menu);
+            }
+            else
+            {
+                result.data = await bll.Add(menu);
+            }
+            return result;
         }
         [HttpPost("DeleteMenu/{id}")]
-        public async Task<RsaResponseDto> DeleteMenu(int id)
+        public async Task<ResponseDto> DeleteMenu(int id)
         {
             result.data = await bll.Delete(id);
-            res.Data= rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
-       [HttpPost("DeleteMenus")]
-        public async Task<RsaResponseDto> DeleteMenus(List<EntityDto> ids)
+        [HttpPost("DeleteMenus")]
+        public async Task<ResponseDto> DeleteMenus(List<EntityDto> ids)
         {
-                result.data = await bll.Deletes(ids);
-            res.Data= rsa.AppEncrypt(result);
-            return res;
+            result.data = await bll.Deletes(ids);
+            return result;
         }
     }
 }

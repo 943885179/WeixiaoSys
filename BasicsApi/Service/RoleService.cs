@@ -14,14 +14,22 @@ namespace BasicsApi.Service
             db = context;
         }
 
-        public async  Task<List<Role>> Roles(){
-           return await db.Role.ToListAsync();
+        public async Task<List<Role>> Roles()
+        {
+            return await db.Role.ToListAsync();
         }
-        public async  Task<int> Add(Role Role){
+        public async Task<List<Role>> RolesByUser(int uid)
+        {
+            return await db.Role.Where(o => o.EmpRole.Any(t => t.EmpId == uid)).ToListAsync();
+        }
+
+        public async Task<int> Add(Role Role)
+        {
             await db.Role.AddAsync(Role);
             return await db.SaveChangesAsync();
         }
-        public async Task<Role> RoleById(int id){
+        public async Task<Role> RoleById(int id)
+        {
             return await db.Role.FindAsync(id);
         }
     }

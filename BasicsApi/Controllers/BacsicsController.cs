@@ -23,12 +23,12 @@ namespace BasicsApi.Controllers
         protected static ResponseDto result;
         protected static RsaResponseDto res;
         protected static RSAHelper rsa;
-        public BacsicsController(WeixiaoSysContext db, IMapper mapper,IOptions<RSASettings> setting)
+        public BacsicsController(WeixiaoSysContext db, IMapper mapper, IOptions<RSASettings> setting)
         {
-            rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, setting.Value.PrivateKey, setting.Value.PublicKey,setting.Value.AppKey,setting.Value.SplitStr);
+            rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, setting.Value.PrivateKey, setting.Value.PublicKey, setting.Value.AppKey, setting.Value.SplitStr);
             res = new RsaResponseDto();
             result = new ResponseDto();
-            if (_db==null)
+            if (_db == null)
             {
                 lock (this)
                 {
@@ -38,7 +38,7 @@ namespace BasicsApi.Controllers
                     }
                 }
             }
-           if (_mapper==null)
+            if (_mapper == null)
             {
                 lock (this)
                 {

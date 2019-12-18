@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace BasicsApi.Dto
 {
-    public  class MenuDto
+    public class MenuDto
     {
         public int pi { get; set; }//当前页码
         public int ps { get; set; }//每页数量，当设置为 0 表示不分页，默认：10
@@ -32,6 +32,6 @@ namespace BasicsApi.Dto
         public string Link { get; set; }
         public string Reuse { get; set; }
 
-        public  List<MenuDto> Children { get; set; }
+        public List<MenuDto> Children { get; set; }
     }
 }

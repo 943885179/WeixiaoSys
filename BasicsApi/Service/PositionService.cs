@@ -13,14 +13,17 @@ namespace BasicsApi.Service
         {
             db = context;
         }
-        public async  Task<List<Position>> Positions(){
-           return await db.Position.ToListAsync();
+        public async Task<List<Position>> Positions()
+        {
+            return await db.Position.ToListAsync();
         }
-        public async  Task<int> Add(Position position){
+        public async Task<int> Add(Position position)
+        {
             await db.Position.AddAsync(position);
             return await db.SaveChangesAsync();
         }
-        public async Task<Position> PositionById(int id){
+        public async Task<Position> PositionById(int id)
+        {
             return await db.Position.FindAsync(id);
         }
     }

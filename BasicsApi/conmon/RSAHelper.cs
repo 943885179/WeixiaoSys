@@ -24,7 +24,7 @@ namespace BasicsApi.conmon
         /// <param name="encoding">编码类型</param>
         /// <param name="privateKey">私钥</param>
         /// <param name="publicKey">公钥</param>
-        public RSAHelper(RSAType rsaType, Encoding encoding, string privateKey, string publicKey = null,string appKey = null,string splitStr=null)
+        public RSAHelper(RSAType rsaType, Encoding encoding, string privateKey, string publicKey = null, string appKey = null, string splitStr = null)
         {
             _encoding = encoding;
             if (!string.IsNullOrWhiteSpace(privateKey))
@@ -37,7 +37,7 @@ namespace BasicsApi.conmon
             }
             if (!string.IsNullOrWhiteSpace(appKey))
             {
-             _publicAppKeyRsaProvider=CreateRsaProviderFromPublicKey(appKey);
+                _publicAppKeyRsaProvider = CreateRsaProviderFromPublicKey(appKey);
             }
             _hashAlgorithmName = rsaType == RSAType.RSA ? HashAlgorithmName.SHA1 : HashAlgorithmName.SHA256;
             _splitStr = splitStr;
@@ -91,13 +91,13 @@ namespace BasicsApi.conmon
             var ss = Convert.FromBase64String(cipherText);
             return Encoding.UTF8.GetString(_privateKeyRsaProvider.Decrypt(Convert.FromBase64String(cipherText), RSAEncryptionPadding.Pkcs1));
         }
-        public T Decrypt<T>(string cipherText) where T:class
+        public T Decrypt<T>(string cipherText) where T : class
         {
             if (_privateKeyRsaProvider == null)
             {
                 throw new Exception("_privateKeyRsaProvider is null");
             }
-            var str= Encoding.UTF8.GetString(_privateKeyRsaProvider.Decrypt(Convert.FromBase64String(cipherText), RSAEncryptionPadding.Pkcs1));
+            var str = Encoding.UTF8.GetString(_privateKeyRsaProvider.Decrypt(Convert.FromBase64String(cipherText), RSAEncryptionPadding.Pkcs1));
             return JsonConvert.DeserializeObject<T>(str);
         }
         #endregion
@@ -120,7 +120,8 @@ namespace BasicsApi.conmon
             }
             return Convert.ToBase64String(_publicAppKeyRsaProvider.Encrypt(Encoding.UTF8.GetBytes(text), RSAEncryptionPadding.Pkcs1));
         }
-        public string AppEncrypt(ResponseDto dto){
+        public string AppEncrypt(ResponseDto dto)
+        {
             //Formatting.Indented生成良好的显示格式,可读性更好。 另一方面,Formatting.None会跳过不必要的空格和换行符
             var jsonStr = JsonConvert.SerializeObject(dto, Formatting.Indented, new JsonSerializerSettings
             {
@@ -137,12 +138,12 @@ namespace BasicsApi.conmon
             var result = "";
             int t = (int)(Math.Ceiling((double)text.Length / (double)50));
             //分割明文
-            for (int i = 0; i <= t-1; i++)
+            for (int i = 0; i <= t - 1; i++)
             {
                 var x = text.Substring(i * 50, text.Length - (i * 50) > 50 ? 50 : text.Length - (i * 50));
                 result += Convert.ToBase64String(_publicAppKeyRsaProvider.Encrypt(Encoding.UTF8.GetBytes(x), RSAEncryptionPadding.Pkcs1)) + _splitStr;
             }
-            return result.Substring(0,result.Length-_splitStr.Length);
+            return result.Substring(0, result.Length - _splitStr.Length);
         }
 
         #endregion
@@ -339,12 +340,14 @@ namespace BasicsApi.conmon
 
         #endregion
         #region string转base64
-        public static string StringToBase64(string str){
-           return Convert.ToBase64String(Encoding.UTF8.GetBytes(str));
+        public static string StringToBase64(string str)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(str));
         }
         #endregion
         #region base64转string
-        public static string Base64ToString(string base64){
+        public static string Base64ToString(string base64)
+        {
             var type = base64 == null ? new byte[0] : Convert.FromBase64String(base64);
             return Encoding.UTF8.GetString(type);
         }
@@ -360,12 +363,12 @@ namespace BasicsApi.conmon
         {
             byte[] PlainTextBArray;
             byte[] CypherTextBArray;
-            string Result=String.Empty;
+            string Result = String.Empty;
             System.Security.Cryptography.RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
             rsa.FromXmlString(xmlPublicKey);
             int t = (int)(Math.Ceiling((double)EncryptString.Length / (double)50));
             //分割明文
-            for (int i = 0; i <= t-1; i++)
+            for (int i = 0; i <= t - 1; i++)
             {
 
                 PlainTextBArray = (new UnicodeEncoding()).GetBytes(EncryptString.Substring(i * 50, EncryptString.Length - (i * 50) > 50 ? 50 : EncryptString.Length - (i * 50)));
@@ -384,7 +387,7 @@ namespace BasicsApi.conmon
         {
             byte[] PlainTextBArray;
             byte[] DypherTextBArray;
-            string Result=String.Empty;
+            string Result = String.Empty;
             System.Security.Cryptography.RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
             rsa.FromXmlString(xmlPrivateKey);
             string[] Split = new string[1];

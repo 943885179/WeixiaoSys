@@ -14,9 +14,9 @@ namespace BasicsApi.conmon
         void Debug(string message, Exception exception = null);
 
     }
-    public class LoggerHelper: ILoggerHelper
+    public class LoggerHelper : ILoggerHelper
     {
-         private static ILog logger;
+        private static ILog logger;
         static LoggerHelper()
         {
             if (logger == null)
@@ -33,7 +33,7 @@ namespace BasicsApi.conmon
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public  void Info(string message, Exception exception = null)
+        public void Info(string message, Exception exception = null)
         {
             if (exception == null)
                 logger.Info(message);
@@ -46,7 +46,7 @@ namespace BasicsApi.conmon
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public  void Warn(string message, Exception exception = null)
+        public void Warn(string message, Exception exception = null)
         {
             if (exception == null)
                 logger.Warn(message);
@@ -59,7 +59,7 @@ namespace BasicsApi.conmon
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public  void Error(string message, Exception exception = null)
+        public void Error(string message, Exception exception = null)
         {
             if (exception == null)
                 logger.Error(message);
@@ -69,13 +69,13 @@ namespace BasicsApi.conmon
 
         public void Debug(string message, Exception exception = null)
         {
-             if (exception == null)
+            if (exception == null)
                 logger.Debug(message);
             else
                 logger.Debug(message, exception);
         }
     }
-     public class MinimalLockDeleteEmpty : FileAppender.MinimalLock
+    public class MinimalLockDeleteEmpty : FileAppender.MinimalLock
     {
         public override void ReleaseLock()
         {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BasicsApi.conmon
 {
-    public class ErrorHandlingMiddleware:IMiddleware
+    public class ErrorHandlingMiddleware : IMiddleware
     {
         private readonly RequestDelegate next;
 

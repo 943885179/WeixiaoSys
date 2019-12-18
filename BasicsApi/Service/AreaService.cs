@@ -34,7 +34,8 @@ namespace BasicsApi.Service
             }
             return results;
         }
-        public async Task<string> GetAreaByIds(string ids){
+        public async Task<string> GetAreaByIds(string ids)
+        {
             var idArr = ids.Split(',').ToList().ConvertAll(Convert.ToInt32).ToList();
             var reslut = "";
             foreach (var item in idArr)
@@ -59,10 +60,10 @@ namespace BasicsApi.Service
                     label = x.District,
                     key = x.Id,
                     value = x.Id,
-                    isLeaf=true,
+                    isLeaf = true,
                 };
                 dto.children = await SelectAreas(x.Id);
-                if (dto.children!=null && dto.children.Count>0)
+                if (dto.children != null && dto.children.Count > 0)
                 {
                     dto.isLeaf = false;
                 }
