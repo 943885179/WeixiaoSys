@@ -39,7 +39,7 @@ namespace BasicsApi.conmon
             {
                 var rsaDto = JsonConvert.DeserializeObject<RsaRequestDto>(requestContextRsa);
                 var requestContext = rsa.Decrypt(rsaDto.Data);
-                context.Request.Body = new MemoryStream(Encoding.ASCII.GetBytes(requestContext));
+                context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(requestContext));
                 // await stream.CopyToAsync(context.Request.Body);
             }
             var originalBodyStream = context.Response.Body;
@@ -51,15 +51,23 @@ namespace BasicsApi.conmon
                 var responseStr = await new StreamReader(ms).ReadToEndAsync();
                 context.Response.Body.Seek(0, SeekOrigin.Begin);
                 var path = context.Request.Path.Value;
-                if (!string.IsNullOrWhiteSpace(responseStr) && context.Response.StatusCode==200 && !path.EndsWith(".json"))
+                if (!string.IsNullOrWhiteSpace(responseStr) && context.Response.StatusCode==200 )
                 {
-                    var result = new RsaResponseDto()
+                    if (!path.EndsWith(".json"))
                     {
-                        Data = rsa.AppEncrypt(responseStr)
-                    };
-                    var array= Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(result,Formatting.Indented, new JsonSerializerSettings{ContractResolver = new CamelCasePropertyNamesContractResolver()}));
-                    var newMs = new MemoryStream(array);
-                    await newMs.CopyToAsync(originalBodyStream);
+                        var result = new RsaResponseDto()
+                        {
+                            Data = rsa.AppEncrypt(responseStr)
+                        };
+                        var array= Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(result,Formatting.Indented, new JsonSerializerSettings{ContractResolver = new CamelCasePropertyNamesContractResolver()}));
+                        var newMs = new MemoryStream(array);
+                        await newMs.CopyToAsync(originalBodyStream);
+                    }else
+                    {
+                        var array= Encoding.UTF8.GetBytes(responseStr);
+                        var newMs = new MemoryStream(array);
+                        await newMs.CopyToAsync(originalBodyStream);
+                    }
                 }
             }
         }

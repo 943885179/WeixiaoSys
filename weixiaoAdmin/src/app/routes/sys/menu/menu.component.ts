@@ -124,9 +124,6 @@ export class SysMenuComponent implements OnInit {
   // rname: STReqReNameType = {
   //   "pi"
   // }
-  proces() {
-
-  }
   change(e: STChange) {
     if (e.type === 'checkbox') {
       this.changeMenus = [];
@@ -147,7 +144,7 @@ export class SysMenuComponent implements OnInit {
       this.message.error("请选择数据");
       return;
     }
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, this.changeMenus).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, { data: this.rsa.ApiEncrypt(JSON.stringify(this.changeMenus)) }).subscribe(res => {
       this.message.success("删除成功");
       this.st.reload();
     })

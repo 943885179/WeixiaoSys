@@ -26,8 +26,8 @@ namespace BasicsApi.Service
             var resultPage = new ResultPageDto<List<Company>>();
             //resultPage.pi=page.pi;
             //resultPage.ps=page.ps;
-            resultPage.total = await db.Company.Include(o => o.CompanyLog).Include(o => o.Shareholder).CountAsync();
-            var Company = db.Company.Where(Company => 1 == 1);
+            resultPage.total = await db.Company.Where(o=>o.IsDel!=true).Include(o => o.CompanyLog).Include(o => o.Shareholder).CountAsync();
+            var Company = db.Company.Where(o=>o.IsDel!=true);
             if (!string.IsNullOrEmpty(dto.Name) && dto.Name != "ascend" && dto.Name != "descend")
             {
                 Company = Company.Where(Company => Company.Name.Contains(dto.Name));
@@ -62,7 +62,7 @@ namespace BasicsApi.Service
         public async Task<List<Company>> Companys(int? id)
         {
             var results = new List<Company>();
-            results = await db.Company.Where(o => o.Pid == id).ToListAsync();
+            results = await db.Company.Where(o=>o.IsDel!=true).Where(o => o.Pid == id).ToListAsync();
             if (results.Count() == 0)
             {
                 return new List<Company>();
@@ -76,9 +76,8 @@ namespace BasicsApi.Service
         public async Task<List<SelectDto>> SelectCompanys(int? id)
         {
             var results = new List<SelectDto>();
-            var s = db.Company.Where(o => o.Pid == id || (id == null && o.Pid == 0));
-            var Companys = await db.Company.Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).ToListAsync();
-            foreach (var x in Companys)
+            var Companys =  db.Company.Where(o=>o.IsDel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
+           await foreach (var x in Companys)
             {
                 var dto = new SelectDto()
                 {
@@ -98,6 +97,7 @@ namespace BasicsApi.Service
             {
                 try
                 {
+                    company.IsDel = false;
                     db.Company.Add(company);
                     await db.SaveChangesAsync();
                     db.CompanyLog.Add(new CompanyLog()
@@ -244,7 +244,7 @@ namespace BasicsApi.Service
             {
                 throw new WeixiaoException("请先删除子公司！");
             }
-            db.Company.Remove(del);
+            del.IsDel = true;
             return await db.SaveChangesAsync();
         }
         public async Task<int> Deletes(List<EntityDto> ids)
@@ -255,7 +255,11 @@ namespace BasicsApi.Service
             {
                 throw new WeixiaoException("存在未删除的子公司！");
             }
-            db.Company.RemoveRange(deles);
+            foreach (var del in deles)
+            {
+                del.IsDel = true;
+            }
+            //db.Company.RemoveRange(deles);
             return await db.SaveChangesAsync();
         }
         public async Task<List<CompanyLog>> CompanyLogByCid(int cid)

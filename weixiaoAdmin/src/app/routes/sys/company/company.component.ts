@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper, DrawerHelper } from '@delon/theme';
-import { STColumn, STComponent, STReq, STChange } from '@delon/abc';
+import { STColumn, STComponent, STReq, STChange, STRequestOptions } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { SysCompanyEditComponent } from './edit/edit.component';
 import { BasicService } from 'src/app/service/basic.service';
@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { SysCompanyViewComponent } from './view/view.component';
 import { SysCompanyShareholderComponent } from './shareholder/shareholder.component';
 import { SysCompanyLogComponent } from './log/log.component';
+import { RSA } from '@shared/utils/RSA';
 
 @Component({
   selector: 'app-sys-company',
@@ -67,9 +68,9 @@ export class SysCompanyComponent implements OnInit {
           },
           iif: record => record.children.length === 0,
           click: (record, _modal, comp) => {
-            this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenu + `/${record.id}`).subscribe(res => {
+            this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteCompany + `/${record.id}`).subscribe(res => {
               if (res != null) {
-                this.message.success(`成功删除【${record.text}】`);
+                this.message.success(`成功删除  `);
                 comp!.removeRow(record);
               }
             })
@@ -110,6 +111,12 @@ export class SysCompanyComponent implements OnInit {
   req: STReq = {
     method: "post",
     allInBody: true,
+    headers: { "Content-Type": "application/json" },
+    // lazyLoad: true,开启后进入界面没数据
+    process: (options: STRequestOptions) => {
+      options.body = { data: this.rsa.ApiEncrypt(JSON.stringify(options.body)) };
+      return options;
+    }
   };
   changeComponents: any = [];
   change(e: STChange) {
@@ -132,12 +139,12 @@ export class SysCompanyComponent implements OnInit {
       this.message.error("请选择数据");
       return;
     }
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteCompanys, this.changeComponents).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteCompanys, { data: this.rsa.ApiEncrypt(JSON.stringify(this.changeComponents)) }).subscribe(res => {
       this.message.success("删除成功");
       this.st.reload();
     })
   }
-  constructor(private http: _HttpClient, private modal: ModalHelper, private drawer: DrawerHelper, private basic: BasicService, private message: NzMessageService) {
+  constructor(private http: _HttpClient, private modal: ModalHelper, private drawer: DrawerHelper, private basic: BasicService, private message: NzMessageService, private rsa: RSA) {
 
   }
 

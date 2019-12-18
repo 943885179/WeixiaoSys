@@ -5,6 +5,7 @@ import { SFSchema, SFUISchema, SFSchemaEnumType, SFTextWidgetSchema } from '@del
 import { BasicService } from 'src/app/service/basic.service';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { RSA } from '@shared/utils/RSA';
 
 @Component({
   selector: 'app-sys-menu-edit',
@@ -16,6 +17,7 @@ export class SysMenuEditComponent implements OnInit {
     private msgSrv: NzMessageService,
     public http: _HttpClient,
     private basic: BasicService,
+    private rsa: RSA
   ) {
   }
   record: any = {};
@@ -118,7 +120,7 @@ export class SysMenuEditComponent implements OnInit {
     });
   }
   save(value: any) {
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditMenu, value).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditMenu, { data: this.rsa.ApiLongEncrypt(JSON.stringify(value)) }).subscribe(res => {
       this.msgSrv.success('保存成功');
       this.modal.close(true);
     });

@@ -24,18 +24,15 @@ namespace BasicsApi.Controllers
             bll = new AreaService(db);
         }
         [HttpGet("Area.json")]
-        public async Task<object> Area()
+        public async Task<ResponseDto> Area()
         {
             result.data = _mapper.Map<List<AreaDto>>(await bll.Areas(null));
-            res.Data = rsa.AppEncrypt(result);// 加密
             return result;
         }
         [HttpGet("SelectArea.json")]
-        public async Task<object> SelectArea()
+        public async Task<ResponseDto> SelectArea()
         {
             result.data = await bll.SelectAreas(null);
-            res.Data = rsa.AppEncrypt(result);
-            // return res;
             return result;
         }
         [HttpGet("GetAreaByIds/{ids}")]

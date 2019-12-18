@@ -4,6 +4,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using BasicsApi.Dto;
+using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -81,15 +82,29 @@ namespace BasicsApi.conmon
         #endregion
 
         #region 解密
-
+        /// <summary>
+        /// 分段解密
+        /// </summary>
+        /// <param name="cipherText"></param>
+        /// <returns></returns>
         public string Decrypt(string cipherText)
         {
             if (_privateKeyRsaProvider == null)
             {
                 throw new Exception("_privateKeyRsaProvider is null");
             }
+            var sp = cipherText.Split(_splitStr);
+            var result = "";
+            foreach (var s in sp)
+            {
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    result += Encoding.UTF8.GetString(_privateKeyRsaProvider.Decrypt(Convert.FromBase64String(s), RSAEncryptionPadding.Pkcs1)); ;
+                }
+            }
+            return result;
+
             var ss = Convert.FromBase64String(cipherText);
-            return Encoding.UTF8.GetString(_privateKeyRsaProvider.Decrypt(Convert.FromBase64String(cipherText), RSAEncryptionPadding.Pkcs1));
         }
         public T Decrypt<T>(string cipherText) where T : class
         {
@@ -129,6 +144,11 @@ namespace BasicsApi.conmon
             });
             return this.AppEncrypt(jsonStr);
         }
+        /// <summary>
+        /// 分段加密
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public string AppEncrypt(string text)
         {
             if (_publicAppKeyRsaProvider == null)

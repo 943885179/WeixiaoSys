@@ -59,6 +59,30 @@ export class RSA {
         return rsaStr;
     }
     /**
+     * Wepapi加密*（分段加密）
+     * @param timestr 原始报文
+     */
+    ApiSpEncrypt(timestr: string) {
+        const jsencrypt = new JsEncryptModule.JSEncrypt();
+        const publicKey = "-----BEGIN PUBLIC KEY-----\n" + this.weixiaoApiKey + "\n-----END PUBLIC KEY-----";
+        jsencrypt.setPublicKey(publicKey);
+        this.privateHeadStr = this.privateHeadStr === undefined ? "" : this.privateHeadStr;
+        this.privateFlootStr = this.privateFlootStr === undefined ? "" : this.privateFlootStr;
+        const t = Math.ceil(timestr.length / 50);
+        let result = "";
+        // 分割明文
+        for (let i = 0; i <= t - 1; i++) {
+            const x = timestr.substring(i * 50, 50 + i * 50);
+            const rsaStr = jsencrypt.encrypt(this.privateHeadStr + x + this.privateFlootStr);
+            if (!rsaStr) {
+                this.msg.error("加密错误");
+                return;
+            }
+            result += rsaStr + this.rsaSpiltStr;
+        }
+        return result;
+    }
+    /**
      * Wepapi长文本加密
      * @param timestr 原始报文
      */
@@ -68,7 +92,6 @@ export class RSA {
         jsencrypt.setPublicKey(publicKey);
         this.privateHeadStr = this.privateHeadStr === undefined ? "" : this.privateHeadStr;
         this.privateFlootStr = this.privateFlootStr === undefined ? "" : this.privateFlootStr;
-        alert(timestr);
         const rsaStr = jsencrypt.encryptLong(this.privateHeadStr + timestr + this.privateFlootStr);
         if (!rsaStr) {
             this.msg.error("加密错误");
@@ -77,7 +100,16 @@ export class RSA {
         return rsaStr;
     }
     /**
-     * 解密
+     * 长文本解密
+     * @param timestr
+     */
+    ApiLongDecrypt(timestr: string) {
+        const jsencrypt = new JsEncryptLongModule.JSEncrypt();
+        jsencrypt.setPrivateKey(this.privateKey);
+        return jsencrypt.decrypt(timestr);
+    }
+    /**
+     * 解密(分段解密)
      * @param timestr 加密文字
      */
     Decrypt(timestr: string) {

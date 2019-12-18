@@ -137,6 +137,10 @@ namespace BasicsApi.Models
                     .HasColumnName("phone")
                     .HasMaxLength(20)
                     .IsUnicode(false);
+                entity.Property(e => e.IsDel)
+                    .HasColumnName("is_del")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Pid).HasColumnName("pid");
 

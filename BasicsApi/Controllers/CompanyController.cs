@@ -28,51 +28,44 @@ namespace BasicsApi.Controllers
             bll = new CompanyService(db);
         }
         [HttpGet("Company")]
-        public async Task<RsaResponseDto> Company()
+        public async Task<ResponseDto> Company()
         {
             result.data = _mapper.Map<List<CompanyDto>>(await bll.Companys(null));
-            res.Data = rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
         [HttpGet("SelectCompany")]
-        public async Task<RsaResponseDto> SelectCompany()
+        public async Task<ResponseDto> SelectCompany()
         {
             result.data = await bll.SelectCompanys(null);
-            res.Data = rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
         [HttpPost("Companys")]
-        public async Task<RsaResponseDto> Companys(CompanyDto dto)
+        public async Task<ResponseDto> Companys(CompanyDto dto)
         {
-
             result.data = _mapper.Map<ResultPageDto<List<Company>>, ResultPageDto<List<CompanyDto>>>(await bll.CompanyList(dto));
-            res.Data = rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
         [HttpGet("ShareholderByCid/{cid}")]
-        public async Task<RsaResponseDto> ShareholderByCid(int cid)
+        public async Task<ResponseDto> ShareholderByCid(int cid)
         {
             result.data = await bll.ShareholderByCid(cid);
-            res.Data = rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
         [HttpGet("CompanyLogByCid/{cid}")]
-        public async Task<RsaResponseDto> CompanyLogByCid(int cid)
+        public async Task<ResponseDto> CompanyLogByCid(int cid)
         {
             result.data = await bll.CompanyLogByCid(cid);
-            res.Data = rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
         [HttpGet("CompanyById/{id}")]
-        public async Task<RsaResponseDto> CompanyById(int id)
+        public async Task<ResponseDto> CompanyById(int id)
         {
             var Company = await bll.CompanyById(id);
             result.data = _mapper.Map<CompanyDto>(Company);
-            res.Data = rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
         [HttpPost("AddOrEditCompany/{isShare=0}")]
-        public async Task<RsaResponseDto> AddOrEditCompany(Company company, int isShare)
+        public async Task<ResponseDto> AddOrEditCompany(Company company, int isShare)
         {
 
             if (company.Id > 0)
@@ -83,23 +76,20 @@ namespace BasicsApi.Controllers
             {
                 result.data = await bll.Add(company);
             }
-            res.Data = rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
         [HttpPost("DeleteCompany/{id}")]
-        public async Task<RsaResponseDto> DeleteCompany(int id)
+        public async Task<ResponseDto> DeleteCompany(int id)
         {
             result.data = await bll.Delete(id);
-            res.Data = rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
         [HttpPost("DeleteCompanys")]
-        public async Task<RsaResponseDto> DeleteCompanys(List<EntityDto> ids)
+        public async Task<ResponseDto> DeleteCompanys(List<EntityDto> ids)
         {
 
             result.data = await bll.Deletes(ids);
-            res.Data = rsa.AppEncrypt(result);
-            return res;
+            return result;
         }
     }
 }

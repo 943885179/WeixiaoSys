@@ -75,8 +75,21 @@ namespace BasicsApi.Service
         public async Task<List<SelectDto>> SelectMenus(int? id)
         {
             var results = new List<SelectDto>();
-            var menus = await db.Menu.Where(o => o.Pid == id).Include(x => x.Children).ToListAsync();
-            foreach (var x in menus)
+            //var menus = await db.Menu.Where(o => o.Pid == id).Include(x => x.Children).ToListAsync();
+            //for (int i = 0; i < menus.Count; i++)
+            //{
+            //    var dto = new SelectDto()
+            //    {
+            //        title = menus[i].Text,
+            //        label = menus[i].Text,
+            //        key = menus[i].Id,
+            //        children = await SelectMenus(menus[i].Id)
+            //    };
+            //    results.Add(dto);
+            //}
+            var menus = db.Menu.Where(o => o.Pid == id).Include(x => x.Children).AsAsyncEnumerable();
+            // forEach 只支持同步代码,c#8.0后引入了await foreach;
+            await foreach (var x in menus)
             {
                 var dto = new SelectDto()
                 {
