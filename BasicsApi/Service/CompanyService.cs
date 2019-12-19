@@ -240,7 +240,7 @@ namespace BasicsApi.Service
         public async Task<int> Delete(int id)
         {
             var del = await db.Company.Include(m => m.Children).FirstOrDefaultAsync(o => o.Id == id);
-            if (del.Children.Count > 0)
+            if (del.Children.Where(o=>o.IsDel!=true).ToList().Count > 0)
             {
                 throw new WeixiaoException("请先删除子公司！");
             }
@@ -251,7 +251,7 @@ namespace BasicsApi.Service
         {
             var delId = ids.Select(o => o.Id).ToArray();
             var deles = await db.Company.Include(m => m.Children).Where(o => delId.Contains(o.Id)).ToListAsync();
-            if (deles.Any(o => o.Children.Count > 0 && o.Children.Any(c => !delId.Contains(c.Id))))
+            if (deles.Any(o => o.Children.Where(o=>o.IsDel!=true).ToList().Count > 0 && o.Children.Any(c => !delId.Contains(c.Id))))
             {
                 throw new WeixiaoException("存在未删除的子公司！");
             }

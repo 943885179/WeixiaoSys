@@ -70,7 +70,7 @@ export class SysCompanyComponent implements OnInit {
           click: (record, _modal, comp) => {
             this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteCompany + `/${record.id}`).subscribe(res => {
               if (res != null) {
-                this.message.success(`成功删除  `);
+                this.message.success(`成功删除`);
                 comp!.removeRow(record);
               }
             })

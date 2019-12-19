@@ -120,7 +120,7 @@ export class SysMenuEditComponent implements OnInit {
     });
   }
   save(value: any) {
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditMenu, { data: this.rsa.ApiLongEncrypt(JSON.stringify(value)) }).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditMenu, { data: this.rsa.ApiSpEncrypt(JSON.stringify(value)) }).subscribe(res => {
       this.msgSrv.success('保存成功');
       this.modal.close(true);
     });

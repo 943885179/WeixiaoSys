@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace BasicsApi.conmon
 {
@@ -89,7 +90,7 @@ namespace BasicsApi.conmon
             {
                 Data = rsa.AppEncrypt(new ResponseDto() { status = -1, msg = msg })
             };
-            var ms = new MemoryStream(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(result)));
+            var ms = new MemoryStream(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(result,Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
             await ms.CopyToAsync(st);
             //context.Response.ContentType = "application/json;charset=utf-8";
             //await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
@@ -101,10 +102,12 @@ namespace BasicsApi.conmon
             {
                 Data = rsa.AppEncrypt(new ResponseDto() { status = -1, msg = msg })
             };
-            var ms = new MemoryStream(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(result)));
-            await ms.CopyToAsync(context.Response.Body);
-            //context.Response.ContentType = "application/json;charset=utf-8";
-            //await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
+            var str = JsonConvert.SerializeObject(result, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            var array= Encoding.UTF8.GetBytes(str);
+            var ms = new MemoryStream(array);
+            //await ms.CopyToAsync(context.Response.Body);
+            context.Response.ContentType = "application/json;charset=utf-8";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
         }
     }
     public static class WeixiaoErrorIMiddlewareExceptions

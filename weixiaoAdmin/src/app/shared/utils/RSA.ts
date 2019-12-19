@@ -113,6 +113,7 @@ export class RSA {
      * @param timestr 加密文字
      */
     Decrypt(timestr: string) {
+        console.log("解密", timestr);
         try {
             if (timestr === null || timestr === "") {
                 return "";
@@ -120,10 +121,12 @@ export class RSA {
             const jsencrypt = new JsEncryptModule.JSEncrypt();
             jsencrypt.setPrivateKey(this.privateKey);
             const strSp = timestr.split(this.rsaSpiltStr);
+            console.log(strSp);
             let result = "";
             for (const str of strSp) {
                 if (str !== "") {
                     const xs = jsencrypt.decrypt(str);
+                    console.log(xs);
                     result += xs;
                 }
             }

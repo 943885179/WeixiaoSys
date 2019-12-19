@@ -138,7 +138,7 @@ namespace BasicsApi.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
                 entity.Property(e => e.IsDel)
-                    .HasColumnName("is_del")
+                    .HasColumnName("isdel")
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
@@ -204,6 +204,11 @@ namespace BasicsApi.Models
                     .IsRequired()
                     .HasColumnName("dep_name")
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IsDel)
+                    .IsRequired()
+                    .HasColumnName("isdel")
                     .IsUnicode(false);
 
                 entity.Property(e => e.Pid)

@@ -84,7 +84,6 @@ export class DefaultInterceptor implements HttpInterceptor {
             body = ev.body;
           }
           else {
-            console.log(ev.body.Data);
             body = JSON.parse(this.rsa.Decrypt(ev.body.data));
           }
           console.log(body);
