@@ -28,6 +28,12 @@ namespace BasicsApi.Controllers
             result.data = await bll.SelectDeps(null);
             return result;
         }
+         [HttpPost("Deps")]
+        public async Task<ResponseDto> Deps(DepDto dto)
+        {
+            result.data = await bll.DepLists(dto);
+            return result;
+        }
         [HttpGet("DepById/{id}")]
         public async Task<ResponseDto> DepById(int id)
         {

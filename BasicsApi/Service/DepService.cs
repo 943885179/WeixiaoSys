@@ -41,6 +41,29 @@ namespace BasicsApi.Service
             await db.Department.AddAsync(department);
             return await db.SaveChangesAsync();
         }
+
+        public async Task<object> DepLists(DepDto dto)
+        {
+            var resultPage = new ResultPageDto<List<Department>>();
+            resultPage.total = await db.Company.Where(o=>o.IsDel!=true).Include(o => o.CompanyLog).Include(o => o.Shareholder).CountAsync();
+            var dep = db.Department.Where(o=>o.IsDel!=true);
+            if (!string.IsNullOrEmpty(dto.DepName) && dto.DepName != "ascend" && dto.DepName != "descend")
+            {
+                dep = dep.Where(Company => Company.DepName.Contains(dto.DepName));
+            }
+            else if (dto.DepName == "ascend")
+            {
+                dep = dep.OrderBy(m => m.DepName);
+            }
+            else if (dto.DepName == "ascend")
+            {
+                dep = dep.OrderByDescending(m => m.DepName);
+            }
+            else { }
+            resultPage.list = await dep.Skip(dto.ps * (dto.pi - 1)).Take(dto.ps).ToListAsync();
+            return resultPage;
+        }
+
         private async Task<int> Edit(Department department)
         {
             db.Department.Update(department);

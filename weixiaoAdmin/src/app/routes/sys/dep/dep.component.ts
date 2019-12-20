@@ -1,7 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { STColumn, STComponent } from '@delon/abc';
+import { STColumn, STComponent, STReq, STRequestOptions } from '@delon/abc';
 import { SFSchema } from '@delon/form';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
+import { BasicService } from 'src/app/service/basic.service';
+import { RSA } from '@shared/utils/RSA';
+import { SysDepEditComponent } from './edit/edit.component';
+import { NzMessageService } from 'ng-zorro-antd';
+import { SysDepViewComponent } from './view/view.component';
 
 @Component({
   selector: 'app-sys-dep',
@@ -19,22 +25,86 @@ export class SysDepComponent implements OnInit {
   };
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
-    { title: '编号', index: 'no' },
-    { title: '调用次数', type: 'number', index: 'callNo' },
-    { title: '头像', type: 'img', width: '50px', index: 'avatar' },
-    { title: '时间', type: 'date', index: 'updatedAt' },
     {
-      title: '',
+      title: '编号',
+      index: 'id',
+      type: "checkbox"
+    },
+    {
+      title: '名称', index: 'depName',
+      sort: {
+        compare: (a, b) => a.name.length - b.name.length,
+      },
+      filter: {
+        type: 'keyword',
+        fn: (filter, record) => {
+          return !filter.value || record.name.indexOf(filter.value) !== -1;
+        },
+      },
+    },
+    { title: "编码", index: "depCode" },
+    {
+      title: '操作',
       buttons: [
-        // { text: '查看', click: (item: any) => `/form/${item.id}` },
-        // { text: '编辑', type: 'static', component: FormEditComponent, click: 'reload' },
+        {
+          text: '查看', icon: "search", type: "drawer", drawer: {
+            component: SysDepViewComponent,
+            title: "详情",
+            params: (item) => {
+              return { id: item.Id };
+            }
+
+          }
+        },
+        {
+          text: "删除",
+          icon: "delete",
+          type: "del",
+          pop: {
+            title: "确认删除吗？", trigger: "click", placement: "bottomRight",
+            okType: 'danger',
+            icon: 'delete',
+          },
+          iif: record => record.children.length === 0,
+          click: (record, _modal, comp) => {
+            this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenu + `/${record.id}`).subscribe(res => {
+              if (res != null) {
+                this.message.success(`成功删除【${record.text}】`);
+                comp!.removeRow(record);
+              }
+            })
+          },
+        },
+        {
+          text: '编辑',
+          icon: 'edit',
+          type: "static",
+          // component: SysMenuEditComponent,
+          modal: {
+            component: SysDepEditComponent,
+            params: (item: any) => item
+          },
+          click: 'reload'
+        },
+
       ]
     }
   ];
+  req: STReq = {
+    method: "post",
+    allInBody: true,
+    headers: { "Content-Type": "application/json" },
+    // lazyLoad: true,开启后进入界面没数据
+    process: (options: STRequestOptions) => {
+      options.body = { data: this.rsa.ApiEncrypt(JSON.stringify(options.body)) };
+      return options;
+    }
+  };
+  constructor(private http: HttpBasicService, private message: NzMessageService, private basic: BasicService, private modal: ModalHelper, private rsa: RSA) { }
 
-  constructor(private http: _HttpClient, private modal: ModalHelper) { }
-
-  ngOnInit() { }
+  ngOnInit() {
+    this.url = this.basic.ApiUrl + this.basic.ApiRole.Deps;
+  }
 
   add() {
     // this.modal
