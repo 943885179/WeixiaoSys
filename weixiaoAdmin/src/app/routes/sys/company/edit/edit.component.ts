@@ -5,6 +5,7 @@ import { SFSchema, SFUISchema, SFTreeSelectWidgetSchema, SFCascaderWidgetSchema,
 import { BasicService } from 'src/app/service/basic.service';
 import { CacheService } from '@delon/cache';
 import { RSA } from '@shared/utils/RSA';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
 
 @Component({
   selector: 'app-sys-company-edit',
@@ -15,10 +16,9 @@ export class SysCompanyEditComponent implements OnInit {
   constructor(
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
-    public http: _HttpClient,
+    public http: HttpBasicService,
     private basic: BasicService,
     private csv: CacheService,
-    private rsa: RSA
     // private drawer: NzDrawerRef
   ) { }
   record: any = {};
@@ -152,7 +152,7 @@ export class SysCompanyEditComponent implements OnInit {
   }
   save(value: any) {
     value.area = value.areaCasCarder.join();
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditCompany + '/0', { data: this.rsa.ApiEncrypt(JSON.stringify(value)) }).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditCompany + '/0', value).subscribe(res => {
       this.msgSrv.success('保存成功');
       this.modal.close(true);
       // this.drawer.close(true);

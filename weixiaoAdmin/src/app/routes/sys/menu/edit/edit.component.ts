@@ -6,6 +6,7 @@ import { BasicService } from 'src/app/service/basic.service';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { RSA } from '@shared/utils/RSA';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
 
 @Component({
   selector: 'app-sys-menu-edit',
@@ -15,9 +16,9 @@ export class SysMenuEditComponent implements OnInit {
   constructor(
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
-    public http: _HttpClient,
+    public http: HttpBasicService,
     private basic: BasicService,
-    private rsa: RSA
+
   ) {
   }
   record: any = {};
@@ -120,7 +121,7 @@ export class SysMenuEditComponent implements OnInit {
     });
   }
   save(value: any) {
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditMenu, { data: this.rsa.ApiSpEncrypt(JSON.stringify(value)) }).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditMenu, value).subscribe(res => {
       this.msgSrv.success('保存成功');
       this.modal.close(true);
     });

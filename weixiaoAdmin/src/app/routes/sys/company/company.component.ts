@@ -9,6 +9,7 @@ import { SysCompanyViewComponent } from './view/view.component';
 import { SysCompanyShareholderComponent } from './shareholder/shareholder.component';
 import { SysCompanyLogComponent } from './log/log.component';
 import { RSA } from '@shared/utils/RSA';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
 
 @Component({
   selector: 'app-sys-company',
@@ -139,12 +140,12 @@ export class SysCompanyComponent implements OnInit {
       this.message.error("请选择数据");
       return;
     }
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteCompanys, { data: this.rsa.ApiEncrypt(JSON.stringify(this.changeComponents)) }).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteCompanys, this.changeComponents).subscribe(res => {
       this.message.success("删除成功");
       this.st.reload();
     })
   }
-  constructor(private http: _HttpClient, private modal: ModalHelper, private drawer: DrawerHelper, private basic: BasicService, private message: NzMessageService, private rsa: RSA) {
+  constructor(private http: HttpBasicService, private modal: ModalHelper, private drawer: DrawerHelper, private basic: BasicService, private message: NzMessageService, private rsa: RSA) {
 
   }
 

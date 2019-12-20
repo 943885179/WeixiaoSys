@@ -5,6 +5,7 @@ import { SFSchema, SFUISchema, SFArrayWidgetSchema, SFNumberWidgetSchema } from 
 import { BasicService } from 'src/app/service/basic.service';
 import { promise } from 'protractor';
 import { RSA } from '@shared/utils/RSA';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
 
 @Component({
   selector: 'app-sys-company-shareholder',
@@ -24,9 +25,8 @@ export class SysCompanyShareholderComponent implements OnInit {
   constructor(
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
-    public http: _HttpClient,
+    public http: HttpBasicService,
     private basic: BasicService,
-    private rsa: RSA
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -103,7 +103,7 @@ export class SysCompanyShareholderComponent implements OnInit {
       id: value.id,
       shareholder: value.shareholder
     }
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditCompany + '/1', { data: this.rsa.ApiSpEncrypt(JSON.stringify(value)) }).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditCompany + '/1', value).subscribe(res => {
       this.msgSrv.success('保存成功');
       this.modal.close(true);
     });

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { NzDrawerRef } from 'ng-zorro-antd';
 import { BasicService } from 'src/app/service/basic.service';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
 
 @Component({
   selector: 'app-sys-company-log',
@@ -10,7 +11,7 @@ import { BasicService } from 'src/app/service/basic.service';
 export class SysCompanyLogComponent implements OnInit {
   record: any;
   i: any;
-  constructor(private http: _HttpClient, private drawer: NzDrawerRef, private basic: BasicService) {
+  constructor(private http: HttpBasicService, private drawer: NzDrawerRef, private basic: BasicService) {
 
   }
   async ngOnInit() {

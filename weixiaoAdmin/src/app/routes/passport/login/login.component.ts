@@ -9,6 +9,7 @@ import { environment } from '@env/environment';
 import { StartupService } from '@core';
 import { BasicService } from 'src/app/service/basic.service';
 import { RSA } from '@shared/utils/RSA';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
 
 @Component({
   selector: 'passport-login',
@@ -29,10 +30,9 @@ export class UserLoginComponent implements OnDestroy {
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupSrv: StartupService,
-    public http: _HttpClient,
+    public http: HttpBasicService,
     public msg: NzMessageService,
     public basic: BasicService,
-    private rsa: RSA
   ) {
     this.form = fb.group({
       userName: [null, [Validators.required, Validators.minLength(4)]],
@@ -117,10 +117,8 @@ export class UserLoginComponent implements OnDestroy {
       LoginName: this.userName.value,
       LoginPwd: this.password.value,
     };
-    const reaData = this.rsa.ApiEncrypt(JSON.stringify(data));
-    console.log(reaData);
     this.http
-      .post(this.basic.ApiUrl + this.basic.ApiRole.Login + '?_allow_anonymous=true', { data: reaData })
+      .post(this.basic.ApiUrl + this.basic.ApiRole.Login + '?_allow_anonymous=true', data)
       .subscribe((res: any) => {
         // if (res.msg !== 'ok') {
         //   this.error = res.msg;

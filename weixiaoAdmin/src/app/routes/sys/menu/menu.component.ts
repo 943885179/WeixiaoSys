@@ -11,12 +11,13 @@ import { type } from 'os';
 import { SysMenuViewComponent } from './view/view.component';
 import { NzMessageService } from 'ng-zorro-antd';
 import { RSA } from '@shared/utils/RSA';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
 @Component({
   selector: 'app-sys-menu',
   templateUrl: './menu.component.html',
 })
 export class SysMenuComponent implements OnInit {
-  constructor(private message: NzMessageService, private http: _HttpClient, private modal: ModalHelper, private csv: CacheService, private menuService: MenuService, private basic: BasicService, private rsa: RSA) {
+  constructor(private message: NzMessageService, private http: HttpBasicService, private modal: ModalHelper, private csv: CacheService, private menuService: MenuService, private basic: BasicService, private rsa: RSA) {
 
   }
   url: string;
@@ -144,10 +145,15 @@ export class SysMenuComponent implements OnInit {
       this.message.error("请选择数据");
       return;
     }
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, { data: this.rsa.ApiEncrypt(JSON.stringify(this.changeMenus)) }).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, this.changeMenus).subscribe(res => {
       this.message.success("删除成功");
       this.st.reload();
     })
+    // 使用_httpClient
+    // this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, { data: this.rsa.ApiEncrypt(JSON.stringify(this.changeMenus)) }).subscribe(res => {
+    //   this.message.success("删除成功");
+    //   this.st.reload();
+    // })
   }
 
   ngOnInit() {
