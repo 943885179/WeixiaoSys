@@ -28,6 +28,7 @@ namespace BasicsApi.Controllers
             rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, setting.Value.PrivateKey, setting.Value.PublicKey, setting.Value.AppKey, setting.Value.SplitStr);
             // res = new RsaResponseDto();
             result = new ResponseDto();
+            result.data = null;
             if (_db == null)
             {
                 lock (this)

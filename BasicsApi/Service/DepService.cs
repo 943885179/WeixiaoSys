@@ -23,11 +23,11 @@ namespace BasicsApi.Service
         }
         public async Task<Department> DepartmentById(int id)
         {
-            return await db.Department.FindAsync(id);
+            return await db.Department.Include(x=>x.Company).FirstAsync(x=>x.Id==id);
         }
         public async Task<int> AddOrEdit(Department department){
             department.IsDel = false;
-            if (department.Id!=0)
+            if (department.Id==0)
             {
                 return await Add(department);
             }
@@ -42,7 +42,7 @@ namespace BasicsApi.Service
             return await db.SaveChangesAsync();
         }
 
-        public async Task<object> DepLists(DepDto dto)
+        public async Task<ResultPageDto<List<Department>>> DepLists(DepDto dto)
         {
             var resultPage = new ResultPageDto<List<Department>>();
             resultPage.total = await db.Company.Where(o=>o.IsDel!=true).Include(o => o.CompanyLog).Include(o => o.Shareholder).CountAsync();

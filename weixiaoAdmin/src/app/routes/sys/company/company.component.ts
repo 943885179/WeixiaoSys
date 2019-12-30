@@ -110,14 +110,6 @@ export class SysCompanyComponent implements OnInit {
     }
   ];
   req: STReq = {
-    method: "post",
-    allInBody: true,
-    headers: { "Content-Type": "application/json" },
-    // lazyLoad: true,开启后进入界面没数据
-    process: (options: STRequestOptions) => {
-      options.body = { data: this.rsa.ApiEncrypt(JSON.stringify(options.body)) };
-      return options;
-    }
   };
   changeComponents: any = [];
   change(e: STChange) {
@@ -146,7 +138,7 @@ export class SysCompanyComponent implements OnInit {
     })
   }
   constructor(private http: HttpBasicService, private modal: ModalHelper, private drawer: DrawerHelper, private basic: BasicService, private message: NzMessageService, private rsa: RSA) {
-
+    this.req = http.req;
   }
 
   ngOnInit() {

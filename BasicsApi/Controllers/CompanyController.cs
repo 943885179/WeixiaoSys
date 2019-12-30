@@ -36,7 +36,8 @@ namespace BasicsApi.Controllers
         [HttpGet("SelectCompany")]
         public async Task<ResponseDto> SelectCompany()
         {
-            result.data = await bll.SelectCompanys(null);
+            var data= await bll.SelectCompanys(null);
+            result.data = data;
             return result;
         }
         [HttpPost("Companys")]

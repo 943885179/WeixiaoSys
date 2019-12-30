@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { STColumn, STComponent, STReq, STRequestOptions } from '@delon/abc';
+import { STColumn, STComponent, STReq, STRequestOptions, STChange } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { HttpBasicService } from '@shared/utils/http-basic.service';
 import { BasicService } from 'src/app/service/basic.service';
@@ -14,10 +14,18 @@ import { SysDepViewComponent } from './view/view.component';
   templateUrl: './dep.component.html',
 })
 export class SysDepComponent implements OnInit {
-  url = `/user`;
+
+  constructor(private http: HttpBasicService, private message: NzMessageService, private basic: BasicService, private modal: ModalHelper, private rsa: RSA) {
+    this.req = http.req;
+  }
+  url = "";
+  myContext = { $implicit: 'World', localSk: 'Svet' };
+  changeDeps: any = [];
+  req: STReq = {};
+  i: any;
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      depName: {
         type: 'string',
         title: '编号'
       }
@@ -90,26 +98,48 @@ export class SysDepComponent implements OnInit {
       ]
     }
   ];
-  req: STReq = {
-    method: "post",
-    allInBody: true,
-    headers: { "Content-Type": "application/json" },
-    // lazyLoad: true,开启后进入界面没数据
-    process: (options: STRequestOptions) => {
-      options.body = { data: this.rsa.ApiEncrypt(JSON.stringify(options.body)) };
-      return options;
-    }
-  };
-  constructor(private http: HttpBasicService, private message: NzMessageService, private basic: BasicService, private modal: ModalHelper, private rsa: RSA) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.url = this.basic.ApiUrl + this.basic.ApiRole.Deps;
+    await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectDep).subscribe(res => {
+      this.i = res;
+      console.log(this.i);
+    });
+
   }
 
+  change(e: STChange) {
+    if (e.type === 'checkbox') {
+      this.changeDeps = [];
+      for (const item of e.checkbox) {
+        this.changeDeps.push({ id: item.id });
+      }
+    }
+  }
+  async deleteAll() {
+    if (this.changeDeps == null || this.changeDeps.length === 0) {
+      this.message.error("请选择数据");
+      return;
+    }
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteDeps, this.changeDeps).subscribe(res => {
+      this.message.success("删除成功");
+      this.st.reload();
+    })
+    // 使用_httpClient
+    // this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, { data: this.rsa.ApiEncrypt(JSON.stringify(this.changeMenus)) }).subscribe(res => {
+    //   this.message.success("删除成功");
+    //   this.st.reload();
+    // })
+  }
   add() {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+    this.modal
+      .createStatic(SysDepEditComponent, { i: { id: 0 } })
+      .subscribe(() => this.st.reload());
   }
-
+  seachTree() {
+    this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectDep).subscribe(res => {
+      this.i = res;
+      console.log(this.i);
+    });
+  }
 }

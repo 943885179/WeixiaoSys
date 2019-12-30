@@ -76,8 +76,20 @@ namespace BasicsApi.Service
         public async Task<List<SelectDto>> SelectCompanys(int? id)
         {
             var results = new List<SelectDto>();
-            var Companys =  db.Company.Where(o=>o.IsDel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
-           await foreach (var x in Companys)
+            //   var companys =await  db.Company.Where(o=>o.IsDel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).ToListAsync();
+            //   for (int i = 0; i < companys.Count; i++)
+            //   {
+            //     var dto = new SelectDto()
+            //     {
+            //         title = companys[i].Name,
+            //         label = companys[i].Name,
+            //         key = companys[i].Id,
+            //         children = await SelectCompanys(companys[i].Id)
+            //     };
+            //     results.Add(dto);
+            //   }
+            var companys =  db.Company.Where(o=>o.IsDel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
+           await foreach (var x in companys)
             {
                 var dto = new SelectDto()
                 {

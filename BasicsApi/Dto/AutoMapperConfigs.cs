@@ -25,6 +25,8 @@ namespace BasicsApi.Dto
                ;
 
             CreateMap<Area, AreaDto>();
+            CreateMap<ResultPageDto<List<Department>>, ResultPageDto<List<DepDto>>>();
+            CreateMap<Department, DepDto>();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace BasicsApi.Dto
         public string Briefing { get; set; }
         // public virtual CompanyDto P { get; set; }
         public virtual List<CompanyLog> CompanyLog { get; set; }
-        public virtual List<Department> Department { get; set; }
+       // public virtual List<DepDto> Department { get; set; }
         public virtual List<CompanyDto> Children { get; set; }
         public virtual List<Shareholder> Shareholder { get; set; }
     }

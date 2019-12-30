@@ -6,6 +6,7 @@ using BasicsApi.Models;
 using BasicsApi.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace BasicsApi.Controllers
 {
@@ -31,13 +32,15 @@ namespace BasicsApi.Controllers
          [HttpPost("Deps")]
         public async Task<ResponseDto> Deps(DepDto dto)
         {
-            result.data = await bll.DepLists(dto);
+            result.data = _mapper.Map<ResultPageDto<List<Department>>, ResultPageDto<List<DepDto>>>(await bll.DepLists(dto));
+            var x = JsonConvert.SerializeObject(result);
             return result;
         }
         [HttpGet("DepById/{id}")]
         public async Task<ResponseDto> DepById(int id)
         {
-            result.data = await bll.DepartmentById(id);
+            var data = _mapper.Map<Department,DepDto>(await bll.DepartmentById(id));
+            result.data = data;
             return result;
         }
         [HttpPost("AddOrEditDep")]

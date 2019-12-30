@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema, SFRenderSchema } from '@delon/form';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
+import { BasicService } from 'src/app/service/basic.service';
 
 @Component({
   selector: 'app-sys-dep-edit',
@@ -11,28 +13,11 @@ export class SysDepEditComponent implements OnInit {
   record: any = {};
   i: any;
   schema: SFSchema = {
-    properties: {
-      no: { type: 'string', title: '编号' },
-      owner: { type: 'string', title: '姓名', maxLength: 15 },
-      callNo: { type: 'number', title: '调用次数' },
-      href: { type: 'string', title: '链接', format: 'uri' },
-      description: { type: 'string', title: '描述', maxLength: 140 },
-    },
-    required: ['owner', 'callNo', 'href', 'description'],
+    properties: {}
   };
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
-      grid: { span: 12 },
-    },
-    $no: {
-      widget: 'text'
-    },
-    $href: {
-      widget: 'string',
-    },
-    $description: {
-      widget: 'textarea',
       grid: { span: 24 },
     },
   };
@@ -40,16 +25,51 @@ export class SysDepEditComponent implements OnInit {
   constructor(
     private modal: NzModalRef,
     private msgSrv: NzMessageService,
-    public http: _HttpClient,
-  ) {}
-
-  ngOnInit(): void {
-    if (this.record.id > 0)
-    this.http.get(`/user/${this.record.id}`).subscribe(res => (this.i = res));
+    public http: HttpBasicService,
+    private basic: BasicService
+  ) { }
+  async GetInit() {
+    this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectCompany).subscribe(com => {
+      this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectDep).subscribe(res => {
+        this.schema = {
+          properties: {
+            depName: { type: 'string', title: '名称' },
+            depCode: { type: 'string', title: '编码', maxLength: 15 },
+            companyId: {
+              type: 'string',
+              title: '公司',
+              enum: com,
+              ui: {
+                widget: "tree-select"
+              },
+            },
+            pid: {
+              type: 'string',
+              title: '上级',
+              enum: res,
+              ui: {
+                widget: 'tree-select',
+              },
+            },
+          },
+          required: ['depName', 'depCode', `companyId`],
+        };
+      })
+    })
+  }
+  async ngOnInit(): Promise<void> {
+    if (this.record.id > 0) {
+      await this.http
+        .get(this.basic.ApiUrl + this.basic.ApiRole.DepById + `/${this.record.id}`)
+        .subscribe(res => {
+          this.i = res;
+        });
+    }
+    await this.GetInit();
   }
 
   save(value: any) {
-    this.http.post(`/user/${this.record.id}`, value).subscribe(res => {
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditDep, value).subscribe(res => {
       this.msgSrv.success('保存成功');
       this.modal.close(true);
     });

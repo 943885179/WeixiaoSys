@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { NzModalRef, NzMessageService, NzDrawerRef } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
+import { BasicService } from 'src/app/service/basic.service';
 
 @Component({
   selector: 'app-sys-dep-view',
@@ -11,16 +13,17 @@ export class SysDepViewComponent implements OnInit {
   i: any;
 
   constructor(
-    private modal: NzModalRef,
+    private drawer: NzDrawerRef,
     public msgSrv: NzMessageService,
-    public http: _HttpClient
+    public http: HttpBasicService,
+    private basic: BasicService
   ) { }
 
   ngOnInit(): void {
-    this.http.get(`/user/${this.record.id}`).subscribe(res => this.i = res);
+    this.http.get(`${this.basic.ApiUrl}${this.basic.ApiRole.DepById}/${this.record.id}`).subscribe(res => this.i = res);
   }
 
   close() {
-    this.modal.destroy();
+    this.drawer.close();
   }
 }

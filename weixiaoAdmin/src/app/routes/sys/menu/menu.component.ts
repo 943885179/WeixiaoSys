@@ -18,8 +18,9 @@ import { HttpBasicService } from '@shared/utils/http-basic.service';
 })
 export class SysMenuComponent implements OnInit {
   constructor(private message: NzMessageService, private http: HttpBasicService, private modal: ModalHelper, private csv: CacheService, private menuService: MenuService, private basic: BasicService, private rsa: RSA) {
-
+    this.req = http.req;
   }
+  req: STReq = {}
   url: string;
   searchSchema: SFSchema = {
     properties: {
@@ -108,16 +109,6 @@ export class SysMenuComponent implements OnInit {
       ]
     }
   ];
-  req: STReq = {
-    method: "post",
-    allInBody: true,
-    headers: { "Content-Type": "application/json" },
-    // lazyLoad: true,开启后进入界面没数据
-    process: (options: STRequestOptions) => {
-      options.body = { data: this.rsa.ApiEncrypt(JSON.stringify(options.body)) };
-      return options;
-    }
-  };
   changeMenus: any = [];
   // header: any = {
   //   "Content-Type": "application/json"
