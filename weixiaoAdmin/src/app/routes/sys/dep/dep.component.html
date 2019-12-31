@@ -4,6 +4,7 @@
     </nz-breadcrumb>
   </ng-template>
 </page-header>
+<!-- <nz-spin *ngIf="!i" class="modal-spin"></nz-spin> -->
 <sf mode="search" [schema]="searchSchema" button="none" (formSubmit)="st.reset($event)">
   <button nz-button (click)="st.reset($event)" nzType="primary"><i nz-icon
        nzType='anticon anticon-search'></i>
@@ -20,9 +21,9 @@
   <button (click)="add()" nz-button nzType="primary">
     <i nz-icon nzType='anticon anticon-folder-add'></i> 添加
   </button>
-  <button (click)="seachTree()" nz-button nzType="primary">
+  <!-- <button (click)="sechTree()" nz-button nzType="primary">
     <i nz-icon nzType='anticon anticon-menu'></i> 加载树
-  </button>
+  </button> -->
 </sf>
 <st #st [data]="url" [columns]="columns" [req]="req" [ps]="10"
     (change)="change($event)">
@@ -32,7 +33,12 @@
   </ng-template>
 </st>
 <ul nz-menu nzMode="inline" [nzInlineCollapsed]="false">
-  <ng-container [ngIf]="i" *ngTemplateOutlet="depTpl; context:{data:{deps:i,level:1}}"></ng-container>
+  <ng-container [ngIf]="i.deps" [ngIfElse]="noTree" *ngTemplateOutlet="depTpl; context:{data:{deps:i,level:1}}">
+  </ng-container>
+  <ng-template #noTree>
+    树加载失败，请刷新界面...
+  </ng-template>
+
   <ng-template #depTpl let-data="data">
     <ng-container *ngFor="let dep of data.deps">
       <li

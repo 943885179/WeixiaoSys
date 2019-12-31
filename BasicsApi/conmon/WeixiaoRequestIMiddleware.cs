@@ -40,7 +40,7 @@ namespace BasicsApi.conmon
                 var conttype = context.Request.ContentType;
                 if (!string.IsNullOrWhiteSpace(requestContextRsa))
                 {
-                    var rsaDto = JsonConvert.DeserializeObject<RsaRequestDto>(requestContextRsa);
+                    var rsaDto = JsonConvert.DeserializeObject<RsaDto>(requestContextRsa);
                     var requestContext = rsa.Decrypt(rsaDto.Data);
                     context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(requestContext));
                     // await stream.CopyToAsync(context.Request.Body);
@@ -57,7 +57,7 @@ namespace BasicsApi.conmon
                     {
                         if (!path.EndsWith(".json"))
                         {
-                            var result = new RsaResponseDto()
+                            var result = new RsaDto()
                             {
                                 Data = rsa.AppEncrypt(responseStr)
                             };

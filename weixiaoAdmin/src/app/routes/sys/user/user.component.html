@@ -1,9 +1,17 @@
-<page-header [action]="phActionTpl">
-  <ng-template #phActionTpl>
-    <button (click)="add()" nz-button nzType="primary">新建</button>
+<page-header [breadcrumb]="breadcrumb">
+  <ng-template #breadcrumb>
+    <nz-breadcrumb [nzAutoGenerate]="true" nzSeparator="/">
+    </nz-breadcrumb>
   </ng-template>
 </page-header>
 <nz-card>
-  <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)"></sf>
-  <st #st [data]="url" [columns]="columns"></st>
+  <sf mode="search" [schema]="searchSchema" button="none" (formSubmit)="st.reset($event)">
+    <button nz-button (click)="st.reset($event)" nzType="primary"><i nz-icon
+         nzType='anticon anticon-search'></i>
+    </button>
+    <button (click)="add()" nz-button nzType="primary">
+      <i nz-icon nzType='anticon anticon-folder-add'></i> 添加
+    </button>
+  </sf>
+  <st #st [data]="url" [req]="req" [columns]="columns"></st>
 </nz-card>

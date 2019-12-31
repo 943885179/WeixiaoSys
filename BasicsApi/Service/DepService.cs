@@ -45,7 +45,7 @@ namespace BasicsApi.Service
         public async Task<ResultPageDto<List<Department>>> DepLists(DepDto dto)
         {
             var resultPage = new ResultPageDto<List<Department>>();
-            resultPage.total = await db.Company.Where(o=>o.IsDel!=true).Include(o => o.CompanyLog).Include(o => o.Shareholder).CountAsync();
+            resultPage.total = await db.Department.Where(o=>o.IsDel!=true).CountAsync();
             var dep = db.Department.Where(o=>o.IsDel!=true);
             if (!string.IsNullOrEmpty(dto.DepName) && dto.DepName != "ascend" && dto.DepName != "descend")
             {

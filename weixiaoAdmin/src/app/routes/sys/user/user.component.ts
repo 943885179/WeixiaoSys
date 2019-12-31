@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
-import { STColumn, STComponent } from '@delon/abc';
+import { STColumn, STComponent, STReq } from '@delon/abc';
 import { SFSchema } from '@delon/form';
 import { SysUserEditComponent } from './edit/edit.component';
+import { HttpBasicService } from '@shared/utils/http-basic.service';
+import { BasicService } from 'src/app/service/basic.service';
 
 @Component({
   selector: 'app-sys-user',
@@ -12,18 +14,17 @@ export class SysUserComponent implements OnInit {
   url = `/user`;
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      name: {
         type: 'string',
-        title: '编号'
+        title: '用户名'
       }
     }
   };
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
-    { title: '编号', index: 'no' },
-    { title: '调用次数', type: 'number', index: 'callNo' },
-    { title: '头像', type: 'img', width: '50px', index: 'avatar' },
-    { title: '时间', type: 'date', index: 'updatedAt' },
+    { title: '用户名', index: 'name' },
+    { title: '登录名', type: 'number', index: 'loginName' },
+    { title: '头像', type: 'img', width: '50px', index: 'img' },
     {
       title: '',
       buttons: [
@@ -32,10 +33,14 @@ export class SysUserComponent implements OnInit {
       ]
     }
   ];
+  req: STReq = {}
+  constructor(private http: HttpBasicService, private basic: BasicService, private modal: ModalHelper) {
+    this.req = this.http.req;
+  }
 
-  constructor(private http: _HttpClient, private modal: ModalHelper) { }
-
-  ngOnInit() { }
+  ngOnInit() {
+    this.url = this.basic.ApiUrl + this.basic.ApiRole.Emps;
+  }
 
   add() {
     this.modal

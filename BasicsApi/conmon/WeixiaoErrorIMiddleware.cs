@@ -86,7 +86,7 @@ namespace BasicsApi.conmon
         private async Task HandleExceptionAsync(HttpContext context, int statusCode, string msg,Stream st)
         {
             rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, setting.PrivateKey, setting.PublicKey, setting.AppKey, setting.SplitStr);
-            var result = new RsaResponseDto()
+            var result = new RsaDto()
             {
                 Data = rsa.AppEncrypt(new ResponseDto() { status = -1, msg = msg })
             };
@@ -98,7 +98,7 @@ namespace BasicsApi.conmon
         private async Task HandleExceptionAsync(HttpContext context, int statusCode, string msg)
         {
             rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, setting.PrivateKey, setting.PublicKey, setting.AppKey, setting.SplitStr);
-            var result = new RsaResponseDto()
+            var result = new RsaDto()
             {
                 Data = rsa.AppEncrypt(new ResponseDto() { status = -1, msg = msg })
             };

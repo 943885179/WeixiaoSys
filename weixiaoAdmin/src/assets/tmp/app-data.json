@@ -13,6 +13,12 @@
     "ApiUrl": "https://localhost:5001/api/",
     "ApiRole": {
       "Login": "User/Login",
+      "Emp": "User/Emp",
+      "Emps": "User/Emps",
+      "EmpById": "User/EmpById",
+      "EmpByDepId": "User/EmpByDepId",
+      "AddOrEditEmp": "User/AddOrEditEmp",
+      "DeleteEmp": "User/DeleteEmp",
 
       "Menu": "Menu/Menu",
       "Menus": "Menu/Menus",

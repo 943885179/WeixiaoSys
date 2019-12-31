@@ -27,7 +27,7 @@ export class SysDepComponent implements OnInit {
     properties: {
       depName: {
         type: 'string',
-        title: '编号'
+        title: '部门名称'
       }
     }
   };
@@ -92,7 +92,9 @@ export class SysDepComponent implements OnInit {
             component: SysDepEditComponent,
             params: (item: any) => item
           },
-          click: 'reload'
+          click: () => {
+            location.reload();
+          }
         },
 
       ]
@@ -100,12 +102,8 @@ export class SysDepComponent implements OnInit {
   ];
 
   async ngOnInit() {
+    await this.sechTree();
     this.url = this.basic.ApiUrl + this.basic.ApiRole.Deps;
-    await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectDep).subscribe(res => {
-      this.i = res;
-      console.log(this.i);
-    });
-
   }
 
   change(e: STChange) {
@@ -123,7 +121,8 @@ export class SysDepComponent implements OnInit {
     }
     this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteDeps, this.changeDeps).subscribe(res => {
       this.message.success("删除成功");
-      this.st.reload();
+      // this.st.reload();
+      location.reload();
     })
     // 使用_httpClient
     // this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, { data: this.rsa.ApiEncrypt(JSON.stringify(this.changeMenus)) }).subscribe(res => {
@@ -134,12 +133,11 @@ export class SysDepComponent implements OnInit {
   add() {
     this.modal
       .createStatic(SysDepEditComponent, { i: { id: 0 } })
-      .subscribe(() => this.st.reload());
+      .subscribe(() => location.reload());
   }
-  seachTree() {
-    this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectDep).subscribe(res => {
+  async sechTree(): Promise<void> {
+    await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectDep).subscribe(res => {
       this.i = res;
-      console.log(this.i);
     });
   }
 }

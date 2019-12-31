@@ -54,5 +54,38 @@ namespace BasicsApi.Controllers
             }
             return result;
         }
+        [HttpPost("Emps")]
+        public async Task<ResponseDto> Emps(EmployeeDto dto) {
+            var emps = await bll.EmpLists(dto);
+            var data=_mapper.Map<ResultPageDto<List<Employee>>, ResultPageDto<List< EmployeeDto>>> (emps);
+            result.data = data;
+            return result;
+        }
+        [HttpGet("EmpById/{id}")]
+        public async Task<ResponseDto> EmpById(int id)
+        {
+            var data = _mapper.Map<Employee, EmployeeDto>(await bll.EmployeeById(id));
+            result.data = data;
+            return result;
+        }
+        [HttpGet("EmpByDepId/{depId}")]
+        public async Task<ResponseDto> EmpByDepId(int depId)
+        {
+            var data = _mapper.Map<List<Employee>, List< EmployeeDto >> (await bll.EmployeeByDepId(depId));
+            result.data = data;
+            return result;
+        }
+        [HttpPost("AddOrEditEmp")]
+        public async Task<ResponseDto> AddOrEditEmp(Employee emp)
+        {
+            result.data = await bll.AddOrEdit(emp);
+            return result;
+        }
+        [HttpPost("DeleteEmp/{id}")]
+        public async Task<ResponseDto> DeleteEmp(int id)
+        {
+            result.data = await bll.Delete(id);
+            return result;
+        }
     }
 }
