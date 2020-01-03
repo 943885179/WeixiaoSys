@@ -74,5 +74,8 @@ export class SysUserComponent implements OnInit {
       .createStatic(SysUserEditComponent, { i: { id: 0 } })
       .subscribe(() => this.st.reload());
   }
-
+  showImg(value: any) {
+    // window.location.href =this.basic.serverUrl+ this.i.img;
+    window.open(value);
+  }
 }

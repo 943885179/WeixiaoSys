@@ -18,7 +18,8 @@
       {{ c.title.text }}
     </ng-template>
     <ng-template st-row="custom" let-item let-index="index">
-      <nz-avatar nzIcon="anticon anticon-user" [nzSrc]="basic.serverUrl+item.img"></nz-avatar>
+      <nz-avatar nzIcon="anticon anticon-user" (click)="showImg(basic.serverUrl+item.img)"
+                 [nzSrc]="basic.serverUrl+item.img"></nz-avatar>
     </ng-template>
   </st>
 </nz-card>

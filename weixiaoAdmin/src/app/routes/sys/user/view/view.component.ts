@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
+import { BasicService } from 'src/app/service/basic.service';
 
 @Component({
   selector: 'app-sys-user-view',
@@ -13,7 +14,8 @@ export class SysUserViewComponent implements OnInit {
   constructor(
     private drawer: NzDrawerRef,
     public msgSrv: NzMessageService,
-    public http: _HttpClient
+    public http: _HttpClient,
+    public basic: BasicService
   ) { }
 
   ngOnInit(): void {
@@ -22,5 +24,10 @@ export class SysUserViewComponent implements OnInit {
 
   close() {
     this.drawer.close();
+  }
+
+  showImg(value: any) {
+    // window.location.href =this.basic.serverUrl+ this.i.img;
+    window.open(value);
   }
 }

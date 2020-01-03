@@ -32,7 +32,6 @@ export class SysUserEditComponent implements OnInit {
       if (this.i.img != null) {
         this.img = this.basic.serverUrl + this.i.img;
       }
-      console.log(this.basic.serverUrl);
     }
     await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectDep).subscribe(res => { this.dep = res; })
   }

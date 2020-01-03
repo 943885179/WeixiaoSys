@@ -9,6 +9,11 @@
   <sv label="联系方式">{{i.phone}}</sv>
   <sv label="公司">{{i.dep.company.name}}</sv>
   <sv label="部门">{{i.dep.depName}}</sv>
+  <sv label="图片">
+    <nz-avatar nzIcon="anticon anticon-user" [nzSize]="128" (click)="showImg(basic.serverUrl+i.img)" nzShape="square"
+               [nzSrc]="basic.serverUrl+i.img">
+    </nz-avatar>
+  </sv>
 </div>
 <div class="modal-footer">
   <button nz-button type="button" (click)="close()">关闭</button>
