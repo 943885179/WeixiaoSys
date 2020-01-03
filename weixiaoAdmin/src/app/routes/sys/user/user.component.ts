@@ -5,13 +5,14 @@ import { SFSchema } from '@delon/form';
 import { SysUserEditComponent } from './edit/edit.component';
 import { HttpBasicService } from '@shared/utils/http-basic.service';
 import { BasicService } from 'src/app/service/basic.service';
+import { SysUserViewComponent } from './view/view.component';
 
 @Component({
   selector: 'app-sys-user',
   templateUrl: './user.component.html',
 })
 export class SysUserComponent implements OnInit {
-  url = `/user`;
+  url: string;
   searchSchema: SFSchema = {
     properties: {
       name: {
@@ -23,18 +24,44 @@ export class SysUserComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
     { title: '用户名', index: 'name' },
-    { title: '登录名', type: 'number', index: 'loginName' },
-    { title: '头像', type: 'img', width: '50px', index: 'img' },
+    { title: '登录名', index: 'loginName' },
+    { title: '身份证', index: 'idcard' },
+    { title: '电话', index: 'phone' },
+    { title: '部门', index: 'dep.depName' },
+    { title: '公司', index: 'dep.company.name' },
+    // { title: '头像', type: 'img', index: 'img', format: (item, col, index) => this.basic.serverUrl + item.img },
+    {
+      title: '头像', type: 'img',
+      renderTitle: 'customTitle',
+      render: 'custom',
+    },
     {
       title: '',
       buttons: [
-        { text: '查看', click: (item: any) => `/view/${item.id}` },
-        { text: '编辑', type: 'static', component: SysUserEditComponent, click: 'reload' },
+        {
+          text: '查看', icon: 'search', type: "drawer", drawer: {
+            component: SysUserViewComponent,
+            params: item => item
+          }
+        },
+        {
+          text: '编辑',
+          icon: 'edit',
+          type: "static",
+          // component: SysMenuEditComponent,
+          modal: {
+            component: SysUserEditComponent,
+            params: (item: any) => item
+          },
+          click: () => {
+            this.st.reload();
+          }
+        },
       ]
     }
   ];
   req: STReq = {}
-  constructor(private http: HttpBasicService, private basic: BasicService, private modal: ModalHelper) {
+  constructor(private http: HttpBasicService, public basic: BasicService, private modal: ModalHelper) {
     this.req = this.http.req;
   }
 

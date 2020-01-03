@@ -17,7 +17,12 @@ namespace BasicsApi.Service
         }
         public async Task<Employee> Login(LoginDto user)
         {
-            return await db.Employee.Where(o => o.LoginName == user.LoginName && o.LoginPwd == user.LoginPwd).FirstOrDefaultAsync();
+            var result= await db.Employee.Where(o => o.LoginName == user.LoginName && o.LoginPwd == user.LoginPwd).FirstOrDefaultAsync();
+            if (result==null)
+            {
+                throw new  WeixiaoException("用户名或密码错误");
+            }
+            return result;
         }
         public async Task<List<Employee>> Employees()
         {
@@ -27,7 +32,7 @@ namespace BasicsApi.Service
         {
             var resultPage = new ResultPageDto<List<Employee>>();
             resultPage.total = await db.Employee.Where(o => o.Isuse != false).CountAsync();
-            var Emp = db.Employee.Where(o => o.Isuse != false);
+            var Emp = db.Employee.Include(x=>x.Dep).Include(x=>x.Dep.Company).Where(o => o.Isuse != false);
             if (!string.IsNullOrEmpty(dto.Name) && dto.Name != "ascend" && dto.Name != "descend")
             {
                 Emp = Emp.Where(Company => Company.Name.Contains(dto.Name));

@@ -2,12 +2,13 @@
   <div class="modal-title">查看 {{ record.id }} 信息</div>
 </div>
 <nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
-<div sv-container *ngIf="i">
-  <sv label="姓名">{{ i.owner }}</sv>
-  <sv label="会员卡号">32943898021309809423</sv>
-  <sv label="身份证">3321944288191034921</sv>
-  <sv label="联系方式">18112345678</sv>
-  <sv label="联系地址">曲丽丽 18100000000 浙江省杭州市西湖区黄姑山路工专路交叉路口</sv>
+<div sv-container *ngIf="i" col="1" layout="horizontal">
+  <sv label="姓名">{{ i.name }}</sv>
+  <sv label="登录名">{{i.loginName}}</sv>
+  <sv label="身份证">{{i.idcard}}</sv>
+  <sv label="联系方式">{{i.phone}}</sv>
+  <sv label="公司">{{i.dep.company.name}}</sv>
+  <sv label="部门">{{i.dep.depName}}</sv>
 </div>
 <div class="modal-footer">
   <button nz-button type="button" (click)="close()">关闭</button>

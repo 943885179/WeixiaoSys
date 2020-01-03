@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { NzDrawerRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
 
 @Component({
@@ -11,16 +11,16 @@ export class SysUserViewComponent implements OnInit {
   i: any;
 
   constructor(
-    private modal: NzModalRef,
+    private drawer: NzDrawerRef,
     public msgSrv: NzMessageService,
     public http: _HttpClient
   ) { }
 
   ngOnInit(): void {
-    this.http.get(`/user/${this.record.id}`).subscribe(res => this.i = res);
+    this.i = this.record;
   }
 
   close() {
-    this.modal.destroy();
+    this.drawer.close();
   }
 }

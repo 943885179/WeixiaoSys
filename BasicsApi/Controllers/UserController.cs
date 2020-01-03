@@ -38,7 +38,8 @@ namespace BasicsApi.Controllers
         {
             var result = new ResponseDto();
             var users = await bll.Login(user);
-            if (users == null || (user.LoginName != "admin" || user.LoginPwd != "123"))
+            var xx = users == null;
+            if (users != null )
             {
                 var claim = new Claim[]{ //声明
                     new Claim(ClaimTypes.Name,"users.Name"),

@@ -13,6 +13,7 @@ import * as JsDecryptModule from 'jsdecrypt';
 })
 export class BasicService {
   ApiUrl: any;
+  serverUrl: any;
   ApiRole: any;
   AppData: any;
   constructor(private csv: CacheService, private http: _HttpClient) {
@@ -40,6 +41,7 @@ export class BasicService {
         this.ApiUrl = res.ApiUrl;
         this.ApiRole = res.ApiRole;
         this.AppData = res;
+        this.serverUrl = res.serverUrl;
       });
   }
 }

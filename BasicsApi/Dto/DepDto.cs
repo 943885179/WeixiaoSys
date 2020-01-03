@@ -14,7 +14,7 @@ namespace BasicsApi.Dto
         public Nullable<bool> IsDel { get; set; }
 
         public virtual CompanyDto Company { get; set; }
-        public virtual List<Employee> Employee { get; set; }
+        // public virtual List<Employee> Employee { get; set; }
         public virtual List<DepDto> Children { get; set; }
     }
 }

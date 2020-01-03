@@ -32,18 +32,21 @@ namespace BasicsApi.conmon
           var originalBodyStream = context.Response.Body;
            try
            {
-                context.Request.EnableBuffering();//内存中创建缓冲区存放Request.Body的内容，否则不能使用context.Request.Body.Position;
-                //读取请求
-                var requestReader = new StreamReader(context.Request.Body);
-                var requestContextRsa = await requestReader.ReadToEndAsync();
-                context.Request.Body.Position = 0;//重新开始，否则body为空
-                var conttype = context.Request.ContentType;
-                if (!string.IsNullOrWhiteSpace(requestContextRsa))
+                if (context.Request.Path.Value != "/api/Upload/Upload")
                 {
-                    var rsaDto = JsonConvert.DeserializeObject<RsaDto>(requestContextRsa);
-                    var requestContext = rsa.Decrypt(rsaDto.Data);
-                    context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(requestContext));
-                    // await stream.CopyToAsync(context.Request.Body);
+                    context.Request.EnableBuffering();//内存中创建缓冲区存放Request.Body的内容，否则不能使用context.Request.Body.Position;
+                                                      //读取请求
+                    var requestReader = new StreamReader(context.Request.Body);
+                    var requestContextRsa = await requestReader.ReadToEndAsync();
+                    context.Request.Body.Position = 0;//重新开始，否则body为空
+                    var conttype = context.Request.ContentType;
+                    if (!string.IsNullOrWhiteSpace(requestContextRsa))
+                    {
+                        var rsaDto = JsonConvert.DeserializeObject<RsaDto>(requestContextRsa);
+                        var requestContext = rsa.Decrypt(rsaDto.Data);
+                        context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(requestContext));
+                        // await stream.CopyToAsync(context.Request.Body);
+                    }
                 }
                 using (var ms =new MemoryStream())
                 {

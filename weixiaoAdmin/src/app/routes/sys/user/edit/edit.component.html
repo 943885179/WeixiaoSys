@@ -8,13 +8,48 @@
     <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>
   </div>
 </sf> -->
-<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save()" nzLayout="horizontal">
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(f.value)" nzLayout="horizontal">
+  <se label="编号">
+    <input nz-input [(ngModel)]="i.id" id="id" name="id" placeholder="编号" required maxlength="20" readonly>
+  </se>
   <se label="用户名" error="请输入用户名" required>
     <input nz-input [(ngModel)]="i.name" id="name" name="name" placeholder="请输入用户名" required maxlength="20">
   </se>
-  <se label="密码" error="请输入密码" required>
-    <input nz-input [(ngModel)]="i.loginPwd" id="loginPwd" name="loginPwd" placeholder="请输入密码" required type="password"
+  <se label="登录名" error="请输入登录名" required>
+    <input nz-input [(ngModel)]="i.loginName" name="loginName" placeholder="请输入登录名" required
            maxlength="20">
+  </se>
+  <se label="密码" error="请输入密码" required>
+    <input nz-input [(ngModel)]="i.loginPwd" name="loginPwd" placeholder="请输入密码" required type="password"
+           maxlength="20">
+  </se>
+  <se label="身份证" error="请输入身份证" required>
+    <input nz-input [(ngModel)]="i.idcard" name="idcard" placeholder="请输入登录名" required
+           maxlength="20">
+  </se>
+  <se label="电话" error="请输入电话" required>
+    <input nz-input [(ngModel)]="i.phone" name="phone" placeholder="请输入登录名" required
+           maxlength="20">
+  </se>
+  <se label="部门" error="请选择部门" required>
+    <nz-tree-select [(ngModel)]="i.depId" [nzNodes]="dep" name="depId" [nzAllowClear]="true"
+                    [nzShowSearch]="true"></nz-tree-select>
+  </se>
+  <se label="头像" error="头像">
+    <nz-upload
+               class="avatar-uploader"
+               nzAction="{{action}}"
+               nzName="file"
+               nzListType="picture-card"
+               [nzShowUploadList]="false"
+               [nzBeforeUpload]="beforeUpload"
+               (nzChange)="handleChange($event)">
+      <ng-container *ngIf="!i.img">
+        <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+        <div class="ant-upload-text">上传</div>
+      </ng-container>
+      <img *ngIf="img" [src]="img" class="avatar" />
+    </nz-upload>
   </se>
   <se>
     <button nz-button type="submit" nzType="primary" [disabled]="f.invalid">保存</button>

@@ -72,15 +72,26 @@ namespace BasicsApi.Service
         public async Task<List<SelectDto>> SelectDeps(int? id)
         {
             var results = new List<SelectDto>();
-            var Companys =  db.Department.Where(o=>o.IsDel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
-           await foreach (var x in Companys)
-            {
+        //     var deps =  db.Department.Where(o=>o.IsDel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
+        //    await foreach (var x in deps)
+        //     {
+        //         var dto = new SelectDto()
+        //         {
+        //             title = x.DepName,
+        //             label = x.DepName,
+        //             key = x.Id,
+        //             children = await SelectDeps(x.Id)
+        //         };
+        //         results.Add(dto);
+        //     };
+         var deps =await  db.Department.Where(o=>o.IsDel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).ToListAsync();
+           for (int i = 0; i < deps.Count; i++){
                 var dto = new SelectDto()
                 {
-                    title = x.DepName,
-                    label = x.DepName,
-                    key = x.Id,
-                    children = await SelectDeps(x.Id)
+                    title = deps[i].DepName,
+                    label =  deps[i].DepName,
+                    key = deps[i].Id,
+                    children = await SelectDeps( deps[i].Id)
                 };
                 results.Add(dto);
             };

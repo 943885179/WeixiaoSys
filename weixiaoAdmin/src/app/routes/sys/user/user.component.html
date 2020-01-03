@@ -13,5 +13,12 @@
       <i nz-icon nzType='anticon anticon-folder-add'></i> 添加
     </button>
   </sf>
-  <st #st [data]="url" [req]="req" [columns]="columns"></st>
+  <st #st [data]="url" [req]="req" [columns]="columns">
+    <ng-template st-row="customTitle" type="title" let-c>
+      {{ c.title.text }}
+    </ng-template>
+    <ng-template st-row="custom" let-item let-index="index">
+      <nz-avatar nzIcon="anticon anticon-user" [nzSrc]="basic.serverUrl+item.img"></nz-avatar>
+    </ng-template>
+  </st>
 </nz-card>

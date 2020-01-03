@@ -97,11 +97,11 @@ namespace BasicsApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles();
             //ErrorHandlingExtensions.UseErrorHandling(app);
             app.UseWeixiaoError();
             app.UserWeixiaoRequest();
             app.UseHttpsRedirection();
-
             app.UseRouting();
             // øÁ”Ú
             app.UseCors("cores");
