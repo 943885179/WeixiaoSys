@@ -31,6 +31,14 @@ namespace BasicsApi.Dto
 
             CreateMap<Employee, EmployeeDto>();
             CreateMap<ResultPageDto<List<Employee>>, ResultPageDto<List<EmployeeDto>>>();
+
+            CreateMap<Role, RoleDto>();
+            CreateMap<ResultPageDto<List<Role>>, ResultPageDto<List<RoleDto>>>();
+
+            CreateMap<Power, PowerDto>();
+            CreateMap<ResultPageDto<List<Power>>, ResultPageDto<List<PowerDto>>>();
+            CreateMap<RolePower, RolePowerDto>();
+            CreateMap<RoleMenu, RoleMenuDto>();
         }
     }
 }

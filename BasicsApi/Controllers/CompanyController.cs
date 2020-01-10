@@ -27,6 +27,19 @@ namespace BasicsApi.Controllers
         {
             bll = new CompanyService(db);
         }
+        [HttpGet("xx")]
+        public bool Test(){
+           return  bll.Test();
+        }
+
+
+
+
+
+
+
+
+
         [HttpGet("Company")]
         public async Task<ResponseDto> Company()
         {

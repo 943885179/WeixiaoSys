@@ -10,7 +10,7 @@
 </sf> -->
 <form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(f.value)" nzLayout="horizontal">
   <se label="编号">
-    <input nz-input [(ngModel)]="i.id" id="id" name="id" placeholder="编号" required maxlength="20" readonly>
+    <span id="id" name="id">{{i.id}}</span>
   </se>
   <se label="用户名" error="请输入用户名" required>
     <input nz-input [(ngModel)]="i.name" id="name" name="name" placeholder="请输入用户名" required maxlength="20">

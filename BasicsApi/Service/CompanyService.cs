@@ -15,7 +15,7 @@ namespace BasicsApi.Service
         private WeixiaoSysContext db;
         public CompanyService(WeixiaoSysContext context)
         {
-            db = new WeixiaoSysContext();
+            db = context;
         }
         /// <summary>
         ///
@@ -72,6 +72,22 @@ namespace BasicsApi.Service
                 result.Children = await Companys(result.Id);
             }
             return results;
+        }
+        public bool Test(){
+            var x = new AreaDto();
+            var y=new AreaDto();
+            if (x==y)
+            {
+                return true;
+            }
+            return false;
+            // var x1 = db.Company.First(p=>p.Id==6);
+            // x1.Code = "001";
+            // var tt = db.CompanyLog.Include(x => x.C).Where(x => x.C.Id == 6).First();
+            // tt.C.Code = "003";
+            // var x2 = db.Company.First(p=>p.Id==6);
+            // x1.Code = "002";
+            // db.SaveChanges();
         }
         public async Task<List<SelectDto>> SelectCompanys(int? id)
         {

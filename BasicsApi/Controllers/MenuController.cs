@@ -34,7 +34,8 @@ namespace BasicsApi.Controllers
         [HttpGet("SelectMenu")]
         public async Task<ResponseDto> SelectMenu()
         {
-            result.data = await bll.SelectMenus(null);
+            var data = await bll.SelectMenus(null);
+            result.data = data;
             return result;
         }
         [HttpPost("Menus")]

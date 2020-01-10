@@ -51,7 +51,22 @@
       "SelectDep": "Dep/SelectDep",
       "DeleteDeps": "Dep/DeleteDeps",
 
-      "upload": "Upload/Upload"
+      "upload": "Upload/Upload",
+
+      "Role": "Role/Role",
+      "Roles": "Role/Roles",
+      "RoleById": "Role/RoleById",
+      "AddOrEditRole": "Role/AddOrEditRole",
+      "DeleteRole": "Role/DeleteRole",
+      "SelectRole": "Role/SelectRole",
+
+      "Power": "Power/Power",
+      "Powers": "Power/Powers",
+      "PowerById": "Power/PowerById",
+      "AddOrEditPower": "Power/AddOrEditPower",
+      "DeletePower": "Power/DeletePower",
+      "SelectPower": "Power/SelectPower"
+
 
     },
     "RSA": {

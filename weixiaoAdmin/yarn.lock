@@ -7245,10 +7245,10 @@ ng-alain-codelyzer@^0.0.1:
   resolved "https://registry.yarnpkg.com/ng-alain-codelyzer/-/ng-alain-codelyzer-0.0.1.tgz#feef58971fb3c31d66765f06fda699b805fd7999"
   integrity sha512-/xa2c9/VbKs2rWTVPBvfbZ9GYIECMQQK+JSYyElL8XPY7j4ChF/si8sn3xS2/YdWL/rVXxMEU4QO7HCkKduxcg==
 
-ng-alain@^8.6.0:
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/ng-alain/-/ng-alain-8.6.0.tgz#739de3eaf931bb511efe96a2373d4544a27d6ada"
-  integrity sha512-BG8I5UhJvNvEe46clsDYo0tX4n78VOFO+ltM2QbUQHa7heBp4c+/7HwsEgyvDE2GkJiqXKYL+zw7RUMbTjrrKA==
+ng-alain@^8.8.0:
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/ng-alain/-/ng-alain-8.8.0.tgz#9acc77e0f6ad60c20c53c72d3aad407d97dba129"
+  integrity sha512-a1CMGAc1qbGG+gYHZFGeffJkttwnHsFxBhQ5oM5TNJa5fiY5IqmfZ0kVISZI/TtpVfdo1u8qgtornobVOyEuvA==
 
 ng-zorro-antd@^8.4.1:
   version "8.4.1"

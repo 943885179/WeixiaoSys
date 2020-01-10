@@ -8,7 +8,6 @@
     "ng-alain-codelyzer"
   ],
   "rules": {
-    // Angular parts
     "array-type": false,
     "arrow-parens": false,
     "deprecation": {

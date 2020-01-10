@@ -12,3 +12,5 @@
 /RLAPI/bin/Debug/netcoreapp3.0
 /RLAPI/obj
 /BasicsApi/Log
+/BasicsApi/wwwroot/upload/2020/1
+/IdentityServer/.vscode

@@ -15,12 +15,20 @@ import { SysDepViewComponent } from './dep/view/view.component';
 import { SysDepEditComponent } from './dep/edit/edit.component';
 import { SysCompanyShareholderComponent } from './company/shareholder/shareholder.component';
 import { SysCompanyLogComponent } from './company/log/log.component';
+import { SysRoleComponent } from './role/role.component';
+import { SysRoleEditComponent } from './role/edit/edit.component';
+import { SysRoleViewComponent } from './role/view/view.component';
+import { SysPowerComponent } from './power/power.component';
+import { SysPowerEditComponent } from './power/edit/edit.component';
+import { SysPowerViewComponent } from './power/view/view.component';
 
 const COMPONENTS = [
   SysMenuComponent,
   SysDepComponent,
   SysUserComponent,
-  SysCompanyComponent];
+  SysCompanyComponent,
+  SysRoleComponent,
+  SysPowerComponent];
 const COMPONENTS_NOROUNT = [
   SysMenuViewComponent,
   SysMenuEditComponent,
@@ -31,7 +39,11 @@ const COMPONENTS_NOROUNT = [
   SysCompanyLogComponent,
   SysDepViewComponent,
   SysDepEditComponent,
-  SysCompanyShareholderComponent];
+  SysCompanyShareholderComponent,
+  SysRoleEditComponent,
+  SysRoleViewComponent,
+  SysPowerEditComponent,
+  SysPowerViewComponent];
 
 @NgModule({
   imports: [
