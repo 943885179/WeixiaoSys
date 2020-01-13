@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using BasicsApi.Dto;
 using BasicsApi.conmon;
+using AutoMapper;
 
 namespace BasicsApi.Service
 {
@@ -17,10 +18,10 @@ namespace BasicsApi.Service
         }
         public async Task<Employee> Login(LoginDto user)
         {
-            var result= await db.Employee.Where(o => o.LoginName == user.LoginName && o.LoginPwd == user.LoginPwd).FirstOrDefaultAsync();
-            if (result==null)
+            var result = await db.Employee.Where(o => o.LoginName == user.LoginName && o.LoginPwd == user.LoginPwd).FirstOrDefaultAsync();
+            if (result == null)
             {
-                throw new  WeixiaoException("用户名或密码错误");
+                throw new WeixiaoException("用户名或密码错误");
             }
             return result;
         }
@@ -32,7 +33,7 @@ namespace BasicsApi.Service
         {
             var resultPage = new ResultPageDto<List<Employee>>();
             resultPage.total = await db.Employee.Where(o => o.Isuse != false).CountAsync();
-            var Emp = db.Employee.Include(x=>x.Dep).Include(x=>x.Dep.Company).Where(o => o.Isuse != false);
+            var Emp = db.Employee.Include(x => x.Dep).Include(x => x.Dep.Company).Include(x => x.EmpRole).ThenInclude(x => x.Role).Where(o => o.Isuse != false);
             if (!string.IsNullOrEmpty(dto.Name) && dto.Name != "ascend" && dto.Name != "descend")
             {
                 Emp = Emp.Where(Company => Company.Name.Contains(dto.Name));
@@ -51,7 +52,7 @@ namespace BasicsApi.Service
         }
         public async Task<Employee> EmployeeById(int id)
         {
-            return await db.Employee.Include(x => x.Dep).Include(x=>x.Dep.Company).FirstAsync(x => x.Id == id);
+            return await db.Employee.Include(x => x.Dep).Include(x => x.Dep.Company).FirstAsync(x => x.Id == id);
         }
         public async Task<List<Employee>> EmployeeByDepId(int depId)
         {
@@ -61,12 +62,14 @@ namespace BasicsApi.Service
         {
             if (employee.Id == 0)
             {
-                return await Add(employee);
+                await Add(employee);
             }
             else
             {
-                return await Edit(employee);
+                await Edit(employee);
             }
+            return await db.SaveChangesAsync();
+
         }
         private async Task<int> Add(Employee employee)
         {

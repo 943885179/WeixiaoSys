@@ -29,6 +29,7 @@ namespace BasicsApi.Dto
             CreateMap<ResultPageDto<List<Department>>, ResultPageDto<List<DepDto>>>();
             CreateMap<Department, DepDto>();
 
+            CreateMap<EmpRole, EmpRoleDto>();
             CreateMap<Employee, EmployeeDto>();
             CreateMap<ResultPageDto<List<Employee>>, ResultPageDto<List<EmployeeDto>>>();
 

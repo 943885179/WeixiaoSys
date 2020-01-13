@@ -15,7 +15,6 @@ namespace BasicsApi.Models
         {
         }
 
-        #region 实体
         public virtual DbSet<Area> Area { get; set; }
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<CompanyLog> CompanyLog { get; set; }
@@ -46,14 +45,12 @@ namespace BasicsApi.Models
         public virtual DbSet<Shareholder> Shareholder { get; set; }
         public virtual DbSet<UserUsergroup> UserUsergroup { get; set; }
         public virtual DbSet<UsergroupRole> UsergroupRole { get; set; }
-        #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=WeixiaoSys;User ID=sa;Password=123;MultipleActiveResultSets=true");
+                var dbContextOptionsBuilder = optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=WeixiaoSys;User ID=sa;Password=123;MultipleActiveResultSets=true");
             }
         }
 
@@ -105,6 +102,11 @@ namespace BasicsApi.Models
                     .HasMaxLength(80)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Briefing)
+                    .HasColumnName("briefing")
+                    .HasMaxLength(2000)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Code)
                     .IsRequired()
                     .HasColumnName("code")
@@ -120,6 +122,8 @@ namespace BasicsApi.Models
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Isdel).HasColumnName("isdel");
 
                 entity.Property(e => e.LegalPerson)
                     .IsRequired()
@@ -137,10 +141,6 @@ namespace BasicsApi.Models
                     .HasColumnName("phone")
                     .HasMaxLength(20)
                     .IsUnicode(false);
-                entity.Property(e => e.IsDel)
-                    .HasColumnName("isdel")
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.Pid).HasColumnName("pid");
 
@@ -148,7 +148,6 @@ namespace BasicsApi.Models
                     .WithMany(p => p.Children)
                     .HasForeignKey(d => d.Pid)
                     .HasConstraintName("FK_COMPANY_COM_COM_COMPANY");
-                entity.HasMany(d => d.Shareholder).WithOne(p => p.C).HasForeignKey(d => d.Cid);
             });
 
             modelBuilder.Entity<CompanyLog>(entity =>
@@ -206,14 +205,9 @@ namespace BasicsApi.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IsDel)
-                    .IsRequired()
-                    .HasColumnName("isdel")
-                    .IsUnicode(false);
+                entity.Property(e => e.Isdel).HasColumnName("isdel");
 
-                entity.Property(e => e.Pid)
-                    .HasColumnName("pid")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.Pid).HasColumnName("pid");
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.Department)
@@ -885,25 +879,23 @@ namespace BasicsApi.Models
 
                 entity.HasComment("菜单权限对照表");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedOnAdd();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.MenuId).HasColumnName("menu_id");
 
                 entity.Property(e => e.PowerId).HasColumnName("power_id");
-
-                entity.HasOne(d => d.IdNavigation)
-                    .WithOne(p => p.RoleMenu)
-                    .HasForeignKey<RoleMenu>(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ROLE_MEN_ROLE_MENU_POWER");
 
                 entity.HasOne(d => d.Menu)
                     .WithMany(p => p.RoleMenu)
                     .HasForeignKey(d => d.MenuId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ROLE_MEN_MENU_ROLE_MENU");
+
+                entity.HasOne(d => d.Power)
+                    .WithMany(p => p.RoleMenu)
+                    .HasForeignKey(d => d.PowerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ROLE_MEN_ROLE_MENU_POWER");
             });
 
             modelBuilder.Entity<RoleOpretion>(entity =>
@@ -1006,6 +998,11 @@ namespace BasicsApi.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Cid).HasColumnName("cid");
+
+                entity.Property(e => e.Idcard)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Name)
                     .IsRequired()

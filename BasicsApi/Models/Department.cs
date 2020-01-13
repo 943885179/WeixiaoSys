@@ -16,7 +16,7 @@ namespace BasicsApi.Models
         public string DepCode { get; set; }
         public int CompanyId { get; set; }
         public int? Pid { get; set; }
-        public Nullable<bool> IsDel { get; set; }
+        public bool? Isdel { get; set; }
 
         public virtual Company Company { get; set; }
         public virtual Department P { get; set; }

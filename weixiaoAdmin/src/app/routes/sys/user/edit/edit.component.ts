@@ -24,6 +24,7 @@ export class SysUserEditComponent implements OnInit {
   action: string;
   img: string;
   dep: any = [{ title: "选择部门", key: '0' }];
+  role: any = [{ title: "选择角色", key: '0' }];
   loading = false;
   async ngOnInit(): Promise<void> {
     this.action = this.basic.ApiUrl + this.basic.ApiRole.upload;
@@ -32,12 +33,20 @@ export class SysUserEditComponent implements OnInit {
       if (this.i.img != null) {
         this.img = this.basic.serverUrl + this.i.img;
       }
+      this.i.empRoleIds = this.i.empRole.map(item => item.roleId);
     }
     await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectDep).subscribe(res => { this.dep = res; })
+    await this.http.get(this.basic.ApiUrl + this.basic.ApiRole.SelectRole).subscribe(res => { this.role = res; })
   }
   save(value: any) {
-    console.log(this.i);
-    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditEmp, this.i).subscribe(res => {
+    const data = this.i;
+    const oldRole = this.i.empRole.map(item => item.roleId);
+    const noAdd = this.i.empRoleIds.filter(x => !oldRole.includes(x));
+    data.empRole = this.i.empRole.filter(x => this.i.empRoleIds.includes(x.roleId))
+    noAdd.forEach(rid => {
+      data.empRole.push({ roleId: rid, empId: this.i.id });
+    });
+    this.http.post(this.basic.ApiUrl + this.basic.ApiRole.AddOrEditEmp, data).subscribe(res => {
       this.msgSrv.success('保存成功');
       this.modal.close(true);
     });

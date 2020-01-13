@@ -26,8 +26,8 @@ namespace BasicsApi.Service
             var resultPage = new ResultPageDto<List<Company>>();
             //resultPage.pi=page.pi;
             //resultPage.ps=page.ps;
-            resultPage.total = await db.Company.Where(o=>o.IsDel!=true).Include(o => o.CompanyLog).Include(o => o.Shareholder).CountAsync();
-            var Company = db.Company.Where(o=>o.IsDel!=true);
+            resultPage.total = await db.Company.Where(o=>o.Isdel!=true).Include(o => o.CompanyLog).Include(o => o.Shareholder).CountAsync();
+            var Company = db.Company.Where(o=>o.Isdel!=true);
             if (!string.IsNullOrEmpty(dto.Name) && dto.Name != "ascend" && dto.Name != "descend")
             {
                 Company = Company.Where(Company => Company.Name.Contains(dto.Name));
@@ -62,7 +62,7 @@ namespace BasicsApi.Service
         public async Task<List<Company>> Companys(int? id)
         {
             var results = new List<Company>();
-            results = await db.Company.Where(o=>o.IsDel!=true).Where(o => o.Pid == id).ToListAsync();
+            results = await db.Company.Where(o=>o.Isdel!=true).Where(o => o.Pid == id).ToListAsync();
             if (results.Count() == 0)
             {
                 return new List<Company>();
@@ -92,7 +92,7 @@ namespace BasicsApi.Service
         public async Task<List<SelectDto>> SelectCompanys(int? id)
         {
             var results = new List<SelectDto>();
-            //   var companys =await  db.Company.Where(o=>o.IsDel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).ToListAsync();
+            //   var companys =await  db.Company.Where(o=>o.Isdel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).ToListAsync();
             //   for (int i = 0; i < companys.Count; i++)
             //   {
             //     var dto = new SelectDto()
@@ -104,7 +104,7 @@ namespace BasicsApi.Service
             //     };
             //     results.Add(dto);
             //   }
-            var companys =  db.Company.Where(o=>o.IsDel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
+            var companys =  db.Company.Where(o=>o.Isdel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
            await foreach (var x in companys)
             {
                 var dto = new SelectDto()
@@ -125,7 +125,7 @@ namespace BasicsApi.Service
             {
                 try
                 {
-                    company.IsDel = false;
+                    company.Isdel = false;
                     db.Company.Add(company);
                     await db.SaveChangesAsync();
                     db.CompanyLog.Add(new CompanyLog()
@@ -268,24 +268,24 @@ namespace BasicsApi.Service
         public async Task<int> Delete(int id)
         {
             var del = await db.Company.Include(m => m.Children).FirstOrDefaultAsync(o => o.Id == id);
-            if (del.Children.Where(o=>o.IsDel!=true).ToList().Count > 0)
+            if (del.Children.Where(o=>o.Isdel!=true).ToList().Count > 0)
             {
                 throw new WeixiaoException("请先删除子公司！");
             }
-            del.IsDel = true;
+            del.Isdel = true;
             return await db.SaveChangesAsync();
         }
         public async Task<int> Deletes(List<EntityDto> ids)
         {
             var delId = ids.Select(o => o.Id).ToArray();
             var deles = await db.Company.Include(m => m.Children).Where(o => delId.Contains(o.Id)).ToListAsync();
-            if (deles.Any(o => o.Children.Where(o=>o.IsDel!=true).ToList().Count > 0 && o.Children.Any(c => !delId.Contains(c.Id))))
+            if (deles.Any(o => o.Children.Where(o=>o.Isdel!=true).ToList().Count > 0 && o.Children.Any(c => !delId.Contains(c.Id))))
             {
                 throw new WeixiaoException("存在未删除的子公司！");
             }
             foreach (var del in deles)
             {
-                del.IsDel = true;
+                del.Isdel = true;
             }
             //db.Company.RemoveRange(deles);
             return await db.SaveChangesAsync();

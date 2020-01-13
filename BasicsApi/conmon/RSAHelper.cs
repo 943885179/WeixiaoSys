@@ -103,8 +103,6 @@ namespace BasicsApi.conmon
                 }
             }
             return result;
-
-            var ss = Convert.FromBase64String(cipherText);
         }
         public T Decrypt<T>(string cipherText) where T : class
         {

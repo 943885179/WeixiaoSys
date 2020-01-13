@@ -23,13 +23,9 @@ namespace BasicsApi.Controllers
     public class UserController : BacsicsController
     {
         private JwtSettings _jwtSettings;
-        private readonly IMapper _mapper;
-        private WeixiaoSysContext _db;
         private EmpService bll;
         public UserController(WeixiaoSysContext db, IMapper mapper, IOptions<JwtSettings> _jwtSettingsAccesser, IOptions<RSASettings> setting) : base(db, mapper, setting)
         {
-            _db = db;
-            _mapper = mapper;
             _jwtSettings = _jwtSettingsAccesser.Value;
             bll = new EmpService(db);
         }
@@ -87,6 +83,6 @@ namespace BasicsApi.Controllers
         {
             result.data = await bll.Delete(id);
             return result;
-        }
+        }   
     }
 }

@@ -9,7 +9,7 @@ namespace BasicsApi.Models
         public int MenuId { get; set; }
         public int PowerId { get; set; }
 
-        public virtual Power IdNavigation { get; set; }
         public virtual Menu Menu { get; set; }
+        public virtual Power Power { get; set; }
     }
 }

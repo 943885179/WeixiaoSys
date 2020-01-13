@@ -25,7 +25,8 @@ namespace BasicsApi.Dto
         public DateTime? Enddate { get; set; }
 
         public virtual DepDto Dep { get; set; }
-        public virtual ICollection<EmpRole> EmpRole { get; set; }
+        public int[] EmpRoleIds { get; set; }
+        public virtual ICollection<EmpRoleDto> EmpRole { get; set; }
         public virtual ICollection<EmployePosition> EmployePosition { get; set; }
         public virtual ICollection<UserUsergroup> UserUsergroup { get; set; }
     }

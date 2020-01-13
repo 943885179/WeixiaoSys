@@ -32,7 +32,12 @@
            maxlength="20">
   </se>
   <se label="部门" error="请选择部门" required>
-    <nz-tree-select [(ngModel)]="i.depId" [nzNodes]="dep" name="depId" [nzAllowClear]="true"
+    <nz-tree-select [(ngModel)]="i.depId" [nzNodes]="dep" name="depId" [nzAllowClear]="true" [nzAllowClear]="true"
+                    [nzShowSearch]="true"></nz-tree-select>
+  </se>
+  <se label="角色" error="请选择角色" required>
+    <nz-tree-select [(ngModel)]="i.empRoleIds" [nzNodes]="role" name="empRoleIds" [nzAllowClear]="true"
+                    nzCheckable
                     [nzShowSearch]="true"></nz-tree-select>
   </se>
   <se label="头像" error="头像">

@@ -1,23 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { _HttpClient, ModalHelper } from '@delon/theme';
+import { _HttpClient, ModalHelper, MenuService } from '@delon/theme';
 import { STColumn, STComponent, STReq, STChange, STReqReNameType, STRequestOptions } from '@delon/abc';
 import { SFSchema, SFButton } from '@delon/form';
 import { SysMenuEditComponent } from './edit/edit.component';
 import { CacheService } from '@delon/cache';
 import { from } from 'rxjs';
-import { MenuService } from 'src/app/service/menu.service';
 import { BasicService } from 'src/app/service/basic.service';
 import { type } from 'os';
 import { SysMenuViewComponent } from './view/view.component';
 import { NzMessageService } from 'ng-zorro-antd';
 import { RSA } from '@shared/utils/RSA';
 import { HttpBasicService } from '@shared/utils/http-basic.service';
+import { StartupService } from '@core';
 @Component({
   selector: 'app-sys-menu',
   templateUrl: './menu.component.html',
 })
 export class SysMenuComponent implements OnInit {
-  constructor(private message: NzMessageService, private http: HttpBasicService, private modal: ModalHelper, private csv: CacheService, private menuService: MenuService, private basic: BasicService, private rsa: RSA) {
+  constructor(private startupSrv: StartupService, private message: NzMessageService, private http: HttpBasicService, private modal: ModalHelper, private csv: CacheService, private menuService: MenuService, private basic: BasicService, private rsa: RSA) {
     this.req = http.req;
   }
   req: STReq = {}
@@ -90,6 +90,7 @@ export class SysMenuComponent implements OnInit {
               if (res != null) {
                 this.message.success(`成功删除【${record.text}】`);
                 comp!.removeRow(record);
+                this.startupSrv.load()
               }
             })
           },
@@ -103,7 +104,10 @@ export class SysMenuComponent implements OnInit {
             component: SysMenuEditComponent,
             params: (item: any) => item
           },
-          click: 'reload'
+          click: (record, modal, ins) => {
+            this.st.reload();
+            this.startupSrv.load()
+          }
         },
 
       ]
@@ -139,6 +143,7 @@ export class SysMenuComponent implements OnInit {
     this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, this.changeMenus).subscribe(res => {
       this.message.success("删除成功");
       this.st.reload();
+      this.startupSrv.load()
     })
     // 使用_httpClient
     // this.http.post(this.basic.ApiUrl + this.basic.ApiRole.DeleteMenus, { data: this.rsa.ApiEncrypt(JSON.stringify(this.changeMenus)) }).subscribe(res => {
@@ -155,7 +160,10 @@ export class SysMenuComponent implements OnInit {
   add() {
     this.modal
       .createStatic(SysMenuEditComponent, { i: { id: 0 } })
-      .subscribe(() => this.st.reload());
+      .subscribe(() => {
+        this.st.reload();
+        this.startupSrv.load()
+      });
   }
 
 }
