@@ -14,6 +14,9 @@ using Newtonsoft.Json;
 
 namespace BasicsApi.Controllers
 {
+    /// <summary>
+    /// 地区基础信息管理
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AreaController : BacsicsController
@@ -23,18 +26,31 @@ namespace BasicsApi.Controllers
         {
             bll = new AreaService(db);
         }
+        /// <summary>
+        /// 获取地区列表
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("Area.json")]
         public async Task<ResponseDto> Area()
         {
             result.data = _mapper.Map<List<AreaDto>>(await bll.Areas(null));
             return result;
         }
+        /// <summary>
+        /// 获取地区下拉
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("SelectArea.json")]
         public async Task<ResponseDto> SelectArea()
         {
             result.data = await bll.SelectAreas(null);
             return result;
         }
+        /// <summary>
+        /// 通过地区表Id获取地区
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         [HttpGet("GetAreaByIds/{ids}")]
         public async Task<ResponseDto> GetAreaByIds(string ids)
         {

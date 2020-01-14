@@ -18,6 +18,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using BasicsApi.conmon;
+using Microsoft.OpenApi.Models;
+using System.IO;
+
 namespace BasicsApi
 {
     public class Startup
@@ -42,7 +45,34 @@ namespace BasicsApi
             //services.AddSingleton<IRSAHelper, RSAHelper>();
             //由于初始化的时候我们就需要用，所以使用Bind的方式读取配置
             //将配置绑定到JwtSettings实例中
-            var jwtSettings = new JwtSettings();
+            services.AddSwaggerGen(options =>
+            {
+                //options.CustomSchemaIds((type) => type.FullName);
+                //配置第一个Doc
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "My API_1",
+                    Version = "v1",
+                    Description = "这是说明信息",//说明
+                    TermsOfService = new Uri("https://github.com/943885179/CoreDemo"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "mzj",
+                        Email = "943885179@qq.com",
+                        Url = new Uri("https://github.com/943885179/CoreDemo")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "许可证名字",
+                        Url = new Uri("https://github.com/943885179/CoreDemo")
+                    }
+                });
+                // 为 Swagger JSON and UI设置xml文档注释路径
+                var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
+                var xmlPath = Path.Combine(basePath, "BasicsApi.xml");
+                options.IncludeXmlComments(xmlPath);
+            });
+                var jwtSettings = new JwtSettings();
             Configuration.Bind("JwtSettings", jwtSettings);
 
             services.AddAuthentication(options =>
@@ -97,6 +127,11 @@ namespace BasicsApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger(); 
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
             app.UseStaticFiles();
             //ErrorHandlingExtensions.UseErrorHandling(app);
             app.UseWeixiaoError();

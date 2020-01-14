@@ -1,0 +1,26 @@
+<page-header [breadcrumb]="breadcrumb" [content]="content">
+  <ng-template #breadcrumb>
+    <nz-breadcrumb nzAutoGenerate="true" nzSeparator="/"></nz-breadcrumb>
+  </ng-template>
+  <ng-template #content>
+  </ng-template>
+</page-header>
+<nz-card>
+  <sf mode="search" button="none" [schema]="searchSchema" (formSubmit)="st.reset($event)"
+      (formReset)="st.reset($event)">
+    <button
+            nz-button (click)="st.reset($event)" nzType="primary"><i nz-icon
+         nzType='anticon anticon-search'></i>
+    </button>
+    <button (click)="add()" nz-button nzType="primary">
+      <i nz-icon nzType='anticon anticon-folder-add'></i> 添加
+    </button></sf>
+  <st #st [data]="url" [req]="req" [columns]="columns">
+    <ng-template st-row='customTitle' let-c>{{c.title.text}}</ng-template>
+    <ng-template st-row='custom' let-item let-index='index'>
+      <nz-tag nzColor="magenta" *ngFor="let tag of item.rolePower; let i = index" nzMode="default">
+        {{tag.power.name}}
+      </nz-tag>
+    </ng-template>
+  </st>
+</nz-card>

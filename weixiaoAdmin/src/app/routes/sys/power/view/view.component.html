@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <div class="modal-title">查看 {{ record.id }} 信息</div>
+</div>
+<nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
+<div sv-container *ngIf="i" col="1">
+  <sv label="权限名称">{{ i.name }}</sv>
+  <sv label="菜单权限">
+    <nz-tag nzColor="magenta" *ngFor="let item of i.roleMenu" nzMode="default">{{item.menu.text}}</nz-tag>
+  </sv>
+</div>
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close()">关闭</button>
+</div>

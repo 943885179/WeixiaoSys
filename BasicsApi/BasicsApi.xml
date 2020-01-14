@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BasicsApi</name>
+    </assembly>
+    <members>
+        <member name="M:BasicsApi.conmon.LoggerHelper.Info(System.String,System.Exception)">
+            <summary>
+            普通日志
+            </summary>
+            <param name="message"></param>
+            <param name="exception"></param>
+        </member>
+        <member name="M:BasicsApi.conmon.LoggerHelper.Warn(System.String,System.Exception)">
+            <summary>
+            告警日志
+            </summary>
+            <param name="message"></param>
+            <param name="exception"></param>
+        </member>
+        <member name="M:BasicsApi.conmon.LoggerHelper.Error(System.String,System.Exception)">
+            <summary>
+            错误日志
+            </summary>
+            <param name="message"></param>
+            <param name="exception"></param>
+        </member>
+        <member name="M:BasicsApi.conmon.RSAHelper.#ctor(BasicsApi.conmon.RSAType,System.Text.Encoding,System.String,System.String,System.String,System.String)">
+            <summary>
+            实例化RSAHelper
+            </summary>
+            <param name="rsaType">加密算法类型 RSA SHA1;RSA2 SHA256 密钥长度至少为2048</param>
+            <param name="encoding">编码类型</param>
+            <param name="privateKey">私钥</param>
+            <param name="publicKey">公钥</param>
+        </member>
+        <member name="M:BasicsApi.conmon.RSAHelper.Sign(System.String)">
+            <summary>
+            使用私钥签名
+            </summary>
+            <param name="data">原始数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:BasicsApi.conmon.RSAHelper.Verify(System.String,System.String)">
+            <summary>
+            使用公钥验证签名
+            </summary>
+            <param name="data">原始数据</param>
+            <param name="sign">签名</param>
+            <returns></returns>
+        </member>
+        <member name="M:BasicsApi.conmon.RSAHelper.Decrypt(System.String)">
+            <summary>
+            分段解密
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BasicsApi.conmon.RSAHelper.AppEncrypt(System.String)">
+            <summary>
+            分段加密
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BasicsApi.conmon.RSAHelper.RSAEncrypt(System.String,System.String)">
+            <summary>
+            RAS加密
+            </summary>
+            <param name="xmlPublicKey">公钥</param>
+            <param name="EncryptString">明文</param>
+            <returns>密文</returns>
+        </member>
+        <member name="M:BasicsApi.conmon.RSAHelper.RSADecrypt(System.String,System.String)">
+            <summary>
+            RAS解密
+            </summary>
+            <param name="xmlPrivateKey">私钥</param>
+            <param name="DecryptString">密文</param>
+            <returns>明文</returns>
+        </member>
+        <member name="M:BasicsApi.conmon.RSAHelper.RSAKey">
+            <summary>
+            产生公钥和私钥对
+            </summary>
+            <returns>string[] 0:私钥;1:公钥</returns>
+        </member>
+        <member name="T:BasicsApi.conmon.RSAType">
+            <summary>
+            RSA算法类型
+            </summary>
+        </member>
+        <member name="F:BasicsApi.conmon.RSAType.RSA">
+            <summary>
+            SHA1
+            </summary>
+        </member>
+        <member name="F:BasicsApi.conmon.RSAType.RSA2">
+            <summary>
+            RSA2 密钥长度至少为2048
+            SHA256
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Controllers.AreaController">
+            <summary>
+            地区基础信息管理
+            </summary>
+        </member>
+        <member name="M:BasicsApi.Controllers.AreaController.Area">
+            <summary>
+            获取地区列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BasicsApi.Controllers.AreaController.SelectArea">
+            <summary>
+            获取地区下拉
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BasicsApi.Controllers.AreaController.GetAreaByIds(System.String)">
+            <summary>
+            通过地区表Id获取地区
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="P:BasicsApi.Dto.ResponseDto.status">
+            <summary>
+            状态 0：成功， -1：失败
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Dto.ResponseDto.msg">
+            <summary>
+            返回消息
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Dto.ResponseDto.data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="M:BasicsApi.Service.AreaService.Areas(System.Nullable{System.Int32})">
+            <summary>
+            根据id获取它和子树
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BasicsApi.Service.CompanyService.CompanyList(BasicsApi.Dto.CompanyDto)">
+             <summary>
+            
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:BasicsApi.Service.CompanyService.CompanyById(System.Int32)">
+             <summary>
+            
+             </summary>
+             <param name="id"></param>
+             <returns></returns>
+        </member>
+        <member name="M:BasicsApi.Service.CompanyService.Companys(System.Nullable{System.Int32})">
+            <summary>
+            根据id获取它和子树
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BasicsApi.Service.MenuService.MenuList(BasicsApi.Dto.MenuDto)">
+             <summary>
+            
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:BasicsApi.Service.MenuService.MenuById(System.Int32)">
+             <summary>
+            
+             </summary>
+             <param name="id"></param>
+             <returns></returns>
+        </member>
+        <member name="M:BasicsApi.Service.MenuService.Menus(System.Nullable{System.Int32})">
+            <summary>
+            根据id获取它和子树
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

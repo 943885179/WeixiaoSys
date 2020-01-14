@@ -80,6 +80,9 @@ namespace BasicsApi.Service
         private async Task<int> Edit(Employee employee)
         {
             db.Employee.Update(employee);
+            var roleIds = employee.EmpRole.Select(x => x.RoleId).ToList();
+            var removeRole =await db.EmpRole.Where(x => x.EmpId == employee.Id && !roleIds.Contains(x.RoleId)).ToListAsync();
+            db.RemoveRange(removeRole);
             return await db.SaveChangesAsync();
         }
         public async Task<int> Delete(int id)

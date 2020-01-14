@@ -9,6 +9,9 @@ import { STReq, STRequestOptions } from '@delon/abc';
   providedIn: 'root'
 })
 export class HttpBasicService {
+  private _loading;
+  /** 是否正在加载中 */
+  readonly loading: boolean;
   req: STReq = {
     method: "post",
     allInBody: true,
