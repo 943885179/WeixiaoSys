@@ -101,6 +101,18 @@
             SHA256
             </summary>
         </member>
+        <member name="T:BasicsApi.conmon.WeixiaoAsyncAuthorizationFilterAttribute">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:BasicsApi.conmon.WeixiaoAsyncAuthorizationFilterAttribute.OnAuthorizationAsync(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
+             <summary>
+            
+             </summary>
+             <param name="context"></param>
+             <returns></returns>
+        </member>
         <member name="T:BasicsApi.Controllers.AreaController">
             <summary>
             地区基础信息管理
@@ -125,6 +137,21 @@
             <param name="ids"></param>
             <returns></returns>
         </member>
+        <member name="T:BasicsApi.Controllers.UserController">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:BasicsApi.Controllers.UserController.#ctor(BasicsApi.Models.WeixiaoSysContext,AutoMapper.IMapper,Microsoft.Extensions.Options.IOptions{BasicsApi.JwtSettings},Microsoft.Extensions.Options.IOptions{BasicsApi.RSASettings})">
+             <summary>
+            
+             </summary>
+             <param name="db"></param>
+             <param name="mapper"></param>
+             <param name="_jwtSettingsAccesser"></param>
+             <param name="setting"></param>
+             <returns></returns>
+        </member>
         <member name="P:BasicsApi.Dto.ResponseDto.status">
             <summary>
             状态 0：成功， -1：失败
@@ -138,6 +165,64 @@
         <member name="P:BasicsApi.Dto.ResponseDto.data">
             <summary>
             数据
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.Container">
+            <summary>
+            图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.Width">
+            <summary>
+            长度
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.Height">
+            <summary>
+            高度
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.Renderer">
+            <summary>
+            默认：canvas 渲染引擎，支持 canvas 和 SVG。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.FitView">
+            <summary>
+            是否开启画布自适应
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.FitViewPadding">
+            <summary>
+            Array | Number
+            fitView 为 true 时生效。图适应画布时，指定四周的留白。可以是一个值, 
+            例如：fitViewPadding: 20也可以是一个数组，例如：fitViewPadding: [ 20, 40, 50, 20 ]
+            当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.GroupByTypes">
+             <summary>
+            默认true, 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。
+             </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.GoupType">
+            <summary>
+            节点分组类型，支持 circle 和 rect
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.AitoPaint">
+            <summary>
+            默认true 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.MinZoom">
+            <summary>
+            最小缩放
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.MaxZoom">
+            <summary>
+            最大缩放
             </summary>
         </member>
         <member name="M:BasicsApi.Service.AreaService.Areas(System.Nullable{System.Int32})">

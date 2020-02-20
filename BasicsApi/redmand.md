@@ -1,23 +1,23 @@
 
-//EFCore DB First ²½Öè
-        //µÚÒ»²½£ºInstall-Package Microsoft.EntityFrameworkCore.SqlServer -version 2.1.1
- 
-        //µÚ¶ş²½£ºInstall-Package Microsoft.EntityFrameworkCore.Tools -version 2.1.1
- 
-        //µÚÈı²¿£ºInstall-Package Microsoft.EntityFrameworkCore.Design -version 2.1.1
- 
-        //µÚËÄ²¿£ºInstall-Package Microsoft.EntityFrameworkCore.SqlServer.Design
- 
-        //µÚÎå²½£ºScaffold-DbContext -Connection "Data Source=139.159.252.186;Initial Catalog=DB;User ID=sa;Password=sa186!@#;MultipleActiveResultSets=true" -Provider "Microsoft.EntityFrameworkCore.SqlServer" -OutputDir "EntityModel"
- 
-        //µÚÁù²¿¸üĞÂÊµÌå:Scaffold-DbContext -Connection "Data Source=139.159.252.186;Initial Catalog=DB;User ID=sa;Password=sa186!@#;MultipleActiveResultSets=true" -Provider "Microsoft.EntityFrameworkCore.SqlServer" -OutputDir "EntityModel" -Force
-//»òÕßÌí¼ÓNuget2.0.1;
+//EFCore DB First æ­¥éª¤
+        //ç¬¬ä¸€æ­¥ï¼šInstall-Package Microsoft.EntityFrameworkCore.SqlServer -version 2.1.1
+
+        //ç¬¬äºŒæ­¥ï¼šInstall-Package Microsoft.EntityFrameworkCore.Tools -version 2.1.1
+
+        //ç¬¬ä¸‰éƒ¨ï¼šInstall-Package Microsoft.EntityFrameworkCore.Design -version 2.1.1
+
+        //ç¬¬å››éƒ¨ï¼šInstall-Package Microsoft.EntityFrameworkCore.SqlServer.Design
+
+        //ç¬¬äº”æ­¥ï¼šScaffold-DbContext -Connection "Data Source=139.159.252.186;Initial Catalog=DB;User ID=sa;Password=sa186!@#;MultipleActiveResultSets=true" -Provider "Microsoft.EntityFrameworkCore.SqlServer" -OutputDir "EntityModel"
+
+        //ç¬¬å…­éƒ¨æ›´æ–°å®ä½“:Scaffold-DbContext -Connection "Data Source=139.159.252.186;Initial Catalog=DB;User ID=sa;Password=sa186!@#;MultipleActiveResultSets=true" -Provider "Microsoft.EntityFrameworkCore.SqlServer" -OutputDir "EntityModel" -Force
+//æˆ–è€…æ·»åŠ Nuget2.0.1;
 dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=test;User ID=sa;Password=123;MultipleActiveResultSets=true" "Microsoft.EntityFrameworkCore.SqlServer" -o Models
 
 
--o Êä³öÄ¿Â¼(-OutputDir)
--f ¸²¸ÇÏÖÓĞÎÄ¼ş(-Force),Êı¾İ¿â¸üĞÂÊ±»áÓÃµ½
--t Ö¸¶¨±íÃû(-Tables)
-Èç¹ûÖĞ¼ä³ö´í£¬ÇëÏÈÈ·±£ÄãµÄ¹¤³ÌÎÄ¼ş¿ÉÒÔ±àÒë³É¹¦£¬²¢Ê¹ÓÃ-f²ÎÊı¸²¸ÇÏÖÓĞÎÄ¼ş
+-o è¾“å‡ºç›®å½•(-OutputDir)
+-f è¦†ç›–ç°æœ‰æ–‡ä»¶(-Force),æ•°æ®åº“æ›´æ–°æ—¶ä¼šç”¨åˆ°
+-t æŒ‡å®šè¡¨å(-Tables)
+å¦‚æœä¸­é—´å‡ºé”™ï¼Œè¯·å…ˆç¡®ä¿ä½ çš„å·¥ç¨‹æ–‡ä»¶å¯ä»¥ç¼–è¯‘æˆåŠŸï¼Œå¹¶ä½¿ç”¨-få‚æ•°è¦†ç›–ç°æœ‰æ–‡ä»¶
  Scaffold-DbContext "Server=127.0.0.1;port=3306;Database=test;uid=root;pwd=123;Character Set=utf8;" Pomelo.EntityFrameworkCore.MySql -o Models
 dotnet ef dbcontext scaffold "Server=127.0.0.1;port=3306;Database=test;uid=root;pwd=123;Character Set=utf8;" Pomelo.EntityFrameworkCore.MySql -o Models

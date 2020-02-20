@@ -8,6 +8,7 @@ using BasicsApi.conmon;
 using BasicsApi.Dto;
 using BasicsApi.Models;
 using BasicsApi.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ namespace BasicsApi.Controllers
             bll = new MenuService(db);
         }
         [HttpGet("Menu")]
+        [AllowAnonymous]
         public async Task<ResponseDto> Menu()
         {
             result.data = _mapper.Map<List<MenuDto>>(await bll.Menus(null));
@@ -39,8 +41,10 @@ namespace BasicsApi.Controllers
             return result;
         }
         [HttpPost("Menus")]
+        [WeixiaoAsyncAuthorizationFilter]
         public async Task<ResponseDto> Menus(MenuDto dto)
         {
+            var x = _user;
             result.data = _mapper.Map<ResultPageDto<List<Menu>>, ResultPageDto<List<MenuDto>>>(await bll.MenuList(dto));
             return result;
         }

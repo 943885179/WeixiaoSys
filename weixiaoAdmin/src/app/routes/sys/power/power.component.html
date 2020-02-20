@@ -18,7 +18,7 @@
   <st #st [data]="url" [req]="req" [columns]="columns">
     <ng-template st-row='customTitle' let-c>{{c.title.text}}</ng-template>
     <ng-template st-row='custom' let-item let-index='index'>
-      <nz-tag nzColor="magenta" *ngFor="let tag of item.roleMenu; let i = index" [nzMode]="default">
+      <nz-tag nzColor="magenta" *ngFor="let tag of item.roleMenu; let i = index">
         {{tag.menu.text}}
       </nz-tag>
     </ng-template>
