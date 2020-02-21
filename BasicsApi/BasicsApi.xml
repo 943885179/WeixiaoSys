@@ -195,7 +195,7 @@
         <member name="P:BasicsApi.Models.FLowGraph.FitViewPadding">
             <summary>
             Array | Number
-            fitView 为 true 时生效。图适应画布时，指定四周的留白。可以是一个值, 
+            fitView 为 true 时生效。图适应画布时，指定四周的留白。可以是一个值,
             例如：fitViewPadding: 20也可以是一个数组，例如：fitViewPadding: [ 20, 40, 50, 20 ]
             当指定一个值时，四边的边距都相等，当指定数组时，数组内数值依次对应 上，右，下，左四边的边距。
             </summary>
@@ -223,6 +223,261 @@
         <member name="P:BasicsApi.Models.FLowGraph.MaxZoom">
             <summary>
             最大缩放
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.DefaultNode">
+            <summary>
+            默认节点样式
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.DefaultEdge">
+            <summary>
+            默认线路样式
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.Layout">
+            <summary>
+            样式node可以不设置下x，y，按照规则生成（会让设置了x，y的也失效）,不实现的话则会重叠在0，0位置
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Layout.Type">
+             <summary>
+             必须使用小写，大小写敏感
+             一般图：
+            • Random Layout：随机布局；
+            • Force Layout：经典力导向布局：
+            力导向布局：一个布局网络中，粒子与粒子之间具有引力和斥力，从初始的随机无序的布局不断演变，逐渐趋于平衡稳定的布局方式称之为力导向布局。适用于描述事物间关系，比如人物关系、计算机网络关系等。
+            • Circular Layout：环形布局；
+            • Radial Layout：辐射状布局；
+            • MDS Layout：高维数据降维算法布局；
+            • Fruchterman Layout：Fruchterman 布局，一种力导布局；
+            • Dagre Layout：层次布局。
+            树图布局：
+            • Dendrogram Layout：树状布局（叶子节点布局对齐到同一层）；
+            • CompactBox Layout：紧凑树布局；
+            • Mindmap Layout：脑图布局；
+            • Intended Layout：缩进布局。
+             </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Layout.PreventOverlap">
+            <summary>
+            preventOverlap  防止节点重叠
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Layout.LinkDistance">
+            <summary>
+            指定边距离
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Mode.Default">
+            <summary>
+            drag-canvas
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ModeType.Type">
+            <summary>
+            拖拽画布type: 'drag-canvas'
+            缩放画布type: 'zoom-canvas'
+            拖拽节点type: 'drag-node'
+            点击选中节点，再次点击节点或点击 Canvas 取消选中状态type: 'click-select'
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ModeType.Direction">
+            <summary>
+            direction: 允许拖拽方向，支持'x'， 'y'，'both'，默认方向为 'both'。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ModeType.Sensitivity">
+            <summary>
+            • sensitivity: 缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5。 提示：若要限定缩放尺寸，请在 graph 上设置 minZoom 和 maxZoom。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ModeType.DelegateStyle">
+            <summary>
+            delegateStyle: 节点拖拽时的绘图属性，默认为 { strokeOpacity: 0.6, fillOpacity: 0.6 }；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ModeType.UpdateEdge">
+            <summary>
+            updateEdge: 是否在拖拽节点时更新所有与之相连的边，默认为 true 。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ModeType.EnableDelegate">
+            <summary>
+            • 3.1.2 enableDelegate：拖动节点过程中是否启用 delegate，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为 false。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.X">
+            <summary>
+            x
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.Y">
+            <summary>
+            y
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.Label">
+            <summary>
+            文字描述
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.Shape">
+             <summary>
+             circle圆形：
+            size 是单个数字，表示直径心位置对应节点的位置
+            color 字段默认在描边上生效
+            标签文本默认在节点中央
+            rect 矩形：
+            size 是数组，例如：[100, 50],设置单个为正方形
+            color 字段默认在描边上生效
+            标签文本默认在节点中央
+            ellipse 椭圆
+            size 是数组，表示椭圆的长和宽椭圆的圆心是节点的位置
+            color 字段默认在描边上生效
+            标签文本默认在节点中央
+            diamond 菱形：
+            size 是数组，表示菱形的长和宽
+            菱形的中心位置是节点的位置
+            color 字段默认在描边上生效
+            标签文本默认在节点中央
+            triangle 三角形：
+            size 是数组，表示三角形的长和高
+            三角形的中心位置是节点的位置
+            color 字段默认在描边上生效
+            标签文本默认在节点下方
+            star 星形：
+            size 是单个数字，表示星形的大小
+            星星的中心位置是节点的位置
+            color 字段默认在描边上生效
+            标签文本默认在节点中央
+            image图片：
+            size 是数组，表示图片的长和宽
+            图片的中心位置是节点位置
+            img 图片的路径，也可以在 style 里面设置
+            color 字段不生效
+            标签文本默认在节点下方
+            modelRect菱形：
+            size 是数组，表示菱形的长和宽
+            菱形的中心位置是节点的位置
+            color 字段默认在描边上生效
+            标签文本默认在节点中央
+            若有 description 字段则显示在标签文本下方显示 description 内容
+             </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.Size">
+            <summary>
+            大小 circle设置半径，矩形椭圆设置长宽[20,10]
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.AnchorPoints">
+            <summary>
+            anchorPoints 该节点可选的连接点集合
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.Img">
+            <summary>
+            图片路径，shape设置为image时生效
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.Description">
+            <summary>
+            附文本,shape设置modelRect生效
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.LabelCfg">
+            <summary>
+            属性
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.Style">
+            <summary>
+            样式
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.LabelCfgs">
+            <summary>
+            标签配置属性
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.LabelCfgs.Position">
+            <summary>
+            标签的属性，标签在元素中的位置 文本相对于节点的位置，目前支持的位置有:  'center'，'top'，'left'，'right'，'bottom'。默认为 'center'。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.LabelCfgs.Offset">
+            <summary>
+            文本的偏移，在 'top'，'left'，'right'，'bottom' 位置上的偏移量
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.LabelCfgs.Style">
+            <summary>
+            包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.LabelCfgs.AutoRotate">
+            <summary>
+            边上的标签文本根据边的方向旋转
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.LabelCfgs.LabelCfg">
+            <summary>
+            标签文本配置
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Style.FontSize">
+            <summary>
+            标签的样式属性，文字字体大小
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Style.Font">
+            <summary>
+            文字样式
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Style.Fill">
+            <summary>
+            元素的填充色
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Style.Stroke">
+            <summary>
+            元素的描边色
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Style.LineWidth">
+            <summary>
+            描边宽度
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Style.ShadowColor">
+            <summary>
+            阴影颜色
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Style.ShadowBlur">
+            <summary>
+            阴影范围
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Style.ShadowOffsetX">
+            <summary>
+            阴影 x 方向偏移量
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Style.ShadowOffsetY">
+            <summary>
+            阴影 y 方向偏移量
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Style.Opacity">
+            <summary>
+            透明度
             </summary>
         </member>
         <member name="M:BasicsApi.Service.AreaService.Areas(System.Nullable{System.Int32})">

@@ -12,5 +12,6 @@ namespace BasicsApi.Models
         public string Target { get; set; }
 
         public string Label { get; set; }
+        public LabelCfgs LabelCfg { get; set; }
     }
 }

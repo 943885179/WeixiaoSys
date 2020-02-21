@@ -41,7 +41,10 @@ export class DashboardComponent implements OnInit {
 
          graph.render();*/
         await this.http.get(this.basic.ApiUrl + "Flow/test").subscribe(res => {
-            console.log(res);
+            console.log(JSON.stringify(res));
+            const graph = new G6.Graph(res.fLowGraph);
+            graph.data(res.flowData);
+            graph.render();
         })
     }
 
