@@ -74,10 +74,6 @@ namespace BasicsApi.Models
         /// </summary>
         public List<double[][]> AnchorPoints { get; set; }
         /// <summary>
-        /// 图片路径，shape设置为image时生效
-        /// </summary>
-        public string Img { get; set; }
-        /// <summary>
         /// 附文本,shape设置modelRect生效
         /// </summary>
         public string Description { get; set; }
@@ -89,12 +85,95 @@ namespace BasicsApi.Models
         /// 样式
         /// </summary>
         public Style Style { get; set; }
+        /// <summary>
+        ///各状态下的样式Object只对keyShape起作用
+        /// </summary>
+        public List<StateStyle> StateStyles { get; set; }
+
+        /// <summary>
+        /// 指定节点周围「上、下、左、右」四个方向上边的连入点
+        /// </summary>
+        public LinkPoints LinkPoints { get; set; }
+        /// <summary>
+        /// 图片路径，shape设置为image时生效
+        /// </summary>
+        public string Img { get; set; }
+        /// <summary>
+        /// sharp为imges特有的属性，剪切图片，默认false不开启
+        /// </summary>
+        public ClipCfg ClipCfg { get; set; }
+        /// <summary>
+        /// 图标（圆，椭圆，菱形，三角形,五角星,方形卡片）
+        /// </summary>
+
+        public Icon Icon { get; set; }
+        /// <summary>
+        /// 三角形的方向String 可取值：up、down、left、right，默认为up。
+        /// </summary>
+        public string Direction { get; set; } = "up";
+        /// <summary>
+        /// 五角星内环大小
+        /// </summary>
+        public int InnerR { get; set; } = 3 * 8;
+    }
+    /// <summary>
+    /// 各状态下的样式Object只对keyShape起作用
+    /// </summary>
+    public class StateStyle
+    {
+
+    }
+    /// <summary>
+    /// sharp为imges特有的属性，剪切图片，默认false不开启
+    /// </summary>
+    public class ClipCfg
+    {
+        /// <summary>
+        /// 剪切的类型，和Shape传入的一样
+        /// </summary>
+        public string Type { get; set; }
+        /// <summary>
+        /// 裁剪图形的 x 坐标 类型为 'circle'、'rect'、'ellipse' 时生效
+        /// </summary>
+        public double X { get; set; } = 0;
+        /// <summary>
+        /// 裁剪图形的 Y 坐标 类型为 'circle'、'rect'、'ellipse' 时生效
+        /// </summary>
+        public double Y { get; set; } = 0;
+        /// <summary>
+        /// 是否启用裁剪功能
+        /// </summary>
+        public bool Show { get; set; } = false;
+        /// <summary>
+        /// 剪裁圆形的半径
+        /// </summary>
+        public double R { get; set; }
+        /// <summary>
+        /// 剪裁矩形的宽度Number 剪裁 type 为 'rect' 时生效
+        /// </summary>
+        public double Width { get; set; }
+        /// <summary>
+        /// 剪裁矩形的长度Number 剪裁 type 为 'rect' 时生效
+        /// </summary>
+        public double Height { get; set; }
+        /// <summary>
+        /// 剪裁椭圆的长轴半径Number剪裁 type 为 'ellipse' 时生效
+        /// </summary>
+        public double Rx { get; set; }
+        /// <summary>
+        /// 剪裁椭圆的长轴半径Number 剪裁 type 为 'ellipse' 时生效
+        /// </summary>
+        public double Ry { get; set; }
     }
     /// <summary>
     /// 标签配置属性
     /// </summary>
     public class LabelCfgs
     {
+        /// <summary>
+        /// 类型
+        /// </summary>
+        public string Shape { get; set; }
         /// <summary>
         /// 标签的属性，标签在元素中的位置 文本相对于节点的位置，目前支持的位置有:  'center'，'top'，'left'，'right'，'bottom'。默认为 'center'。
         /// </summary>
@@ -115,6 +194,76 @@ namespace BasicsApi.Models
         /// 标签文本配置
         /// </summary>
         public LabelCfgs LabelCfg { get; set; }
+
+        /// <summary>
+        /// 指定节点周围「上、下、左、右」四个方向上边的连入点LabelCfgs下的只有defaultNode下起作用
+        /// </summary>
+        public LinkPoints LinkPoints { get; set; }
+        /// <summary>
+        /// 文本在 X 方向偏移量
+        /// </summary>
+        public Double RefX { get; set; }
+        /// <summary>
+        /// 文本在 y 方向偏移量
+        /// </summary>
+        public Double RefY { get; set; }
+    }
+    /// <summary>
+    /// 指定节点周围「上、下、左、右」四个方向上边的连入点
+    /// </summary>
+    public class LinkPoints
+    {
+        /// <summary>
+        /// 是否显示上部的连接点
+        /// </summary>
+        public bool Top { get; set; } = true;
+        /// 是否显示底部的连接点
+        /// </summary>
+        public bool Bottom { get; set; } = true;
+        /// <summary>
+        /// 是否显示左部的连接点
+        /// </summary>
+        public bool Left { get; set; } = true;
+        /// <summary>
+        /// 是否显示右部的连接点
+        /// </summary>
+        public bool Right { get; set; } = true;
+        /// <summary>
+        /// 连接点大小
+        /// </summary>
+        public double Size { get; set; } = 3;
+        /// <summary>
+        /// 连接点填充色
+        /// </summary>
+        public string Fill { get; set; } = "#72CC4A";
+        /// <summary>
+        /// 连接点的描边颜色
+        /// </summary>
+        public string Stroke { get; set; } = "#72CC4A";
+        /// <summary>
+        /// 连接点描边的宽度
+        /// </summary>
+        public double LineWidth { get; set; } = 1;
+
+    }
+    public class Icon
+    {
+        /// <summary>
+        /// 是否显示icon
+        /// </summary>
+        public bool Show { get; set; } = false;
+        /// <summary>
+        ///icon的宽度
+        /// </summary>
+        public double Width { get; set; }
+        /// <summary>
+        ///icon的高度
+        /// </summary>
+        public double Height { get; set; }
+        /// <summary>
+        /// 照片地址
+        /// </summary>
+        public string Img { get; set; }
     }
     public class Style
     {
@@ -130,6 +279,10 @@ namespace BasicsApi.Models
         /// 元素的填充色
         /// </summary>
         public string Fill { get; set; }
+        /// <summary>
+        /// rect 透明度
+        /// </summary>
+        public double FillOpacity { get; set; } = 1;
         /// <summary>
         /// 元素的描边色
         /// </summary>
@@ -158,5 +311,14 @@ namespace BasicsApi.Models
         /// 透明度
         /// </summary>
         public double Opacity { get; set; } = 1;
+        /// <summary>
+        /// Shape为rect时候圆角半径 线拐弯处的圆角弧度
+        /// </summary>
+        public double Radius { get; set; }
+        /// <summary>
+        /// 拐弯处距离节点最小距离	Number     默认为 5，polyline 特有
+        /// </summary>
+        public double Offset { get; set; } = 5;
+
     }
 }

@@ -140,7 +140,11 @@ namespace BasicsApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                // FileProvider = new PhysicalFileResult(env.ContentRootPath),
+                OnPrepareResponse=(c)=>c.Context.Response.Headers.Add("Access-Control-Allow-Origin", "*"),
+        });
             //ErrorHandlingExtensions.UseErrorHandling(app);
             app.UseWeixiaoError();
             app.UserWeixiaoRequest();

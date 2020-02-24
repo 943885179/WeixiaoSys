@@ -41,6 +41,22 @@ export class DashboardComponent implements OnInit {
 
          graph.render();*/
         await this.http.get(this.basic.ApiUrl + "Flow/test").subscribe(res => {
+            const data = {
+                nodes: [
+                    {
+                        id: 'node0',
+                        x: 100,
+                        y: 100,
+                        shape: 'circle', // 节点类型
+                        linkPoints: {
+                            top: true,
+                            left: true
+                        },
+                        label: "asd",
+                        labelCfg: {}
+                    },
+                ],
+            }
             console.log(JSON.stringify(res));
             const graph = new G6.Graph(res.fLowGraph);
             graph.data(res.flowData);

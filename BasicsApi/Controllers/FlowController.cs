@@ -31,13 +31,13 @@ namespace BasicsApi.Controllers
                 {
                     Nodes = new List<FlowNode>()
                     {
-                        new FlowNode() { Id = "node1", X = 100, Y = 100, Label = "1",Size=new int[]{ 80},Shape="rect",Style=new Style(){ Fill="blue"} },
-                        new FlowNode() { Id = "node2", X = 400, Y = 100, Label = "2",Size=new int[]{ 80,40},Shape="ellipse" },
-                        new FlowNode() { Id = "node3", X = 400, Y = 300, Label = "3",Size=new int[]{80,20,40,5 },Shape="triangle" },
-                        new FlowNode() { Id = "node4", Label = "4",Size=new int[]{ 80} },
-                        new FlowNode() { Id = "node5", Label = "5", Shape="star" ,Style=new Style(){ Fill="red"} },
-                        new FlowNode(){Id="node7",Label="this s",Shape="modelRect",Description="谈谈他",Size=new int[]{40,50 } },
-                        new FlowNode(){Id="node6",Label="this is image",Img="https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg",Shape="image",Size=new int []{ 40,20} }
+                        new FlowNode() { Id = "node1", Label = "1", Size = new int[] { 80 }, Shape = "rect", Style = new Style() { Fill = "blue" } },
+                        new FlowNode() { Id = "node2", Label = "2", Size = new int[] { 80, 40 }, Shape = "ellipse" },
+                        new FlowNode() { Id = "node3", Label = "3", Size = new int[] { 80, 20, 40, 5 }, Shape = "triangle" },
+                        new FlowNode() { Id = "node4", Label = "4", Size = new int[] { 80 },LinkPoints=new LinkPoints{ } },
+                        new FlowNode() { Id = "node5", Label = "5", Shape = "star", Style = new Style() { Fill = "red" } },
+                        new FlowNode() { Id = "node7", Label = "this s", Shape = "modelRect", Description = "谈谈他", Size = new int[] { 40, 50 } },
+                        new FlowNode() { Id = "node6", Label = "this is image", Img = "https://localhost:5001/upload/1.jpg", Shape = "image", Size = new int[] { 40, 20 } }
                     },
                     Edges = new List<FlowEdge>
                     {
@@ -45,13 +45,18 @@ namespace BasicsApi.Controllers
                         {
                             Source = "node1",
                             Target = "node2",
-                            Label = "sss"
+                            Label = "我是描述",
+                            LabelCfg=new LabelCfgs
+                            {
+                                Position="end"
+                            }
                         },
                         new FlowEdge()
                         {
                             Source = "node1",
                             Target = "node3",
-                            Label = "dda"
+                            Label = "dda",
+                            Shape="quadratic"
                         },
                         new FlowEdge()
                         {
@@ -70,8 +75,12 @@ namespace BasicsApi.Controllers
                 },
                 FLowGraph = new FLowGraph()
                 {
-                    Width = 800,
-                    Height = 500,
+                    Width = 1500,
+                    Height = 1000,
+                   // DefaultNode=new LabelCfgs { LinkPoints=new LinkPoints { } },
+                    Layout = new Layout
+                    {
+                    },
                     Modes = new Mode
                     {
                         // Default=new string[] { "drag-canvas", "drag-node" },
