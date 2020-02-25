@@ -24,43 +24,17 @@ export class DashboardComponent implements OnInit {
         "required": ["name", "password"]
     }
     constructor(private http: HttpBasicService, private basic: BasicService) { }
-
+    graph;
     async  ngOnInit(): Promise<void> {
-
-        /* //const graph = new G6.Graph({ container: 'mountNode', width: 1000, height: 1000, }); graph.data(this.data); graph.render();
-
-         //let sum = new Function('a', 'b', 'return a + b');
-         //alert(sum(1, 2)); // 3
-         var temptest = `{"container": "mountNode","width": 1000, "height": 1000}`;
-         //var graph = new G6.Graph(eval("(" + temptest + ")")); //可以
-         var graph = new G6.Graph(JSON.parse(temptest));//也可以
-         //(new Function("G6", temptest))();
-         graph.data(this.data);
-         const response = await fetch('https://gw.alipayobjects.com/os/basement_prod/6cae02ab-4c29-44b2-b1fd-4005688febcb.json');
-         const remoteData = await response.json();
-
-         graph.render();*/
-        await this.http.get(this.basic.ApiUrl + "Flow/test").subscribe(res => {
-            const data = {
-                nodes: [
-                    {
-                        id: 'node0',
-                        x: 100,
-                        y: 100,
-                        shape: 'circle', // 节点类型
-                        linkPoints: {
-                            top: true,
-                            left: true
-                        },
-                        label: "asd",
-                        labelCfg: {}
-                    },
-                ],
-            }
-            console.log(JSON.stringify(res));
-            const graph = new G6.Graph(res.fLowGraph);
-            graph.data(res.flowData);
-            graph.render();
+        this.http.get(this.basic.ApiUrl + "Flow/test").subscribe(res => {
+            this.graph = new G6.Graph(res.fLowGraph);
+            this.graph.data(res.flowData);
+            res.ons.forEach((onFun: any) => {
+                // tslint:disable-next-line: function-constructor
+                this.graph.on(onFun.funName, new Function(onFun.funParameter, onFun.funBody));
+            });
+            this.graph.render();
+            // console.log(graph.save()); 获取当前数据
         })
     }
 

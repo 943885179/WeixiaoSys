@@ -167,6 +167,11 @@
             数据
             </summary>
         </member>
+        <member name="P:BasicsApi.Dto.G6ResultDto.Ons">
+            <summary>
+            方法设置
+            </summary>
+        </member>
         <member name="P:BasicsApi.Models.FlowEdge.Shape">
             <summary>
             类型 默认直线line 不支持控制点；.折线 polyline 支持多个控制点, 二阶贝塞尔曲线 quadratic 三阶贝塞尔曲线 cubic,圆弧线 arc,折线自环 loop,cubic-vertical：垂直方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；cubic-horizontal；水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；
@@ -190,6 +195,26 @@
         <member name="P:BasicsApi.Models.LoopCfg.Clockwise">
             <summary>
             clockwise: 指定是否顺时针画环，默认为 true。
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.FlowFun">
+            <summary>
+            动态js方法
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowFun.FunName">
+            <summary>
+            方法名称
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowFun.FunParameter">
+            <summary>
+            传入参数
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowFun.FunBody">
+            <summary>
+            方法体
             </summary>
         </member>
         <member name="P:BasicsApi.Models.FLowGraph.Container">
@@ -263,6 +288,11 @@
         <member name="P:BasicsApi.Models.FLowGraph.Layout">
             <summary>
             样式node可以不设置下x，y，按照规则生成（会让设置了x，y的也失效）,不实现的话则会重叠在0，0位置
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FLowGraph.NodeStateStyles">
+            <summary>
+            state 样式
             </summary>
         </member>
         <member name="P:BasicsApi.Models.Layout.Type">
@@ -455,11 +485,6 @@
             五角星内环大小
             </summary>
         </member>
-        <member name="T:BasicsApi.Models.StateStyle">
-            <summary>
-            各状态下的样式Object只对keyShape起作用
-            </summary>
-        </member>
         <member name="T:BasicsApi.Models.ClipCfg">
             <summary>
             sharp为imges特有的属性，剪切图片，默认false不开启
@@ -621,24 +646,9 @@
             照片地址
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Style.FontSize">
-            <summary>
-            标签的样式属性，文字字体大小
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.Style.Font">
-            <summary>
-            文字样式
-            </summary>
-        </member>
         <member name="P:BasicsApi.Models.Style.Fill">
             <summary>
             元素的填充色
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.Style.FillOpacity">
-            <summary>
-            rect 透明度
             </summary>
         </member>
         <member name="P:BasicsApi.Models.Style.Stroke">

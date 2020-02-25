@@ -10,6 +10,10 @@ namespace BasicsApi.Dto
     {
         public FLowGraph FLowGraph { get; set; }
         public FlowData FlowData { get; set; }
+        /// <summary>
+        /// 方法设置
+        /// </summary>
+        public List<FlowFun> Ons { get; set; }
     }
     public class FlowData
     {

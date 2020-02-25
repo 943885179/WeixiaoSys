@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BasicsApi.Dto;
@@ -34,7 +35,7 @@ namespace BasicsApi.Controllers
                         new FlowNode() { Id = "node1", Label = "1", Size = new int[] { 80 }, Shape = "rect", Style = new Style() { Fill = "blue" } },
                         new FlowNode() { Id = "node2", Label = "2", Size = new int[] { 80, 40 }, Shape = "ellipse" },
                         new FlowNode() { Id = "node3", Label = "3", Size = new int[] { 80, 20, 40, 5 }, Shape = "triangle" },
-                        new FlowNode() { Id = "node4", Label = "4", Size = new int[] { 80 },LinkPoints=new LinkPoints{ } },
+                        new FlowNode() { Id = "node4", Label = "4", Size = new int[] { 80 }, LinkPoints = new LinkPoints { } },
                         new FlowNode() { Id = "node5", Label = "5", Shape = "star", Style = new Style() { Fill = "red" } },
                         new FlowNode() { Id = "node7", Label = "this s", Shape = "modelRect", Description = "谈谈他", Size = new int[] { 40, 50 } },
                         new FlowNode() { Id = "node6", Label = "this is image", Img = "https://localhost:5001/upload/1.jpg", Shape = "image", Size = new int[] { 40, 20 } }
@@ -46,9 +47,9 @@ namespace BasicsApi.Controllers
                             Source = "node1",
                             Target = "node2",
                             Label = "我是描述",
-                            LabelCfg=new LabelCfgs
+                            LabelCfg = new LabelCfgs
                             {
-                                Position="end"
+                                Position = "end"
                             }
                         },
                         new FlowEdge()
@@ -56,7 +57,7 @@ namespace BasicsApi.Controllers
                             Source = "node1",
                             Target = "node3",
                             Label = "dda",
-                            Shape="quadratic"
+                            Shape = "quadratic"
                         },
                         new FlowEdge()
                         {
@@ -70,30 +71,54 @@ namespace BasicsApi.Controllers
                             Target = "node4",
                             Label = "dda"
                         }
-                    }
-
+                    }   
                 },
                 FLowGraph = new FLowGraph()
                 {
                     Width = 1500,
                     Height = 1000,
-                   // DefaultNode=new LabelCfgs { LinkPoints=new LinkPoints { } },
+                    // DefaultNode=new LabelCfgs { LinkPoints=new LinkPoints { } },
                     Layout = new Layout
                     {
                     },
                     Modes = new Mode
                     {
                         // Default=new string[] { "drag-canvas", "drag-node" },
-                        Default = new List<ModeType>(){
-                          new ModeType(){
-                              Type="drag-canvas"
+                        Default = new List<ModeType>() {
+                            new ModeType() {
+                                Type = "drag-canvas"
+                            }
+                          , new ModeType() {
+                              Type = "drag-node",
+                              EnableDelegate = true,
+                              UpdateEdge = true
                           }
-                          ,new ModeType(){
-                              Type="drag-node",
-                              EnableDelegate=true,
-                              UpdateEdge=true
-                          }
-                      }
+                        }
+                    },
+                    NodeStateStyles = new StateStyle
+                    {
+                        Hover = new Style
+                        {
+                            Fill = "#d3adf7"
+                        },
+                        Running = new Style
+                        {
+                            Stroke = "steelblue"
+                        }
+                    }
+                },
+                Ons = new List<FlowFun>() {
+                    new FlowFun
+                    {
+                        FunName="node:mouseenter",
+                        FunParameter="ev",
+                        FunBody=new StringBuilder().AppendLine("const nodeItem = ev.item;").AppendLine("this.setItemState(nodeItem, 'hover', true);").ToString()
+                    }, 
+                    new FlowFun
+                    {
+                        FunName="node:mouseleave",
+                        FunParameter="ev",
+                        FunBody=new StringBuilder().AppendLine("const nodeItem = ev.item;").AppendLine("this.setItemState(nodeItem, 'hover', false);").ToString()
                     }
                 }
             };

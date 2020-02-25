@@ -92,8 +92,19 @@ namespace BasicsApi.Models
         /// 样式node可以不设置下x，y，按照规则生成（会让设置了x，y的也失效）,不实现的话则会重叠在0，0位置
         /// </summary>
         public Layout Layout { get; set; }
+        /// <summary>
+        /// state 样式
+        /// </summary>
+        public StateStyle NodeStateStyles { get; set; }
     }
 
+    public class StateStyle
+    {
+
+        public Style Hover { get; set; }
+
+        public Style Running { get; set; }
+    }
     public class Layout
     {
         /// <summary>

@@ -117,13 +117,6 @@ namespace BasicsApi.Models
         public int InnerR { get; set; } = 3 * 8;
     }
     /// <summary>
-    /// 各状态下的样式Object只对keyShape起作用
-    /// </summary>
-    public class StateStyle
-    {
-
-    }
-    /// <summary>
     /// sharp为imges特有的属性，剪切图片，默认false不开启
     /// </summary>
     public class ClipCfg
@@ -267,22 +260,11 @@ namespace BasicsApi.Models
     }
     public class Style
     {
-        /// <summary>
-        /// 标签的样式属性，文字字体大小
-        /// </summary>
-        public int FontSize { get; set; } = 12;
-        /// <summary>
-        /// 文字样式
-        /// </summary>
-        public string Font { get; set; }
+        
         /// <summary>
         /// 元素的填充色
         /// </summary>
         public string Fill { get; set; }
-        /// <summary>
-        /// rect 透明度
-        /// </summary>
-        public double FillOpacity { get; set; } = 1;
         /// <summary>
         /// 元素的描边色
         /// </summary>
