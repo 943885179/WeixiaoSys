@@ -4,11 +4,14 @@ import { SFSchema, SFUISchema } from '@delon/form';
 import * as G6 from "@antv/g6";
 import { HttpBasicService } from '@shared/utils/http-basic.service';
 import { BasicService } from 'src/app/service/basic.service';
+import { NzMessageService } from 'ng-zorro-antd';
+import { ITEM_TYPE } from '@antv/g6/lib/types';
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
+    constructor(private http: HttpBasicService, private basic: BasicService, private msg: NzMessageService) { }
     schema: SFSchema = {
         properties: {
             name: {
@@ -23,10 +26,31 @@ export class DashboardComponent implements OnInit {
         },
         "required": ["name", "password"]
     }
-    constructor(private http: HttpBasicService, private basic: BasicService) { }
-    graph;
+    graph: G6.Graph;
+    type: ITEM_TYPE = "node"
     async  ngOnInit(): Promise<void> {
         this.http.get(this.basic.ApiUrl + "Flow/test").subscribe(res => {
+            // tslint:disable-next-line: no-eval
+            res.fLowGraph.width = eval(res.fLowGraph.width);
+            // tslint:disable-next-line: no-eval
+            res.fLowGraph.height = eval(res.fLowGraph.height);
+            console.log(res.fLowGraph.modes);
+            res.fLowGraph.modes.default.forEach(mode => {
+                if (mode.type === "tooltip") {
+                    // tslint:disable-next-line: no-eval
+                    mode.formatText = eval(mode.formatText);
+                }
+            });
+            const graphs = new G6.Graph({
+                modes: {
+                    default: [
+                        {
+                            type: 'drag-canvas',
+                            direction: 'x'
+                        }
+                    ]
+                }
+            })
             this.graph = new G6.Graph(res.fLowGraph);
             this.graph.data(res.flowData);
             res.ons.forEach((onFun: any) => {
@@ -34,8 +58,13 @@ export class DashboardComponent implements OnInit {
                 this.graph.on(onFun.funName, new Function(onFun.funParameter, onFun.funBody));
             });
             this.graph.render();
-            // console.log(graph.save()); 获取当前数据
         })
     }
-
+    async save() {
+        this.msg.info(JSON.stringify(this.graph.save()));
+    }
+    async add() {
+        this.graph.add(this.type, { x: 50, y: 50 });
+        this.graph.refresh();
+    }
 }

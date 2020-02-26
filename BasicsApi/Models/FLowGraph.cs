@@ -12,13 +12,13 @@ namespace BasicsApi.Models
         /// </summary>
         public string Container { get; set; } = "mountNode";
         /// <summary>
-        /// 长度
+        /// 长度，可以设置动态长度 window.innerWidth
         /// </summary>
-        public int Width { get; set; }
+        public string Width { get; set; } = "window.innerWidth";
         /// <summary>
-        /// 高度
+        /// 高度，可以设置动态长度 window.innerWidth
         /// </summary>
-        public int Height { get; set; }
+        public string Height { get; set; } = "window.innerHeight";
         /// <summary>
         /// 默认：canvas 渲染引擎，支持 canvas 和 SVG。
         /// </summary>
@@ -142,47 +142,10 @@ namespace BasicsApi.Models
         //public string[] Default { get; set; }
         // [JsonProperty("Default")]
         // [System.Text.Json.Serialization.JsonPropertyName("Default")]
-        public List<ModeType> Default { get; set; }
+        public List<ModeOption> Default { get; set; }
         //[JsonProperty("Edit")]
         //[System.Text.Json.Serialization.JsonPropertyName("Edit")]
-        public List<ModeType> Edit { get; set; }
+        public List<ModeOption> Edit { get; set; }
         // public string[] Edit { get; set; }
-    }
-
-    public class ModeType
-    {
-        /// <summary>
-        /// 拖拽画布type: 'drag-canvas'
-        /// 缩放画布type: 'zoom-canvas'
-        /// 拖拽节点type: 'drag-node'
-        /// 点击选中节点，再次点击节点或点击 Canvas 取消选中状态type: 'click-select'
-        /// </summary>
-        public string Type { get; set; }
-        /// <summary>
-        /// direction: 允许拖拽方向，支持'x'， 'y'，'both'，默认方向为 'both'。
-        /// </summary>
-        public string Direction { get; set; } = "both";
-        /// <summary>
-        /// • sensitivity: 缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5。 提示：若要限定缩放尺寸，请在 graph 上设置 minZoom 和 maxZoom。
-        /// </summary>
-        public int Sensitivity { get; set; } = 5;
-        /// <summary>
-        /// delegateStyle: 节点拖拽时的绘图属性，默认为 { strokeOpacity: 0.6, fillOpacity: 0.6 }；
-        /// </summary>
-        public DelegateStyle DelegateStyle { get; set; } = new DelegateStyle();
-        /// <summary>
-        /// updateEdge: 是否在拖拽节点时更新所有与之相连的边，默认为 true 。
-        /// </summary>
-        public bool UpdateEdge { get; set; } = true;
-        /// <summary>
-        /// • 3.1.2 enableDelegate：拖动节点过程中是否启用 delegate，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为 false。
-        /// </summary>
-        public bool EnableDelegate { get; set; } = false;
-    }
-    public class DelegateStyle
-    {
-        //strokeOpacity: 0.6, fillOpacity: 0.6
-        public double StrokeOpacity { get; set; } = 0.6;
-        public double FillOpacity { get; set; } = 0.6;
     }
 }

@@ -224,12 +224,12 @@
         </member>
         <member name="P:BasicsApi.Models.FLowGraph.Width">
             <summary>
-            长度
+            长度，可以设置动态长度 window.innerWidth
             </summary>
         </member>
         <member name="P:BasicsApi.Models.FLowGraph.Height">
             <summary>
-            高度
+            高度，可以设置动态长度 window.innerWidth
             </summary>
         </member>
         <member name="P:BasicsApi.Models.FLowGraph.Renderer">
@@ -327,39 +327,6 @@
         <member name="P:BasicsApi.Models.Mode.Default">
             <summary>
             drag-canvas
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ModeType.Type">
-            <summary>
-            拖拽画布type: 'drag-canvas'
-            缩放画布type: 'zoom-canvas'
-            拖拽节点type: 'drag-node'
-            点击选中节点，再次点击节点或点击 Canvas 取消选中状态type: 'click-select'
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ModeType.Direction">
-            <summary>
-            direction: 允许拖拽方向，支持'x'， 'y'，'both'，默认方向为 'both'。
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ModeType.Sensitivity">
-            <summary>
-            • sensitivity: 缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5。 提示：若要限定缩放尺寸，请在 graph 上设置 minZoom 和 maxZoom。
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ModeType.DelegateStyle">
-            <summary>
-            delegateStyle: 节点拖拽时的绘图属性，默认为 { strokeOpacity: 0.6, fillOpacity: 0.6 }；
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ModeType.UpdateEdge">
-            <summary>
-            updateEdge: 是否在拖拽节点时更新所有与之相连的边，默认为 true 。
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ModeType.EnableDelegate">
-            <summary>
-            • 3.1.2 enableDelegate：拖动节点过程中是否启用 delegate，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为 false。
             </summary>
         </member>
         <member name="P:BasicsApi.Models.FlowNode.Id">
@@ -694,6 +661,278 @@
         <member name="P:BasicsApi.Models.Style.Offset">
             <summary>
             拐弯处距离节点最小距离	Number     默认为 5，polyline 特有
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ModeOption.Type">
+            <summary>
+            拖拽画布type: 'drag-canvas'
+            缩放画布type: 'zoom-canvas'
+            拖拽节点type: 'drag-node'
+            点击选中节点，再次点击节点或点击 Canvas 取消选中状态type: 'click-select'
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.DragCanvas">
+            <summary>
+            拖拽画布
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragCanvas.Type">
+            <summary>
+            drag-canvas
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragCanvas.Direction">
+            <summary>
+            direction: 允许拖拽方向，支持'x'， 'y'，'both'，默认方向为 'both'。
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.ZoomCanvas">
+            <summary>
+            缩放画布
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ZoomCanvas.Type">
+            <summary>
+            zoom-canvas
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ZoomCanvas.Sensitivity">
+            <summary>
+            • sensitivity: 缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5。 提示：若要限定缩放尺寸，请在 graph 上设置 minZoom 和 maxZoom。
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.DragNode">
+            <summary>
+            拖拽节点
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragNode.Type">
+            <summary>
+            drag-node 拖拽节点
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragNode.DelegateStyle">
+            <summary>
+            delegateStyle: 节点拖拽时的绘图属性，默认为 { strokeOpacity: 0.6, fillOpacity: 0.6 }；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragNode.UpdateEdge">
+            <summary>
+            updateEdge: 是否在拖拽节点时更新所有与之相连的边，默认为 true 。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragNode.EnableDelegate">
+            <summary>
+            • 3.1.2 enableDelegate：拖动节点过程中是否启用 delegate，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为 false。
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.DelegateStyle">
+            <summary>
+             delegateStyle: 节点拖拽时的绘图属性，默认为 { strokeOpacity: 0.6, fillOpacity: 0.6 }；
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.ClickSelect">
+            <summary>
+            点击选中节点，再次点击节点或点击 Canvas 取消选中状态
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ClickSelect.Type">
+            <summary>
+            click-select
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ClickSelect.Multiple">
+            <summary>
+            是否允许多选，默认为 true，当设置为 false，表示不允许多选，此时 trigger 参数无效。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ClickSelect.Trigger">
+            <summary>
+            3.1.2 trigger: 指定按住哪个键进行多选，默认为 shift，按住 Shift 键多选，用户可配置 shift、ctrl、alt；
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.Tooltip">
+            <summary>
+            节点文本提示
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Tooltip.Type">
+            <summary>
+            tooltip
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Tooltip.FormatText">
+            <summary>
+            tooltip 提示开启时
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.EdgeTooltip">
+            <summary>
+            边文本提示 使用方式基本与 tooltip 相同，但是移到边时触发。主要是为了将两个交互区分开，以满足用户边与节点的提示样式或 HTML 结构不同，以及不需要在事件中去区分是节点事件还是边事件等。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.EdgeTooltip.Type">
+            <summary>
+            tooltip
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.EdgeTooltip.FormatText">
+            <summary>
+            tooltip 提示开启时
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.ActivateRelations">
+            <summary>
+            activate-relations 当鼠标移到某节点时，突出显示该节点以及与其直接关联的节点和连线；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ActivateRelations.Type">
+            <summary>
+             activate-relations
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ActivateRelations.Trigger">
+            <summary>
+            trigger: 'mouseenter', 可以是 mousenter , 鼠标移入时触发；也可以是 click ，鼠标点击时触发
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ActivateRelations.ActiveState">
+            <summary>
+            activeState: 'active', 活跃节点状态；当行为被触发，需要被突出显示的节点和边都会附带此状态，默认值为 active；可以与 graph 实例的 nodeStyle 和 edgeStyle 结合实现丰富的视觉效果。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ActivateRelations.InactiveState">
+            <summary>
+            inactiveState: 'inactive'，非活跃节点状态，不需要被突出显示的节点和边都会附带此状态，默认值为 inactive；可以与 graph 实例的 nodeStyle 和 edgeStyle 结合实现丰富的视觉效果；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.ActivateRelations.ResetSelected">
+            <summary>
+            3.1.2 resetSelected：高亮相连节点时是否重置已经选中的节点，默认为false，即选中的节点状态不会被 activate-relations 覆盖。
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.BrushSelect">
+            <summary>
+            brush-select 拖动框选节点
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.BrushSelect.Type">
+            <summary>
+            brush-select
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.BrushSelect.BrushStyle">
+            <summary>
+            brushStyle：拖动框选框的样式；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.BrushSelect.OnSelect">
+            <summary>
+            onSelect(nodes)：选中节点时的回调，参数 nodes 表示选中的节点；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.BrushSelect.OnDeselect">
+            <summary>
+            onDeselect(nodes)：取消选中节点时的回调，参数 nodes 表示取消选中的节点；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.BrushSelect.BrushStyles">
+            <summary>
+             brushStyle：框选时样式的配置项，包括 fill、fillOpacity、stroke 和 lineWidth 四个属性；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.BrushSelect.SelectedState">
+            <summary>
+            selectedState：选中的状态，默认值为 'selected'；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.BrushSelect.IncludeEdges">
+            <summary>
+             includeEdges：框选过程中是否选中边，默认为 true，用户配置为 false 时，则不选中边；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.BrushSelect.Trigger">
+            <summary>
+             3.1.2 trigger：触发框选的动作，默认为 'shift'，即用户按住 Shift 键拖动就可以进行框选操作，可配置的的选项为: 'shift'、'ctrl' / 'control'、'alt' 和 'drag' ，不区分大小写
+             'shift'：按住 Shift 键进行拖动框选；
+            • 'ctrl' / 'control'：按住 Ctrl 键进行拖动框选；
+            • 'alt'：按住 Alt 键进行拖动框选；
+            • 风险 'drag'：不需要按任何键，进行拖动框选，如果同时配置了 drag-canvas，则会与该选项冲突。
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.CollapseExpand">
+            <summary>
+            collapse-expand 只适用于树图，展开或收起节点
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.CollapseExpand.Type">
+            <summary>
+            collapse-expand
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.CollapseExpand.Trigger">
+            <summary>
+            trigger：收起和展开树图的方式，支持click和dblclick两种方式，默认为click；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.CollapseExpand.OnChange">
+            <summary>
+            onChange：收起或展开的回调函数，警告 3.1.2 版本中将移除。
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.CollapseExpandGroup">
+            <summary>
+            collapse-expand-group 收起和展开群组
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.CollapseExpandGroup.Type">
+            <summary>
+            collapse-expand-group
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.CollapseExpandGroup.Trigger">
+            <summary>
+            3.1.2 trigger：收起和展开节点分组的方式，支持click和dblclick两种方式，默认为dblclick
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.DragGroup">
+            <summary>
+            drag-group 拖动节点分组
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragGroup.Type">
+            <summary>
+            drag-group
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragGroup.DelegateStyle">
+             <summary>
+            delegateStyle：拖动节点分组时 delegate 的样式。
+             </summary>
+        </member>
+        <member name="T:BasicsApi.Models.DragNodeWithGroup">
+            <summary>
+            drag-node-with-group 拖动节点分组中的节点
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragNodeWithGroup.Type">
+            <summary>
+            drag-node-with-group
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragNodeWithGroup.DelegateStyle">
+             <summary>
+            delegateStyle：拖动节点分组时 delegate 的样式。
+             </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragNodeWithGroup.MaxMultiple">
+            <summary>
+            最大倍数
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.DragNodeWithGroup.MinMultiple">
+            <summary>
+            最小倍数
             </summary>
         </member>
         <member name="M:BasicsApi.Service.AreaService.Areas(System.Nullable{System.Int32})">

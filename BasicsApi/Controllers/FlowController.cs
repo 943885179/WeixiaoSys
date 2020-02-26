@@ -71,12 +71,10 @@ namespace BasicsApi.Controllers
                             Target = "node4",
                             Label = "dda"
                         }
-                    }   
+                    }
                 },
                 FLowGraph = new FLowGraph()
                 {
-                    Width = 1500,
-                    Height = 1000,
                     // DefaultNode=new LabelCfgs { LinkPoints=new LinkPoints { } },
                     Layout = new Layout
                     {
@@ -84,15 +82,10 @@ namespace BasicsApi.Controllers
                     Modes = new Mode
                     {
                         // Default=new string[] { "drag-canvas", "drag-node" },
-                        Default = new List<ModeType>() {
-                            new ModeType() {
-                                Type = "drag-canvas"
-                            }
-                          , new ModeType() {
-                              Type = "drag-node",
-                              EnableDelegate = true,
-                              UpdateEdge = true
-                          }
+                        Default = new List<ModeOption>() {
+                            new DragCanvas()
+                          , new DragNode(),
+                            new  Tooltip()
                         }
                     },
                     NodeStateStyles = new StateStyle
