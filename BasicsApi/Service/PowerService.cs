@@ -58,7 +58,7 @@ namespace BasicsApi.Service
             var mIds = menus.Select(x => x.MenuId).ToList();
             var delMs = menus.Where(x => !mId.Contains(x.MenuId)).ToList();
             db.RemoveRange(delMs);
-            var addRps = mId.Where(x => !mIds.Contains(x)).Select(x => new RoleMenu() { PowerId= pId, MenuId = x }).ToList();
+            var addRps = mId.Where(x => !mIds.Contains(x)).Select(x => new RoleMenu() { PowerId = pId, MenuId = x }).ToList();
             await db.AddRangeAsync(addRps);
             return await db.SaveChangesAsync();
         }
@@ -69,7 +69,7 @@ namespace BasicsApi.Service
         }
         public async Task<int> Delete(int id)
         {
-            var power =await db.Power.FindAsync(id);
+            var power = await db.Power.FindAsync(id);
             db.Remove(power);
             return await db.SaveChangesAsync();
         }
@@ -78,15 +78,15 @@ namespace BasicsApi.Service
             return await db.Power.FindAsync(id);
         }
 
-        public  Task<List<SelectDto>> SelectPowers()
+        public Task<List<SelectDto>> SelectPowers()
         {
-          return db.Power.Select(x => new SelectDto()
+            return db.Power.Select(x => new SelectDto()
             {
-              key=x.Id,
-              value=x.Id,
-              title=x.Name,
-              label=x.Name
-          }).ToListAsync();
+                key = x.Id,
+                value = x.Id,
+                title = x.Name,
+                label = x.Name
+            }).ToListAsync();
         }
 
         public async Task<ResultPageDto<List<Power>>> PowerList(PowerDto dto)
@@ -95,7 +95,11 @@ namespace BasicsApi.Service
             //resultPage.pi=page.pi;
             //resultPage.ps=page.ps;
             resultPage.total = await db.Power.CountAsync();
-            var power = db.Power.Include(x=>x.RoleMenu).ThenInclude(x=>x.Menu).Where(o => 1==1);
+            if (resultPage.total == 0)
+            {
+                return resultPage;
+            }
+            var power = db.Power.Include(x => x.RoleMenu).ThenInclude(x => x.Menu).Where(o => 1 == 1);
             if (!string.IsNullOrEmpty(dto.Name) && dto.Name != "ascend" && dto.Name != "descend")
             {
                 power = power.Where(Company => Company.Name.Contains(dto.Name));

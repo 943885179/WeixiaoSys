@@ -26,20 +26,20 @@ namespace BasicsApi.Service
         }
         public async Task<int> AddOrEditAsync(RoleDto dto)
         {
-            using (var tran=await db.Database.BeginTransactionAsync())
+            using (var tran = await db.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    var dbRole =await db.Role.FindAsync(dto.Id);
-                    if (dbRole==null)
+                    var dbRole = await db.Role.FindAsync(dto.Id);
+                    if (dbRole == null)
                     {
-                        dbRole=new Role() { Id=dto.Id,Name=dto.Name};
-                         await AddAsync(dbRole);
+                        dbRole = new Role() { Id = dto.Id, Name = dto.Name };
+                        await AddAsync(dbRole);
                     }
                     else
                     {
                         dbRole.Name = dto.Name;
-                         await EditAsync(dbRole);
+                        await EditAsync(dbRole);
                     }
                     await ChangePoweRole(dbRole.Id, dto.PowerIds);
                     await tran.CommitAsync();
@@ -52,12 +52,13 @@ namespace BasicsApi.Service
                 }
             }
         }
-        private async Task<int> ChangePoweRole(int rId,int[] pId){
-            var rp =await db.RolePower.Where(x => x.RoleId == rId).ToListAsync();
+        private async Task<int> ChangePoweRole(int rId, int[] pId)
+        {
+            var rp = await db.RolePower.Where(x => x.RoleId == rId).ToListAsync();
             var rpIds = rp.Select(x => x.PowerId).ToList();
             var delRps = rp.Where(x => !pId.Contains(x.PowerId)).ToList();
             db.RemoveRange(delRps);
-            var addRps = pId.Where(x => !rpIds.Contains(x)).Select(x=>new RolePower(){RoleId=rId,PowerId=x}).ToList();
+            var addRps = pId.Where(x => !rpIds.Contains(x)).Select(x => new RolePower() { RoleId = rId, PowerId = x }).ToList();
             await db.AddRangeAsync(addRps);
             return await db.SaveChangesAsync();
         }
@@ -68,7 +69,7 @@ namespace BasicsApi.Service
         }
         private async Task<int> EditAsync(Role role)
         {
-             db.Role.Update(role);
+            db.Role.Update(role);
             return await db.SaveChangesAsync();
         }
         public async Task<Role> RoleById(int id)
@@ -92,7 +93,11 @@ namespace BasicsApi.Service
             //resultPage.pi=page.pi;
             //resultPage.ps=page.ps;
             resultPage.total = await db.Role.CountAsync();
-            var Role = db.Role.Include(x=>x.RolePower).ThenInclude(x=>x.Power).Where(o => 1 == 1);
+            if (resultPage.total == 0)
+            {
+                return resultPage;
+            }
+            var Role = db.Role.Include(x => x.RolePower).ThenInclude(x => x.Power).Where(o => 1 == 1);
             if (!string.IsNullOrEmpty(dto.Name) && dto.Name != "ascend" && dto.Name != "descend")
             {
                 Role = Role.Where(Company => Company.Name.Contains(dto.Name));
@@ -112,7 +117,7 @@ namespace BasicsApi.Service
         public async Task<int> Delete(int id)
         {
             var role = await db.Role.FindAsync(id);
-            if (role.EmpRole.Count>0 || role.UsergroupRole.Count>0)
+            if (role.EmpRole.Count > 0 || role.UsergroupRole.Count > 0)
             {
                 throw new WeixiaoException("角色已经被分配使用,不能删除");
             }

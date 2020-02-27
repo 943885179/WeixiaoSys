@@ -5,25 +5,33 @@ using System.Threading.Tasks;
 
 namespace BasicsApi.Models
 {
-    public  abstract class  ModeOption
+    public abstract class ModeOption
     {
+        protected ModeOption()
+        {
+        }
+
         /// <summary>
         /// 拖拽画布type: 'drag-canvas'
         /// 缩放画布type: 'zoom-canvas'
         /// 拖拽节点type: 'drag-node'
         /// 点击选中节点，再次点击节点或点击 Canvas 取消选中状态type: 'click-select'
         /// </summary>
-        public abstract string Type { get; }
+        public virtual string Type { get; set; }
     }
     /// <summary>
     /// 拖拽画布
     /// </summary>
     public class DragCanvas : ModeOption
     {
+        public DragCanvas()
+        {
+        }
+
         /// <summary>
         /// drag-canvas
         /// </summary>
-        public override string Type { get => "drag-canvas"; }
+        public override string Type { get => "drag-canvas"; set => base.Type = value; }
         /// <summary>
         /// direction: 允许拖拽方向，支持'x'， 'y'，'both'，默认方向为 'both'。
         /// </summary>
@@ -34,10 +42,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class ZoomCanvas : ModeOption
     {
+        public ZoomCanvas()
+        {
+        }
+
         /// <summary>
         /// zoom-canvas
         /// </summary>
-        public override string Type { get => "zoom-canvas"; }
+        public override string Type { get => "zoom-canvas"; set => base.Type = value; }
         /// <summary>
         /// • sensitivity: 缩放灵敏度，支持 1-10 的数值，默认灵敏度为 5。 提示：若要限定缩放尺寸，请在 graph 上设置 minZoom 和 maxZoom。
         /// </summary>
@@ -49,10 +61,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class DragNode : ModeOption
     {
+        public DragNode()
+        {
+        }
+
         /// <summary>
         /// drag-node 拖拽节点
         /// </summary>
-        public override string Type { get => "drag-node"; }
+        public override string Type { get => "drag-node"; set => base.Type = value; }
         /// <summary>
         /// delegateStyle: 节点拖拽时的绘图属性，默认为 { strokeOpacity: 0.6, fillOpacity: 0.6 }；
         /// </summary>
@@ -71,6 +87,10 @@ namespace BasicsApi.Models
     /// </summary>
     public class DelegateStyle
     {
+        public DelegateStyle()
+        {
+        }
+
         //strokeOpacity: 0.6, fillOpacity: 0.6
         public double StrokeOpacity { get; set; } = 0.6;
         public double FillOpacity { get; set; } = 0.6;
@@ -80,10 +100,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class ClickSelect : ModeOption
     {
+        public ClickSelect()
+        {
+        }
+
         /// <summary>
         /// click-select
         /// </summary>
-        public override string Type { get => "click-select"; }
+        public override string Type { get => "click-select"; set => base.Type = value; }
         /// <summary>
         /// 是否允许多选，默认为 true，当设置为 false，表示不允许多选，此时 trigger 参数无效。
         /// </summary>
@@ -98,10 +122,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class Tooltip : ModeOption
     {
+        public Tooltip()
+        {
+
+        }
         /// <summary>
         /// tooltip
         /// </summary>
-        public override string Type { get => "tooltip"; }
+        public override string Type { get => "tooltip"; set => base.Type = value; }
         /// <summary>
         /// tooltip 提示开启时
         /// </summary>
@@ -113,10 +141,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class EdgeTooltip : ModeOption
     {
+        public EdgeTooltip()
+        {
+        }
+
         /// <summary>
         /// tooltip
         /// </summary>
-        public override string Type { get => "edge-tooltip"; }
+        public override string Type { get => "edge-tooltip"; set => base.Type = value; }
         /// <summary>
         /// tooltip 提示开启时
         /// </summary>
@@ -128,10 +160,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class ActivateRelations : ModeOption
     {
+        public ActivateRelations()
+        {
+        }
+
         /// <summary>
         ///  activate-relations
         /// </summary>
-        public override string Type =>"activate-relations";
+        public override string Type { get => "activate-relations"; set => base.Type = value; }
         /// <summary>
         /// trigger: 'mouseenter', 可以是 mousenter , 鼠标移入时触发；也可以是 click ，鼠标点击时触发
         /// </summary>
@@ -154,10 +190,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class BrushSelect : ModeOption
     {
+        public BrushSelect()
+        {
+        }
+
         /// <summary>
         /// brush-select
         /// </summary>
-        public override string Type => "brush-select";
+        public override string Type { get => "brush-select"; set => base.Type = value; }
         /// <summary>
         /// brushStyle：拖动框选框的样式；
         /// </summary>
@@ -196,10 +236,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class CollapseExpand : ModeOption
     {
+        public CollapseExpand()
+        {
+        }
+
         /// <summary>
         /// collapse-expand
         /// </summary>
-        public override string Type => "collapse-expand";
+        public override string Type { get => "collapse-expand"; set => base.Type = value; }
         /// <summary>
         /// trigger：收起和展开树图的方式，支持click和dblclick两种方式，默认为click；
         /// </summary>
@@ -215,10 +259,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class CollapseExpandGroup : ModeOption
     {
+        public CollapseExpandGroup()
+        {
+        }
+
         /// <summary>
         /// collapse-expand-group
         /// </summary>
-        public override string Type => "collapse-expand-group";
+        public override string Type { get => "collapse-expand-group"; set => base.Type = value; }
         /// <summary>
         /// 3.1.2 trigger：收起和展开节点分组的方式，支持click和dblclick两种方式，默认为dblclick
         /// </summary>
@@ -229,10 +277,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class DragGroup : ModeOption
     {
+        public DragGroup()
+        {
+        }
+
         /// <summary>
         /// drag-group
         /// </summary>
-        public override string Type => "drag-group";
+        public override string Type { get => "drag-group"; set => base.Type = value; }
         /// <summary>
         ///delegateStyle：拖动节点分组时 delegate 的样式。
         /// </summary>
@@ -243,10 +295,14 @@ namespace BasicsApi.Models
     /// </summary>
     public class DragNodeWithGroup : ModeOption
     {
+        public DragNodeWithGroup()
+        {
+        }
+
         /// <summary>
         /// drag-node-with-group
         /// </summary>
-        public override string Type => "drag-node-with-group";
+        public override string Type { get => "drag-node-with-group"; set => base.Type = value; }
         /// <summary>
         ///delegateStyle：拖动节点分组时 delegate 的样式。
         /// </summary>

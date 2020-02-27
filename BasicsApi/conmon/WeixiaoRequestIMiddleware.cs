@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 using BasicsApi.Dto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Serialization;
-
+using System.Text.Json;
 namespace BasicsApi.conmon
 {
     public class WeixiaoRequestIMiddleware : IMiddleware
@@ -23,15 +21,15 @@ namespace BasicsApi.conmon
             this.logger = logger;
             this.log4 = log4;
             this.setting = setting.Value;
-             rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, this.setting.PrivateKey, this.setting.PublicKey, this.setting.AppKey, this.setting.SplitStr);
+            rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, this.setting.PrivateKey, this.setting.PublicKey, this.setting.AppKey, this.setting.SplitStr);
 
         }
         //加解密
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-          var originalBodyStream = context.Response.Body;
-           try
-           {
+            var originalBodyStream = context.Response.Body;
+            try
+            {
                 if (context.Request.Path.Value != "/api/Upload/Upload")
                 {
                     context.Request.EnableBuffering();//内存中创建缓冲区存放Request.Body的内容，否则不能使用context.Request.Body.Position;
@@ -42,13 +40,13 @@ namespace BasicsApi.conmon
                     var conttype = context.Request.ContentType;
                     if (!string.IsNullOrWhiteSpace(requestContextRsa))
                     {
-                        var rsaDto = JsonConvert.DeserializeObject<RsaDto>(requestContextRsa);
+                        var rsaDto = JsonSerializer.Deserialize<RsaDto>(requestContextRsa, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
                         var requestContext = rsa.Decrypt(rsaDto.Data);
                         context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(requestContext));
                         // await stream.CopyToAsync(context.Request.Body);
                     }
                 }
-                using (var ms =new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
                     context.Response.Body = ms;
                     await next(context);
@@ -56,7 +54,7 @@ namespace BasicsApi.conmon
                     var responseStr = await new StreamReader(ms).ReadToEndAsync();
                     context.Response.Body.Seek(0, SeekOrigin.Begin);
                     var path = context.Request.Path.Value;
-                    if (!string.IsNullOrWhiteSpace(responseStr) && context.Response.StatusCode==200 )
+                    if (!string.IsNullOrWhiteSpace(responseStr) && context.Response.StatusCode == 200)
                     {
                         if (!path.EndsWith(".json"))
                         {
@@ -64,19 +62,26 @@ namespace BasicsApi.conmon
                             {
                                 Data = rsa.AppEncrypt(responseStr)
                             };
-                            var array= Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(result,Formatting.Indented, new JsonSerializerSettings{ContractResolver = new CamelCasePropertyNamesContractResolver()}));
+                            //var array= Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(result,Formatting.Indented, new JsonSerializerSettings{ContractResolver = new CamelCasePropertyNamesContractResolver()}));
+                            var array = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result, options: new JsonSerializerOptions()
+                            {
+                                //IgnoreNullValues = true,
+                                PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
+                            })); ;
                             var newMs = new MemoryStream(array);
                             await newMs.CopyToAsync(originalBodyStream);
-                        }else
+                        }
+                        else
                         {
-                            var array= Encoding.UTF8.GetBytes(responseStr);
+                            var array = Encoding.UTF8.GetBytes(responseStr);
                             var newMs = new MemoryStream(array);
                             await newMs.CopyToAsync(originalBodyStream);
                         }
                     }
                 }
-           }
-            catch(WeixiaoException ex){
+            }
+            catch (WeixiaoException ex)
+            {
                 throw ex;
             }
             catch (Exception ex)
@@ -109,7 +114,8 @@ namespace BasicsApi.conmon
     }
     public static class WexiaoRequestIMiddlewareException
     {
-        public static IApplicationBuilder UserWeixiaoRequest(this IApplicationBuilder builder){
+        public static IApplicationBuilder UserWeixiaoRequest(this IApplicationBuilder builder)
+        {
             return builder.UseMiddleware<WeixiaoRequestIMiddleware>();
         }
     }

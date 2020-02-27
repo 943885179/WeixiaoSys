@@ -19,15 +19,16 @@ namespace BasicsApi.Service
 
         public async Task<List<Department>> Departments()
         {
-            return await db.Department.Where(o=>o.Isdel!=true).ToListAsync();
+            return await db.Department.Where(o => o.Isdel != true).ToListAsync();
         }
         public async Task<Department> DepartmentById(int id)
         {
-            return await db.Department.Include(x=>x.Company).FirstAsync(x=>x.Id==id);
+            return await db.Department.Include(x => x.Company).FirstAsync(x => x.Id == id);
         }
-        public async Task<int> AddOrEdit(Department department){
+        public async Task<int> AddOrEdit(Department department)
+        {
             department.Isdel = false;
-            if (department.Id==0)
+            if (department.Id == 0)
             {
                 return await Add(department);
             }
@@ -45,8 +46,12 @@ namespace BasicsApi.Service
         public async Task<ResultPageDto<List<Department>>> DepLists(DepDto dto)
         {
             var resultPage = new ResultPageDto<List<Department>>();
-            resultPage.total = await db.Department.Where(o=>o.Isdel!=true).CountAsync();
-            var dep = db.Department.Where(o=>o.Isdel!=true);
+            resultPage.total = await db.Department.Where(o => o.Isdel != true).CountAsync();
+            if (resultPage.total == 0)
+            {
+                return resultPage;
+            }
+            var dep = db.Department.Where(o => o.Isdel != true);
             if (!string.IsNullOrEmpty(dto.DepName) && dto.DepName != "ascend" && dto.DepName != "descend")
             {
                 dep = dep.Where(Company => Company.DepName.Contains(dto.DepName));
@@ -72,26 +77,27 @@ namespace BasicsApi.Service
         public async Task<List<SelectDto>> SelectDeps(int? id)
         {
             var results = new List<SelectDto>();
-        //     var deps =  db.Department.Where(o=>o.Isdel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
-        //    await foreach (var x in deps)
-        //     {
-        //         var dto = new SelectDto()
-        //         {
-        //             title = x.DepName,
-        //             label = x.DepName,
-        //             key = x.Id,
-        //             children = await SelectDeps(x.Id)
-        //         };
-        //         results.Add(dto);
-        //     };
-         var deps =await  db.Department.Where(o=>o.Isdel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).ToListAsync();
-           for (int i = 0; i < deps.Count; i++){
+            //     var deps =  db.Department.Where(o=>o.Isdel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
+            //    await foreach (var x in deps)
+            //     {
+            //         var dto = new SelectDto()
+            //         {
+            //             title = x.DepName,
+            //             label = x.DepName,
+            //             key = x.Id,
+            //             children = await SelectDeps(x.Id)
+            //         };
+            //         results.Add(dto);
+            //     };
+            var deps = await db.Department.Where(o => o.Isdel != true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).ToListAsync();
+            for (int i = 0; i < deps.Count; i++)
+            {
                 var dto = new SelectDto()
                 {
                     title = deps[i].DepName,
-                    label =  deps[i].DepName,
+                    label = deps[i].DepName,
                     key = deps[i].Id,
-                    children = await SelectDeps( deps[i].Id)
+                    children = await SelectDeps(deps[i].Id)
                 };
                 results.Add(dto);
             };
@@ -103,7 +109,7 @@ namespace BasicsApi.Service
 
             var delId = ids.Select(o => o.Id).ToArray();
             var deles = await db.Department.Include(m => m.Children).Where(o => delId.Contains(o.Id)).ToListAsync();
-            if (deles.Any(o => o.Children.Where(o=>o.Isdel!=true).ToList().Count > 0 && o.Children.Any(c => !delId.Contains(c.Id))))
+            if (deles.Any(o => o.Children.Where(o => o.Isdel != true).ToList().Count > 0 && o.Children.Any(c => !delId.Contains(c.Id))))
             {
                 throw new WeixiaoException("存在未删除的子菜单！");
             }
@@ -114,7 +120,7 @@ namespace BasicsApi.Service
         public async Task<int> Delete(int id)
         {
             var dep = await db.Department.Include(m => m.Children).FirstOrDefaultAsync(o => o.Id == id);
-            if (dep.Children.Where(o=>o.Isdel!=true).ToList().Count > 0)
+            if (dep.Children.Where(o => o.Isdel != true).ToList().Count > 0)
             {
                 throw new WeixiaoException("请先删除子部门！");
             }

@@ -26,6 +26,10 @@ namespace BasicsApi.Service
             //resultPage.pi=page.pi;
             //resultPage.ps=page.ps;
             resultPage.total = await db.Menu.CountAsync();
+            if (resultPage.total == 0)
+            {
+                return resultPage;
+            }
             var menu = db.Menu.Where(menu => 1 == 1);
             if (!string.IsNullOrEmpty(dto.Text) && dto.Text != "ascend" && dto.Text != "descend")
             {

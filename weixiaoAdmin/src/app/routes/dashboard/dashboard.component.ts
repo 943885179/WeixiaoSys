@@ -35,22 +35,7 @@ export class DashboardComponent implements OnInit {
             // tslint:disable-next-line: no-eval
             res.fLowGraph.height = eval(res.fLowGraph.height);
             console.log(res.fLowGraph.modes);
-            res.fLowGraph.modes.default.forEach(mode => {
-                if (mode.type === "tooltip") {
-                    // tslint:disable-next-line: no-eval
-                    mode.formatText = eval(mode.formatText);
-                }
-            });
-            const graphs = new G6.Graph({
-                modes: {
-                    default: [
-                        {
-                            type: 'drag-canvas',
-                            direction: 'x'
-                        }
-                    ]
-                }
-            })
+
             this.graph = new G6.Graph(res.fLowGraph);
             this.graph.data(res.flowData);
             res.ons.forEach((onFun: any) => {

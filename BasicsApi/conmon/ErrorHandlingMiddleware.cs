@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using System;
-using System.Net;
 using System.Threading.Tasks;
-
+using System.Text.Json;
 namespace BasicsApi.conmon
 {
     public class ErrorHandlingMiddleware : IMiddleware
@@ -60,7 +58,7 @@ namespace BasicsApi.conmon
         private static Task HandleExceptionAsync(HttpContext context, int statusCode, string msg)
         {
             var data = new { code = statusCode.ToString(), is_success = false, msg = msg };
-            var result = JsonConvert.SerializeObject(new { data = data });
+            var result = JsonSerializer.Serialize(new { data = data });
             context.Response.ContentType = "application/json;charset=utf-8";
             return context.Response.WriteAsync(result);
         }

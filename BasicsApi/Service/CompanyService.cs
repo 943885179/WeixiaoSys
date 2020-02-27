@@ -26,8 +26,12 @@ namespace BasicsApi.Service
             var resultPage = new ResultPageDto<List<Company>>();
             //resultPage.pi=page.pi;
             //resultPage.ps=page.ps;
-            resultPage.total = await db.Company.Where(o=>o.Isdel!=true).Include(o => o.CompanyLog).Include(o => o.Shareholder).CountAsync();
-            var Company = db.Company.Where(o=>o.Isdel!=true);
+            resultPage.total = await db.Company.Where(o => o.Isdel != true).Include(o => o.CompanyLog).Include(o => o.Shareholder).CountAsync();
+            if (resultPage.total == 0)
+            {
+                return resultPage;
+            }
+            var Company = db.Company.Where(o => o.Isdel != true);
             if (!string.IsNullOrEmpty(dto.Name) && dto.Name != "ascend" && dto.Name != "descend")
             {
                 Company = Company.Where(Company => Company.Name.Contains(dto.Name));
@@ -62,7 +66,7 @@ namespace BasicsApi.Service
         public async Task<List<Company>> Companys(int? id)
         {
             var results = new List<Company>();
-            results = await db.Company.Where(o=>o.Isdel!=true).Where(o => o.Pid == id).ToListAsync();
+            results = await db.Company.Where(o => o.Isdel != true).Where(o => o.Pid == id).ToListAsync();
             if (results.Count() == 0)
             {
                 return new List<Company>();
@@ -73,10 +77,11 @@ namespace BasicsApi.Service
             }
             return results;
         }
-        public bool Test(){
+        public bool Test()
+        {
             var x = new AreaDto();
-            var y=new AreaDto();
-            if (x==y)
+            var y = new AreaDto();
+            if (x == y)
             {
                 return true;
             }
@@ -104,8 +109,8 @@ namespace BasicsApi.Service
             //     };
             //     results.Add(dto);
             //   }
-            var companys =  db.Company.Where(o=>o.Isdel!=true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
-           await foreach (var x in companys)
+            var companys = db.Company.Where(o => o.Isdel != true).Where(o => o.Pid == id || (id == null && o.Pid == 0)).Include(x => x.Children).AsAsyncEnumerable();
+            await foreach (var x in companys)
             {
                 var dto = new SelectDto()
                 {
@@ -268,7 +273,7 @@ namespace BasicsApi.Service
         public async Task<int> Delete(int id)
         {
             var del = await db.Company.Include(m => m.Children).FirstOrDefaultAsync(o => o.Id == id);
-            if (del.Children.Where(o=>o.Isdel!=true).ToList().Count > 0)
+            if (del.Children.Where(o => o.Isdel != true).ToList().Count > 0)
             {
                 throw new WeixiaoException("请先删除子公司！");
             }
@@ -279,7 +284,7 @@ namespace BasicsApi.Service
         {
             var delId = ids.Select(o => o.Id).ToArray();
             var deles = await db.Company.Include(m => m.Children).Where(o => delId.Contains(o.Id)).ToListAsync();
-            if (deles.Any(o => o.Children.Where(o=>o.Isdel!=true).ToList().Count > 0 && o.Children.Any(c => !delId.Contains(c.Id))))
+            if (deles.Any(o => o.Children.Where(o => o.Isdel != true).ToList().Count > 0 && o.Children.Any(c => !delId.Contains(c.Id))))
             {
                 throw new WeixiaoException("存在未删除的子公司！");
             }

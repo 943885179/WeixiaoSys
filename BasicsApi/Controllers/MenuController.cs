@@ -44,7 +44,6 @@ namespace BasicsApi.Controllers
         [WeixiaoAsyncAuthorizationFilter]
         public async Task<ResponseDto> Menus(MenuDto dto)
         {
-            var x = _user;
             result.data = _mapper.Map<ResultPageDto<List<Menu>>, ResultPageDto<List<MenuDto>>>(await bll.MenuList(dto));
             return result;
         }

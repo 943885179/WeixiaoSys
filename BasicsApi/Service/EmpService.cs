@@ -33,6 +33,10 @@ namespace BasicsApi.Service
         {
             var resultPage = new ResultPageDto<List<Employee>>();
             resultPage.total = await db.Employee.Where(o => o.Isuse != false).CountAsync();
+            if (resultPage.total == 0)
+            {
+                return resultPage;
+            }
             var Emp = db.Employee.Include(x => x.Dep).Include(x => x.Dep.Company).Include(x => x.EmpRole).ThenInclude(x => x.Role).Where(o => o.Isuse != false);
             if (!string.IsNullOrEmpty(dto.Name) && dto.Name != "ascend" && dto.Name != "descend")
             {
@@ -81,7 +85,7 @@ namespace BasicsApi.Service
         {
             db.Employee.Update(employee);
             var roleIds = employee.EmpRole.Select(x => x.RoleId).ToList();
-            var removeRole =await db.EmpRole.Where(x => x.EmpId == employee.Id && !roleIds.Contains(x.RoleId)).ToListAsync();
+            var removeRole = await db.EmpRole.Where(x => x.EmpId == employee.Id && !roleIds.Contains(x.RoleId)).ToListAsync();
             db.RemoveRange(removeRole);
             return await db.SaveChangesAsync();
         }

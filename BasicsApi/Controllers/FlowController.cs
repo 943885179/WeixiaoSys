@@ -9,9 +9,7 @@ using BasicsApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-//using System.Text.Json;
-using Newtonsoft.Json;
-
+using System.Text.Json;
 namespace BasicsApi.Controllers
 {
     [Route("api/[controller]")]
@@ -82,7 +80,7 @@ namespace BasicsApi.Controllers
                     Modes = new Mode
                     {
                         // Default=new string[] { "drag-canvas", "drag-node" },
-                        Default = new List<ModeOption>() {
+                        Default = new List<object>() {
                             new DragCanvas()
                           , new DragNode(),
                             new  Tooltip()
@@ -106,7 +104,7 @@ namespace BasicsApi.Controllers
                         FunName="node:mouseenter",
                         FunParameter="ev",
                         FunBody=new StringBuilder().AppendLine("const nodeItem = ev.item;").AppendLine("this.setItemState(nodeItem, 'hover', true);").ToString()
-                    }, 
+                    },
                     new FlowFun
                     {
                         FunName="node:mouseleave",
@@ -115,14 +113,11 @@ namespace BasicsApi.Controllers
                     }
                 }
             };
-            //var jsonStr = JsonConvert.SerializeObject(flow, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            //result.data = JsonConvert.DeserializeObject<G6ResultDto>(jsonStr);
-            var jsonStr = System.Text.Json.JsonSerializer.Serialize(flow, new System.Text.Json.JsonSerializerOptions()
+
+            result.data = JsonSerializer.Deserialize<G6ResultDto>(JsonSerializer.Serialize(flow, options: new JsonSerializerOptions()
             {
-                WriteIndented = true,
-                IgnoreNullValues = true,
-            });
-            result.data = System.Text.Json.JsonSerializer.Deserialize<G6ResultDto>(jsonStr);
+                IgnoreNullValues = true
+            }));
             return result;
         }
     }

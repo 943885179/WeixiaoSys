@@ -8,8 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Text.Json;
 
 namespace BasicsApi.conmon
 {
@@ -28,14 +27,6 @@ namespace BasicsApi.conmon
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             var originalBodyStream = context.Response.Body;
-            // var text = context.Request;
-            // var xt = text.Body;
-            // var xtda = text.QueryString;
-            // StreamReader reader = new StreamReader(xt);
-            // var xtStr = await reader.ReadToEndAsync();
-            // byte[] array = Encoding.ASCII.GetBytes(xtStr);
-            // MemoryStream stream = new MemoryStream(array);
-            // context.Request.Body = stream;
             var msg = "";
             try
             {
@@ -77,20 +68,22 @@ namespace BasicsApi.conmon
                 }
                 if (!string.IsNullOrWhiteSpace(msg))
                 {
-                    await HandleExceptionAsync(context, statusCode, msg,originalBodyStream);
+                    await HandleExceptionAsync(context, statusCode, msg, originalBodyStream);
                 }
             }
-
-            // throw new System.NotImplementedException();
         }
-        private async Task HandleExceptionAsync(HttpContext context, int statusCode, string msg,Stream st)
+        private async Task HandleExceptionAsync(HttpContext context, int statusCode, string msg, Stream st)
         {
             rsa = new RSAHelper(RSAType.RSA2, Encoding.UTF8, setting.PrivateKey, setting.PublicKey, setting.AppKey, setting.SplitStr);
             var result = new RsaDto()
             {
                 Data = rsa.AppEncrypt(new ResponseDto() { status = -1, msg = msg })
             };
-            var ms = new MemoryStream(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(result,Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
+            var ms = new MemoryStream(Encoding.ASCII.GetBytes(JsonSerializer.Serialize(result, options: new JsonSerializerOptions()
+            {
+                //IgnoreNullValues = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            })));
             await ms.CopyToAsync(st);
             //context.Response.ContentType = "application/json;charset=utf-8";
             //await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
@@ -102,12 +95,16 @@ namespace BasicsApi.conmon
             {
                 Data = rsa.AppEncrypt(new ResponseDto() { status = -1, msg = msg })
             };
-            var str = JsonConvert.SerializeObject(result, Formatting.Indented, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-            var array= Encoding.UTF8.GetBytes(str);
+            var str = JsonSerializer.Serialize(result, options: new JsonSerializerOptions()
+            {
+                //IgnoreNullValues = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            var array = Encoding.UTF8.GetBytes(str);
             var ms = new MemoryStream(array);
             //await ms.CopyToAsync(context.Response.Body);
             context.Response.ContentType = "application/json;charset=utf-8";
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(result));
+            await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
     }
     public static class WeixiaoErrorIMiddlewareExceptions

@@ -136,16 +136,17 @@ namespace BasicsApi.Models
     }
     public class Mode
     {
+        //ModeOption属性，System.Text.Json对于多态不怎么友好，后续如果优化了再改吧https://docs.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json-how-to#ignore-null-when-deserializing
         /// <summary>
         /// drag-canvas
         /// </summary>
         //public string[] Default { get; set; }
         // [JsonProperty("Default")]
         // [System.Text.Json.Serialization.JsonPropertyName("Default")]
-        public List<ModeOption> Default { get; set; }
+        public List<object> Default { get; set; }
         //[JsonProperty("Edit")]
         //[System.Text.Json.Serialization.JsonPropertyName("Edit")]
-        public List<ModeOption> Edit { get; set; }
+        public List<object> Edit { get; set; }
         // public string[] Edit { get; set; }
     }
 }

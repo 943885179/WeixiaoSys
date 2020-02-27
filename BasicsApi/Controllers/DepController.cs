@@ -34,7 +34,6 @@ namespace BasicsApi.Controllers
         public async Task<ResponseDto> Deps(DepDto dto)
         {
             result.data = _mapper.Map<ResultPageDto<List<Department>>, ResultPageDto<List<DepDto>>>(await bll.DepLists(dto));
-            var x = JsonConvert.SerializeObject(result);
             return result;
         }
         [HttpGet("DepById/{id}")]

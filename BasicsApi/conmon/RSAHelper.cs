@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using BasicsApi.Dto;
-using MySqlX.XDevAPI.Common;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Text.Json;
 
 namespace BasicsApi.conmon
 {
@@ -111,7 +108,7 @@ namespace BasicsApi.conmon
                 throw new Exception("_privateKeyRsaProvider is null");
             }
             var str = Encoding.UTF8.GetString(_privateKeyRsaProvider.Decrypt(Convert.FromBase64String(cipherText), RSAEncryptionPadding.Pkcs1));
-            return JsonConvert.DeserializeObject<T>(str);
+            return JsonSerializer.Deserialize<T>(str);
         }
         #endregion
 
@@ -136,10 +133,9 @@ namespace BasicsApi.conmon
         public string AppEncrypt(ResponseDto dto)
         {
             //Formatting.Indented生成良好的显示格式,可读性更好。 另一方面,Formatting.None会跳过不必要的空格和换行符
-            var jsonStr = JsonConvert.SerializeObject(dto, Formatting.Indented, new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
+            var jsonStr = JsonSerializer.Serialize(dto, options: new JsonSerializerOptions() { 
+                //IgnoreNullValues = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             return this.AppEncrypt(jsonStr);
         }
         /// <summary>
