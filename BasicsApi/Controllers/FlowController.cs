@@ -83,7 +83,7 @@ namespace BasicsApi.Controllers
                         Default = new List<object>() {
                             new DragCanvas()
                           , new DragNode(),
-                            new  Tooltip()
+                            new Tooltip()
                         }
                     },
                     NodeStateStyles = new StateStyle
@@ -112,12 +112,12 @@ namespace BasicsApi.Controllers
                         FunBody=new StringBuilder().AppendLine("const nodeItem = ev.item;").AppendLine("this.setItemState(nodeItem, 'hover', false);").ToString()
                     }
                 }
-            };
-
-            result.data = JsonSerializer.Deserialize<G6ResultDto>(JsonSerializer.Serialize(flow, options: new JsonSerializerOptions()
+            }; 
+            result.data = JsonDocument.Parse(JsonSerializer.Serialize(flow, options: new JsonSerializerOptions()
             {
-                IgnoreNullValues = true
-            }));
+                IgnoreNullValues = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            })).RootElement;
             return result;
         }
     }

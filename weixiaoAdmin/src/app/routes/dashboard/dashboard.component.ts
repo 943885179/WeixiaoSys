@@ -30,11 +30,19 @@ export class DashboardComponent implements OnInit {
     type: ITEM_TYPE = "node"
     async  ngOnInit(): Promise<void> {
         this.http.get(this.basic.ApiUrl + "Flow/test").subscribe(res => {
+            console.log(res.fLowGraph);
+
             // tslint:disable-next-line: no-eval
             res.fLowGraph.width = eval(res.fLowGraph.width);
             // tslint:disable-next-line: no-eval
             res.fLowGraph.height = eval(res.fLowGraph.height);
-            console.log(res.fLowGraph.modes);
+            res.fLowGraph.modes.default.forEach(mode => {
+                if (mode.type === "tooltip") {
+                    // tslint:disable-next-line: no-eval
+                    mode.formatText = eval(mode.formatText);
+                }
+            });
+            console.log(JSON.stringify(res.fLowGraph));
 
             this.graph = new G6.Graph(res.fLowGraph);
             this.graph.data(res.flowData);

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace BasicsApi.Models
 {
-    public abstract class ModeOption
+    public class ModeOption
     {
         protected ModeOption()
         {
@@ -17,6 +18,7 @@ namespace BasicsApi.Models
         /// 拖拽节点type: 'drag-node'
         /// 点击选中节点，再次点击节点或点击 Canvas 取消选中状态type: 'click-select'
         /// </summary>
+        //[JsonPropertyName("type")]
         public virtual string Type { get; set; }
     }
     /// <summary>
@@ -80,7 +82,7 @@ namespace BasicsApi.Models
         /// <summary>
         /// • 3.1.2 enableDelegate：拖动节点过程中是否启用 delegate，即在拖动过程中是否使用方框代替元素的直接移动，效果区别见下面两个动图。默认值为 false。
         /// </summary>
-        public bool EnableDelegate { get; set; } = false;
+        public bool EnableDelegate { get; set; } = true;
     }
     /// <summary>
     ///  delegateStyle: 节点拖拽时的绘图属性，默认为 { strokeOpacity: 0.6, fillOpacity: 0.6 }；
@@ -133,7 +135,7 @@ namespace BasicsApi.Models
         /// <summary>
         /// tooltip 提示开启时
         /// </summary>
-        public string FormatText { get; set; } = "(model)=>{return '<div style=\"padding: 10px 6px;color:red;background-color: rgba(255,255,255,0.7);border: 1px solid #e2e2e2;border-radius: 4px;\">'+model.label+'</div>';}";
+        public string FormatText { get; set; } = "(model)=>{return '<div style=\\\"padding: 10px 6px;color:red;background-color: rgba(255,255,255,0.7);border: 1px solid #e2e2e2;border-radius: 4px;\\\">'+model.label+'</div>';}";
 
     }
     /// <summary>

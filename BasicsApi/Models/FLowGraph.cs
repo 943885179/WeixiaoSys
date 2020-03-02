@@ -22,12 +22,12 @@ namespace BasicsApi.Models
         /// <summary>
         /// 默认：canvas 渲染引擎，支持 canvas 和 SVG。
         /// </summary>
-        public string Renderer { get; set; } = "canvas";
+        //public string Renderer { get; set; } = "canvas";
         /// <summary>
         /// 是否开启画布自适应
         /// </summary>
         public bool FitView { get; set; } = false;
-       // private int[] fitViewPadding;
+        // private int[] fitViewPadding;
         /// <summary>
         /// Array | Number
         /// fitView 为 true 时生效。图适应画布时，指定四周的留白。可以是一个值,
@@ -66,11 +66,11 @@ namespace BasicsApi.Models
         /// <summary>
         /// 节点分组类型，支持 circle 和 rect
         /// </summary>
-        public string GoupType { get; set; } = "circle";
+        public string GroupTypes { get; set; } = "circle";
         /// <summary>
         /// 默认true 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。
         /// </summary>
-        public bool AitoPaint { get; set; } = true;
+        public bool AutoPaint { get; set; } = true;
         /// <summary>
         /// 最小缩放
         /// </summary>

@@ -232,11 +232,6 @@
             高度，可以设置动态长度 window.innerWidth
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.FLowGraph.Renderer">
-            <summary>
-            默认：canvas 渲染引擎，支持 canvas 和 SVG。
-            </summary>
-        </member>
         <member name="P:BasicsApi.Models.FLowGraph.FitView">
             <summary>
             是否开启画布自适应
@@ -255,12 +250,12 @@
             默认true, 各种元素是否在一个分组内，决定节点和边的层级问题，默认情况下所有的节点在一个分组中，所有的边在一个分组中，当这个参数为 false 时，节点和边的层级根据生成的顺序确定。
              </summary>
         </member>
-        <member name="P:BasicsApi.Models.FLowGraph.GoupType">
+        <member name="P:BasicsApi.Models.FLowGraph.GroupTypes">
             <summary>
             节点分组类型，支持 circle 和 rect
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.FLowGraph.AitoPaint">
+        <member name="P:BasicsApi.Models.FLowGraph.AutoPaint">
             <summary>
             默认true 当图中元素更新，或视口变换时，是否自动重绘。建议在批量操作节点时关闭，以提高性能，完成批量操作后再打开，参见后面的 setAutoPaint() 方法。
             </summary>

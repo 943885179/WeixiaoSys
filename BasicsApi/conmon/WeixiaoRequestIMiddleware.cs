@@ -66,7 +66,7 @@ namespace BasicsApi.conmon
                             var array = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result, options: new JsonSerializerOptions()
                             {
                                 //IgnoreNullValues = true,
-                                PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
+                                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                             })); ;
                             var newMs = new MemoryStream(array);
                             await newMs.CopyToAsync(originalBodyStream);
