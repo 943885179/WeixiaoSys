@@ -8,7 +8,7 @@ namespace BasicsApi.Dto
 {
     public class G6ResultDto
     {
-        public FLowGraph FLowGraph { get; set; }
+        public FlowGraph FlowGraph { get; set; }
         public FlowData FlowData { get; set; }
         /// <summary>
         /// 方法设置

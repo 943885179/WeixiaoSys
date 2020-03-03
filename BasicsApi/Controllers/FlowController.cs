@@ -28,7 +28,7 @@ namespace BasicsApi.Controllers
             {
                 FlowData = new FlowData()
                 {
-                    Nodes = new List<FlowNode>()
+                   /* Nodes = new List<FlowNode>()
                     {
                         new FlowNode() { Id = "node1", Label = "1", Size = new int[] { 80 }, Shape = "rect", Style = new Style() { Fill = "blue" } },
                         new FlowNode() { Id = "node2", Label = "2", Size = new int[] { 80, 40 }, Shape = "ellipse" },
@@ -69,9 +69,9 @@ namespace BasicsApi.Controllers
                             Target = "node4",
                             Label = "dda"
                         }
-                    }
+                    }*/
                 },
-                FLowGraph = new FLowGraph()
+                FlowGraph = new FlowGraph()
                 {
                     // DefaultNode=new LabelCfgs { LinkPoints=new LinkPoints { } },
                     Layout = new Layout
@@ -112,7 +112,7 @@ namespace BasicsApi.Controllers
                         FunBody=new StringBuilder().AppendLine("const nodeItem = ev.item;").AppendLine("this.setItemState(nodeItem, 'hover', false);").ToString()
                     }
                 }
-            }; 
+            };
             result.data = JsonDocument.Parse(JsonSerializer.Serialize(flow, options: new JsonSerializerOptions()
             {
                 IgnoreNullValues = true,

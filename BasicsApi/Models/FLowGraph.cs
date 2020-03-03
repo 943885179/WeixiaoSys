@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 namespace BasicsApi.Models
 {
-    public class FLowGraph
+    public class FlowGraph
     {
         /// <summary>
         /// 图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象
