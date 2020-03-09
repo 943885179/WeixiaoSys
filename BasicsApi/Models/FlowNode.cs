@@ -12,6 +12,10 @@ namespace BasicsApi.Models
         /// </summary>
         public string Id { get; set; }
         /// <summary>
+        /// 组别
+        /// </summary>
+        public string  GroupId { get; set; }
+        /// <summary>
         /// x
         /// </summary>
         public int X { get; set; }
@@ -24,7 +28,7 @@ namespace BasicsApi.Models
         /// </summary>
         public string Label { get; set; }
         /// <summary>
-        /// circle圆形：
+        /// circle 圆形：
         ///size 是单个数字，表示直径心位置对应节点的位置
         ///color 字段默认在描边上生效
         ///标签文本默认在节点中央

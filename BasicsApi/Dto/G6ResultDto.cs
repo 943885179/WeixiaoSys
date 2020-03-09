@@ -19,5 +19,6 @@ namespace BasicsApi.Dto
     {
         public List<FlowNode> Nodes { get; set; }
         public List<FlowEdge> Edges { get; set; }
+        public List<FlowGroup> Groups { get; set; }
     }
 }

@@ -44,63 +44,54 @@ export class DashboardComponent implements OnInit {
                     mode.formatText = eval(mode.formatText);
                 }
             });
-            res.flowGraph.modes.addNode = ['click-add-node', 'click-select'];
-            res.flowGraph.modes.addEdge = ['click-add-edge', 'click-select'];
-            G6.registerBehavior('click-add-node', {
-                getEvents() { return { 'canvas:click': 'onClick' }; },
-                onClick(ev: any) {
-                    console.log(this);
-
+            res.flowGraph.modes.addFlow = ['addFlow', 'click-select'];
+            G6.registerBehavior('addFlow', {
+                getEvents() {
+                    return {
+                        'canvas:click': 'onClickCanvas',// 点击界面生成节点
+                        'node:click': 'onClickNode',// 点击节点开始生成线路
+                        'mousemove': 'onMousemove',// 移动时候绘画线路
+                        'edge:click': 'onEdgeClick',// 中途停止时候删除线路
+                    };
+                }, onClickCanvas(ev: any) {
+                    if (this.nodeIndex === undefined) {
+                        this.nodeIndex = 1;
+                    }
                     this.graph.addItem('node', {
                         x: ev.canvasX,
                         y: ev.canvasY,
                         id: `node-` + this.nodeIndex,
-                        lable: `node-` + this.nodeIndex
+                        label: `node-` + this.nodeIndex,
+                        size: 60
                     });
-                    alert(this.nodeIndex);
                     this.nodeIndex++;
-                },
-            });
-            G6.registerBehavior('click-add-edge', {
-                // Set the events and the corresponding responsing function for this behavior
-                getEvents() {
-                    return {
-                        'node:click': 'onClick', // The event is canvas:click, the responsing function is onClick
-                        'mousemove': 'onMousemove', // The event is mousemove, the responsing function is onMousemove
-                        'edge:click': 'onEdgeClick', // The event is edge:click, the responsing function is onEdgeClick
-                    };
-                }, onClick(ev: any) {
-                    const self = this;
-                    const node = ev.item;
-                    const graph = self.graph;
-                    // The position where the mouse clicks
-                    const point = { x: ev.x, y: ev.y };
-                    const model = node.getModel();
-                    if (self.addingEdge && self.edge) {
-                        graph.updateItem(self.edge, {
-                            target: model.id,
+                }, onClickNode(ev: any) {
+                    if (this.addingEdge && this.edge) {
+                        this.graph.updateItem(this.edge, {
+                            target: ev.item.getModel().id,
                         });
-
-                        self.edge = null;
-                        self.addingEdge = false;
+                        this.edge = null;
+                        this.addingEdge = false;
                     } else {
-                        // Add anew edge, the end node is the current node user clicks
-                        self.edge = graph.addItem('edge', {
-                            source: model.id,
-                            target: point,
+                        this.edge = this.graph.addItem('edge', {
+                            type: "polyline",
+                            source: ev.item.getModel().id,
+                            target: { x: ev.x, y: ev.y },
+                            style: {
+                                //fill: `yellow`,
+                                //stroke: `red`,
+                                lineWidth: 3
+                            }
                         });
-                        self.addingEdge = true;
+                        this.addingEdge = true;
                     }
                 },
                 // The responsing function for mousemove defined in getEvents
                 onMousemove(ev: any) {
-                    const self = this;
-                    // The current position the mouse clicks
-                    const point = { x: ev.x, y: ev.y };
-                    if (self.addingEdge && self.edge) {
+                    if (this.addingEdge && this.edge) {
                         // Update the end node to the current node the mouse clicks
-                        self.graph.updateItem(self.edge, {
-                            target: point,
+                        this.graph.updateItem(this.edge, {
+                            target: { x: ev.x, y: ev.y },
                         });
                     }
                 },
@@ -133,11 +124,8 @@ export class DashboardComponent implements OnInit {
         this.nodeIndex++;
         this.graph.refresh();
     }
-    async addNode() {
-        this.graph.setMode("addNode");
-    }
-    async addEdge() {
-        this.graph.setMode("addEdge");
+    async addFlow() {
+        this.graph.setMode("addFlow");
     }
     async default() {
         this.graph.setMode("default");
