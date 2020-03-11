@@ -324,9 +324,69 @@
             drag-canvas
             </summary>
         </member>
+        <member name="T:BasicsApi.Models.FlowGroup">
+            <summary>
+            分组
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowGroup.Id">
+            <summary>
+            组Id
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowGroup.Title">
+            <summary>
+            组文字描述
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowGroup.ParentId">
+            <summary>
+            组父Id
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.FlowGroupTitle">
+            <summary>
+            组文字描述
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowGroupTitle.Text">
+            <summary>
+            文字内容
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowGroupTitle.Stroke">
+            <summary>
+            字体边框颜色，同时也支持 fill、fontSize 等所有的文本样式属性
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowGroupTitle.Fill">
+            <summary>
+            设置用于填充绘画的颜色、渐变或模式
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowGroupTitle.fontSize">
+            <summary>
+            文字大小
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowGroupTitle.OffsetX">
+            <summary>
+            可选，默认为 0，表示 x 方向上的偏移量；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowGroupTitle.OffsetY">
+            <summary>
+             可选，默认为 0，表示 Y 方向上的偏移量；
+            </summary>
+        </member>
         <member name="P:BasicsApi.Models.FlowNode.Id">
             <summary>
             编号
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowNode.GroupId">
+            <summary>
+            组别
             </summary>
         </member>
         <member name="P:BasicsApi.Models.FlowNode.X">
@@ -346,7 +406,7 @@
         </member>
         <member name="P:BasicsApi.Models.FlowNode.Shape">
              <summary>
-             circle圆形：
+             circle 圆形：
             size 是单个数字，表示直径心位置对应节点的位置
             color 字段默认在描边上生效
             标签文本默认在节点中央
