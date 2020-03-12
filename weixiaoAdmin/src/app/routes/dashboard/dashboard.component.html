@@ -2,19 +2,26 @@
 
 </page-header>
 <button nz-button nzType="primary" (click)="save()">查看内容</button>
-<button nz-button nzType="primary" (click)="add('circle')">添加圆</button>
+<!--<button nz-button nzType="primary" (click)="add('circle')">添加圆</button>
 <button nz-button nzType="primary" (click)="add('rect')">添加矩形</button>
 <button nz-button nzType="primary" (click)="add('ellipse')">添加椭圆</button>
 <button nz-button nzType="primary" (click)="add('diamond')">添加菱形</button>
-<button nz-button nzType="primary" (click)="add('star')">添加五角星</button>
+<button nz-button nzType="primary" (click)="add('star')">添加五角星</button>-->
 <button nz-button nzType="primary" (click)="default()">默认</button>
 <button nz-button nzType="primary" (click)="addFlow()">编辑流程</button>
-<div id="mountNode" style="background-color: #fff;">
+<div nz-row>
+  <div id="mountNode" nz-col nzSpan="20"style="background-color: #fff;">
 
+  </div>
+  <div id="itemEdit" nz-col nzSpan="4" style="background-color: #fff;">
+    <input nz-input placeholder="ID" [(ngModel)]="item.id" />
+    <input nz-input placeholder="label" [(ngModel)]="item.label" />
+    <nz-select [ngModel]="item.shape">
+      <nz-option [nzLabel]="'矩形'" [nzValue]="'rect'"></nz-option>
+      <nz-option [nzLabel]="'椭圆'" [nzValue]="'ellipse'"></nz-option>
+      <nz-option [nzLabel]="'判断'" [nzValue]="'diamond'"></nz-option>
+    </nz-select>
+  </div>
 </div>
-<div id="Title" style="background-color: #fff;">
-
-</div>
-
 
 

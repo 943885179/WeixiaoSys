@@ -14,11 +14,11 @@ namespace BasicsApi.Models
         /// <summary>
         /// 长度，可以设置动态长度 window.innerWidth
         /// </summary>
-        public string Width { get; set; } = "window.innerWidth";
+        public string Width { get; set; } = "document.getElementById('mountNode').clientWidth"; //"window.innerWidth";
         /// <summary>
         /// 高度，可以设置动态长度 window.innerWidth
         /// </summary>
-        public string Height { get; set; } = "window.innerHeight";
+        public string Height { get; set; } ="window.innerHeight";// "document.getElementById('mountNode').clientHeight"; // "window.innerHeight";
         /// <summary>
         /// 默认：canvas 渲染引擎，支持 canvas 和 SVG。
         /// </summary>
