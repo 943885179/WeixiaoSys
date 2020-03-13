@@ -21,7 +21,7 @@ namespace BasicsApi.Controllers
         {
             // bll = new DepService(db);
         }
-        [HttpGet("Test")]
+        [HttpGet("Test.json")]
         public ResponseDto Test()
         {
             var flow = new G6ResultDto()
