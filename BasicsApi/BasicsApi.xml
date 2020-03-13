@@ -718,6 +718,16 @@
             拐弯处距离节点最小距离	Number     默认为 5，polyline 特有
             </summary>
         </member>
+        <member name="T:BasicsApi.Models.FlowStyle">
+            <summary>
+            添加样式
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowStyle.InsertCss">
+            <summary>
+            添加的样式内容 yarn add insertcss;
+            </summary>
+        </member>
         <member name="P:BasicsApi.Models.ModeOption.Type">
             <summary>
             拖拽画布type: 'drag-canvas'
@@ -988,6 +998,21 @@
         <member name="P:BasicsApi.Models.DragNodeWithGroup.MinMultiple">
             <summary>
             最小倍数
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.RegisterBehavior.Type">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.RegisterBehavior.Behavior">
+            <summary>
+            详细内容
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.Behavior.GetEvents">
+            <summary>
+            getevents方法，键值对的值必须是下面的方法名称小写，和前端对应，[后续考虑用反射]
             </summary>
         </member>
         <member name="M:BasicsApi.Service.AreaService.Areas(System.Nullable{System.Int32})">

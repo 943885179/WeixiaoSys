@@ -13,7 +13,7 @@ namespace BasicsApi.Models
         /// <summary>
         /// 方法名称
         /// </summary>
-        public string  FunName { get; set; }
+        public string FunName { get; set; }
         /// <summary>
         /// 传入参数
         /// </summary>
@@ -21,6 +21,6 @@ namespace BasicsApi.Models
         /// <summary>
         /// 方法体
         /// </summary>
-        public string  FunBody { get; set; }
+        public string FunBody { get; set; }
     }
 }
