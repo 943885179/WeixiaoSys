@@ -1010,11 +1010,6 @@
             详细内容
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Behavior.GetEvents">
-            <summary>
-            getevents方法，键值对的值必须是下面的方法名称小写，和前端对应，[后续考虑用反射]
-            </summary>
-        </member>
         <member name="M:BasicsApi.Service.AreaService.Areas(System.Nullable{System.Int32})">
             <summary>
             根据id获取它和子树
