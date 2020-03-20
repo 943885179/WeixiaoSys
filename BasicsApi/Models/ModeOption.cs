@@ -318,4 +318,17 @@ namespace BasicsApi.Models
         /// </summary>
         public int MinMultiple { get; set; }
     }
+    /// <summary>
+    /// Other
+    /// </summary>
+    public class OtherModeOption : ModeOption
+    {
+        public OtherModeOption()
+        {
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override string Type { get => base.Type; set => base.Type = value; }
+    }
 }

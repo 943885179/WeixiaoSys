@@ -87,7 +87,7 @@ namespace BasicsApi.Models
         /// 默认线路样式
         /// </summary>
         public LabelCfgs DefaultEdge { get; set; }
-        public Mode Modes { get; set; }
+        public Dictionary<string,object> Modes { get; set; }
         /// <summary>
         /// 样式node可以不设置下x，y，按照规则生成（会让设置了x，y的也失效）,不实现的话则会重叠在0，0位置
         /// </summary>
@@ -133,20 +133,5 @@ namespace BasicsApi.Models
         /// 指定边距离
         /// </summary>
         public int LinkDistance { get; set; }
-    }
-    public class Mode
-    {
-        //ModeOption属性，System.Text.Json对于多态不怎么友好，后续如果优化了再改吧https://docs.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json-how-to#ignore-null-when-deserializing
-        /// <summary>
-        /// drag-canvas
-        /// </summary>
-        //public string[] Default { get; set; }
-        // [JsonProperty("Default")]
-        // [System.Text.Json.Serialization.JsonPropertyName("Default")]
-        public List<object> Default { get; set; }
-        //[JsonProperty("Edit")]
-        //[System.Text.Json.Serialization.JsonPropertyName("Edit")]
-        public List<object> Edit { get; set; }
-        // public string[] Edit { get; set; }
     }
 }

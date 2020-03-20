@@ -26,63 +26,95 @@ namespace BasicsApi.Controllers
         {
             var flow = new G6ResultDto()
             {
+                FlowFronts = new List<FlowFun>()
+                {
+                    new FlowFun()
+                    {
+                        FunName = "contextMenu",
+                        FunParameter = "item,graph",
+                        FunBody = "const conextMenuContainer=document.createElement('ul');conextMenuContainer.id='contextMenu';const edit=document.createElement('li');edit.innerText='编辑';edit.onclick=()=>{item.id=conextMenuContainer.getAttribute('node');const node=graph.findById(item.id);item.label=node.getModel().label;item.type=node.getModel().shape};conextMenuContainer.appendChild(edit);const removeLi=document.createElement('li');removeLi.innerText='删除';removeLi.onclick=()=>{graph.removeItem(conextMenuContainer.getAttribute('node'));graph.refresh();conextMenuContainer.removeAttribute('node');conextMenuContainer.style.left='-150px'};conextMenuContainer.appendChild(removeLi);const firstLi=document.createElement('li');firstLi.innerText='开始/结束';firstLi.onclick=()=>{graph.updateItem(conextMenuContainer.getAttribute('node'),{shape:'ellipse',size:[60,40]});graph.refreshItem(conextMenuContainer.getAttribute('node'))};conextMenuContainer.appendChild(firstLi);const diamond=document.createElement('li');diamond.innerText='判断';diamond.onclick=()=>{graph.updateItem(conextMenuContainer.getAttribute('node'),{shape:'diamond',size:60});graph.refreshItem(conextMenuContainer.getAttribute('node'))};conextMenuContainer.appendChild(diamond);const rect=document.createElement('li');rect.innerText='过程';rect.onclick=()=>{graph.updateItem(conextMenuContainer.getAttribute('node'),{shape:'rect',size:60});graph.refreshItem(conextMenuContainer.getAttribute('node'))};conextMenuContainer.appendChild(rect);document.getElementById('mountNode').appendChild(conextMenuContainer);return item;"
+                    }, new FlowFun()
+                    {
+                        FunName = "contextMenu1",
+                        FunParameter = "item,graph",
+                        FunBody = "const conextMenuContainer=document.createElement('ul');conextMenuContainer.id='contextMenu1';const edit=document.createElement('li');edit.innerText='编辑';edit.onclick=()=>{item.id=conextMenuContainer.getAttribute('node');const node=graph.findById(item.id);item.label=node.getModel().label;item.type=node.getModel().shape};conextMenuContainer.appendChild(edit);const removeLi=document.createElement('li');removeLi.innerText='删除';removeLi.onclick=()=>{graph.removeItem(conextMenuContainer.getAttribute('node'));graph.refresh();conextMenuContainer.removeAttribute('node');conextMenuContainer.style.left='-150px'};conextMenuContainer.appendChild(removeLi);document.getElementById('mountNode').appendChild(conextMenuContainer);return item;"
+                    }
+                },
                 RegisterBehaviors = new List<RegisterBehavior>() {
-                 new RegisterBehavior(){
-                     Behavior =new Dictionary<string, FlowFun>(){
-                        {"canvas:click",
-                             new FlowFun
-                             {
-                                 FunName="onClickCanvas",
-                                 FunParameter="ev",
-                                 FunBody="if(this.nodeIndex===undefined){this.nodeIndex=1}this.graph.addItem('node',{x:ev.canvasX,y:ev.canvasY,shape:'rect',id:'node-'+this.nodeIndex,label:'node-'+this.nodeIndex,size:60});this.nodeIndex++;"
-                             }
-                        },
-                        {"node:click",
-                             new FlowFun
-                             {
-                                 FunName="onClickNode",
-                                 FunParameter="ev",
-                                 FunBody="if(this.addingEdge&&this.edge){this.graph.updateItem(this.edge,{target:ev.item.getModel().id,});this.edge=null;this.addingEdge=false}else{this.edge=this.graph.addItem('edge',{type:'line',source:ev.item.getModel().id,ourceAnchor:true,targetAnchor:true,target:{x:ev.x,y:ev.y},style:{fill:'#333',stroke:'#333',lineWidth:3}});this.addingEdge=true;}"
-                             }
-                        },
-                        {"mousemove",
-                             new FlowFun
-                             {
-                                 FunName="onMousemove",
-                                 FunParameter="ev",
-                                 FunBody="if(this.addingEdge&&this.edge){this.graph.updateItem(this.edge,{target:{x:ev.x,y:ev.y},})}"
-                             }
-                        },
-                        {"edge:click",
-                             new FlowFun
-                             {
-                                 FunName="onEdgeClick",
-                                 FunParameter="ev",
-                                 FunBody="const self=this;const currentEdge=ev.item;if(self.addingEdge&&self.edge===currentEdge){self.graph.removeItem(self.edge);self.edge=null;self.addingEdge=false}"
-                             }
-                        },
-                        {"node:contextmenu",
-                             new FlowFun
-                             {
-                                 FunName="nodeContextmenu",
-                                 FunParameter="ev",
-                                 FunBody="console.log('测试',document.getElementById('contextMenu')); document.getElementById('contextMenu').setAttribute('node',ev.item.getModel().id);ev.preventDefault();ev.stopPropagation();document.getElementById('contextMenu').style.left='${ev.canvasX}px';document.getElementById('contextMenu').style.top='${ev.canvasY}px';"
-                             }
-                        },
-                        {"node:mouseleave",
-                             new FlowFun
-                             {
-                                 FunName="nodeMouseleave",
-                                 FunParameter="ev",
-                                 FunBody="document.getElementById('contextMenu').removeAttribute('node');document.getElementById('contextMenu').style.left='-150px';"
+                    new RegisterBehavior() {
+                        Type="addFlow",
+                        Behavior = new Dictionary<string, FlowFun>() {
+                            { "canvas:click",
+                                new FlowFun
+                                {
+                                    FunName = "onClickCanvas",
+                                    FunParameter = "ev",
+                                    FunBody = "if(this.nodeIndex===undefined){this.nodeIndex=1}this.graph.addItem('node',{x:ev.canvasX,y:ev.canvasY,shape:'rect',id:'node-'+this.nodeIndex,label:'node-'+this.nodeIndex,size:60});this.nodeIndex++;"
+                                }
+                            },
+                            { "node:click",
+                                new FlowFun
+                                {
+                                    FunName = "onClickNode",
+                                    FunParameter = "ev",
+                                    FunBody = "if(this.addingEdge&&this.edge){this.graph.updateItem(this.edge,{target:ev.item.getModel().id,});this.edge=null;this.addingEdge=false}else{this.edge=this.graph.addItem('edge',{type:'line',source:ev.item.getModel().id,ourceAnchor:true,targetAnchor:true,target:{x:ev.x,y:ev.y},style:{fill:'#333',stroke:'#333',lineWidth:3}});this.addingEdge=true;}"
+                                }
+                            },
+                            { "mousemove",
+                                new FlowFun
+                                {
+                                    FunName = "onMousemove",
+                                    FunParameter = "ev",
+                                    FunBody = "if(this.addingEdge&&this.edge){this.graph.updateItem(this.edge,{target:{x:ev.x,y:ev.y},})}"
+                                }
+                            },
+                            { "edge:click",
+                                new FlowFun
+                                {
+                                    FunName = "onEdgeClick",
+                                    FunParameter = "ev",
+                                    FunBody = "const self=this;const currentEdge=ev.item;if(self.addingEdge&&self.edge===currentEdge){self.graph.removeItem(self.edge);self.edge=null;self.addingEdge=false}"
+                                }
+                            },
+                            { "node:contextmenu",
+                                new FlowFun
+                                {
+                                    FunName = "nodeContextmenu",
+                                    FunParameter = "ev",
+                                    FunBody = "document.getElementById('contextMenu').setAttribute('node',ev.item.getModel().id);ev.preventDefault();ev.stopPropagation();document.getElementById('contextMenu').style.left=`${ev.canvasX}px`;document.getElementById('contextMenu').style.top=`${ev.canvasY}px`;"
+                                }
+                            },
+                            { "node:mouseleave",
+                                new FlowFun
+                                {
+                                    FunName = "nodeMouseleave",
+                                    FunParameter = "ev",
+                                    FunBody = "document.getElementById('contextMenu').removeAttribute('node');document.getElementById('contextMenu').style.left='-150px';"
 
-                             }
-                        },
-                     }
-                 }
+                                }
+                            },
+                            { "edge:contextmenu",
+                                new FlowFun
+                                {
+                                    FunName = "nodeContextmenu",
+                                    FunParameter = "ev",
+                                    FunBody = "document.getElementById('contextMenu').setAttribute('node',ev.item.getModel().id);ev.preventDefault();ev.stopPropagation();document.getElementById('contextMenu').style.left=`${ev.canvasX}px`;document.getElementById('contextMenu').style.top=`${ev.canvasY}px`;"
+                                }
+                            },
+                            { "edge:mouseleave",
+                                new FlowFun
+                                {
+                                    FunName = "nodeMouseleave",
+                                    FunParameter = "ev",
+                                    FunBody = "document.getElementById('contextMenu').removeAttribute('node');document.getElementById('contextMenu').style.left='-150px';"
+
+                                }
+                            },
+                        }
+                    }
                 },
                 RegisterEdges = new List<RegisterEdge>() {
-                 new RegisterEdge(){ }
+                    new RegisterEdge() { }
                 },
                 FlowStyle = new FlowStyle(),
                 FlowData = new FlowData()
@@ -137,14 +169,19 @@ namespace BasicsApi.Controllers
                     // Layout = new Layout
                     // {
                     // },
-                    Modes = new Mode
-                    {
-                        // Default=new string[] { "drag-canvas", "drag-node" },
-                        Default = new List<object>() {
+                    Modes = new Dictionary<string, object>() {
+                        { "default",new List<object>() {
                            new DragCanvas() ,
                            new DragNode(),
                            new Tooltip(),
                         }
+                        },
+                        { "addFlow",new List<object>() {
+                            new OtherModeOption(){ Type="addFlow"},
+                           new DragNode(),
+                           new ClickSelect()
+                        }
+                        },
                     },
                     NodeStateStyles = new StateStyle
                     {

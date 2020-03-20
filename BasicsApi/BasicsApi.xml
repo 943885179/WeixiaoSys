@@ -167,6 +167,11 @@
             数据
             </summary>
         </member>
+        <member name="P:BasicsApi.Dto.G6ResultDto.FlowFronts">
+            <summary>
+            前置方法（创建菜单等）
+            </summary>
+        </member>
         <member name="P:BasicsApi.Dto.G6ResultDto.Ons">
             <summary>
             方法设置
@@ -317,11 +322,6 @@
         <member name="P:BasicsApi.Models.Layout.LinkDistance">
             <summary>
             指定边距离
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.Mode.Default">
-            <summary>
-            drag-canvas
             </summary>
         </member>
         <member name="T:BasicsApi.Models.FlowGroup">
@@ -998,6 +998,16 @@
         <member name="P:BasicsApi.Models.DragNodeWithGroup.MinMultiple">
             <summary>
             最小倍数
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.OtherModeOption">
+            <summary>
+            Other
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.OtherModeOption.Type">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:BasicsApi.Models.RegisterBehavior.Type">

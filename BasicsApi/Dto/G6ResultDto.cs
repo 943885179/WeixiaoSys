@@ -8,6 +8,10 @@ namespace BasicsApi.Dto
 {
     public class G6ResultDto
     {
+        /// <summary>
+        /// 前置方法（创建菜单等）
+        /// </summary>
+        public List<FlowFun> FlowFronts { get; set; } 
         public List<RegisterBehavior> RegisterBehaviors { get; set; }
         public List<RegisterEdge> RegisterEdges { get; set; }
         public FlowGraph FlowGraph { get; set; }

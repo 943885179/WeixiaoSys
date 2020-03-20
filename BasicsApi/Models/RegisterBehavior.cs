@@ -12,7 +12,7 @@ namespace BasicsApi.Models
         /// <summary>
         /// 名称
         /// </summary>
-        public string Type { get; set; } = "Test";
+        public string Type { get; set; } = "addFlow";
         /// <summary>
         /// 详细内容
         /// </summary>
