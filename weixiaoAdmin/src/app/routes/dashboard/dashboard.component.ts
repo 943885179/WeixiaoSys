@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
     btnList = [];
     async  ngOnInit(): Promise<void> {
         this.http.get(this.basic.ApiUrl + "Flow/test").subscribe(res => {
-            insertCss(res.flowStyle.insertCss);
+            insertCss(res.flowCss.insertCss);
             // tslint:disable-next-line: no-eval
             res.flowGraph.width = eval(res.flowGraph.width);
             // tslint:disable-next-line: no-eval

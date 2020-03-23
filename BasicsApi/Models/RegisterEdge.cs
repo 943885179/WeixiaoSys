@@ -7,7 +7,7 @@ namespace BasicsApi.Models
 {
     public class RegisterEdge
     {
-        public string ShapeType { get; set; }
+        public string ShapeType { get; set; } = "line";
         public ShapeOptions ShapeOptions { get; set; } = new ShapeOptions();
         public ExtendShapeType ExtendShapeType { get; set; }
     }

@@ -116,7 +116,7 @@ namespace BasicsApi.Controllers
                 RegisterEdges = new List<RegisterEdge>() {
                     new RegisterEdge() { }
                 },
-                FlowStyle = new FlowStyle(),
+                FlowCss = new FlowCss(),
                 FlowData = new FlowData()
                 {
                     //      Nodes = new List<FlowNode>()
@@ -183,11 +183,9 @@ namespace BasicsApi.Controllers
                         }
                         },
                     },
-                    NodeStateStyles = new StateStyle
-                    {
-                        Hover = new Style
+                    NodeStateStyles =new Dictionary<string, FlowStyle>() {
                         {
-                            Fill = "red"
+                        "hover", new FlowStyle{Fill = "red"}
                         }
                     }
                 },

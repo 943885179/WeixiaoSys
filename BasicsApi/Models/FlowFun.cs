@@ -8,7 +8,7 @@ namespace BasicsApi.Models
     /// <summary>
     /// 动态js方法
     /// </summary>
-    public class FlowFun
+    public class FlowFun: WeixiaoEntity
     {
         /// <summary>
         /// 方法名称

@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace BasicsApi.Models
 {
-    public class FlowNode
+    public class FlowNode : WeixiaoEntity
     {
-        /// <summary>
-        /// 编号
-        /// </summary>
-        public string Id { get; set; }
         /// <summary>
         /// 组别
         /// </summary>
-        public string  GroupId { get; set; }
+        public string GroupId { get; set; }
         /// <summary>
         /// x
         /// </summary>
@@ -84,15 +79,15 @@ namespace BasicsApi.Models
         /// <summary>
         /// 属性
         /// </summary>
-        public LabelCfgs LabelCfg { get; set; }
+        public FlowLabelCfgs LabelCfg { get; set; }
         /// <summary>
         /// 样式
         /// </summary>
-        public Style Style { get; set; }
+        public FlowStyle Style { get; set; }
         /// <summary>
         ///各状态下的样式Object只对keyShape起作用
         /// </summary>
-        public List<StateStyle> StateStyles { get; set; }
+        public Dictionary<string, FlowStyle> StateStyles { get; set; }
 
         /// <summary>
         /// 指定节点周围「上、下、左、右」四个方向上边的连入点
@@ -105,12 +100,12 @@ namespace BasicsApi.Models
         /// <summary>
         /// sharp为imges特有的属性，剪切图片，默认false不开启
         /// </summary>
-        public ClipCfg ClipCfg { get; set; }
+        public FlowClipCfg ClipCfg { get; set; }
         /// <summary>
         /// 图标（圆，椭圆，菱形，三角形,五角星,方形卡片）
         /// </summary>
 
-        public Icon Icon { get; set; }
+        public FlowIcon Icon { get; set; }
         /// <summary>
         /// 三角形的方向String 可取值：up、down、left、right，默认为up。
         /// </summary>
@@ -121,99 +116,15 @@ namespace BasicsApi.Models
         public int InnerR { get; set; } = 3 * 8;
     }
     /// <summary>
-    /// sharp为imges特有的属性，剪切图片，默认false不开启
-    /// </summary>
-    public class ClipCfg
-    {
-        /// <summary>
-        /// 剪切的类型，和Shape传入的一样
-        /// </summary>
-        public string Type { get; set; }
-        /// <summary>
-        /// 裁剪图形的 x 坐标 类型为 'circle'、'rect'、'ellipse' 时生效
-        /// </summary>
-        public double X { get; set; } = 0;
-        /// <summary>
-        /// 裁剪图形的 Y 坐标 类型为 'circle'、'rect'、'ellipse' 时生效
-        /// </summary>
-        public double Y { get; set; } = 0;
-        /// <summary>
-        /// 是否启用裁剪功能
-        /// </summary>
-        public bool Show { get; set; } = false;
-        /// <summary>
-        /// 剪裁圆形的半径
-        /// </summary>
-        public double R { get; set; }
-        /// <summary>
-        /// 剪裁矩形的宽度Number 剪裁 type 为 'rect' 时生效
-        /// </summary>
-        public double Width { get; set; }
-        /// <summary>
-        /// 剪裁矩形的长度Number 剪裁 type 为 'rect' 时生效
-        /// </summary>
-        public double Height { get; set; }
-        /// <summary>
-        /// 剪裁椭圆的长轴半径Number剪裁 type 为 'ellipse' 时生效
-        /// </summary>
-        public double Rx { get; set; }
-        /// <summary>
-        /// 剪裁椭圆的长轴半径Number 剪裁 type 为 'ellipse' 时生效
-        /// </summary>
-        public double Ry { get; set; }
-    }
-    /// <summary>
-    /// 标签配置属性
-    /// </summary>
-    public class LabelCfgs
-    {
-        /// <summary>
-        /// 类型
-        /// </summary>
-        public string Shape { get; set; }
-        /// <summary>
-        /// 标签的属性，标签在元素中的位置 文本相对于节点的位置，目前支持的位置有:  'center'，'top'，'left'，'right'，'bottom'。默认为 'center'。
-        /// </summary>
-        public string Position { get; set; } = "center";
-        /// <summary>
-        /// 文本的偏移，在 'top'，'left'，'right'，'bottom' 位置上的偏移量
-        /// </summary>
-        public int[] Offset { get; set; }
-        /// <summary>
-        /// 包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行
-        /// </summary>
-        public Style Style { get; set; }
-        /// <summary>
-        /// 边上的标签文本根据边的方向旋转
-        /// </summary>
-        public bool AutoRotate { get; set; }
-        /// <summary>
-        /// 标签文本配置
-        /// </summary>
-        public LabelCfgs LabelCfg { get; set; }
-
-        /// <summary>
-        /// 指定节点周围「上、下、左、右」四个方向上边的连入点LabelCfgs下的只有defaultNode下起作用
-        /// </summary>
-        public LinkPoints LinkPoints { get; set; }
-        /// <summary>
-        /// 文本在 X 方向偏移量
-        /// </summary>
-        public Double RefX { get; set; }
-        /// <summary>
-        /// 文本在 y 方向偏移量
-        /// </summary>
-        public Double RefY { get; set; }
-    }
-    /// <summary>
     /// 指定节点周围「上、下、左、右」四个方向上边的连入点
     /// </summary>
-    public class LinkPoints
+    public class LinkPoints : WeixiaoEntity
     {
         /// <summary>
         /// 是否显示上部的连接点
         /// </summary>
         public bool Top { get; set; } = true;
+        /// <summary>
         /// 是否显示底部的连接点
         /// </summary>
         public bool Bottom { get; set; } = true;
@@ -243,28 +154,9 @@ namespace BasicsApi.Models
         public double LineWidth { get; set; } = 1;
 
     }
-    public class Icon
+    public class FlowStyle : WeixiaoEntity
     {
-        /// <summary>
-        /// 是否显示icon
-        /// </summary>
-        public bool Show { get; set; } = false;
-        /// <summary>
-        ///icon的宽度
-        /// </summary>
-        public double Width { get; set; }
-        /// <summary>
-        ///icon的高度
-        /// </summary>
-        public double Height { get; set; }
-        /// <summary>
-        /// 照片地址
-        /// </summary>
-        public string Img { get; set; }
-    }
-    public class Style
-    {
-        
+
         /// <summary>
         /// 元素的填充色
         /// </summary>

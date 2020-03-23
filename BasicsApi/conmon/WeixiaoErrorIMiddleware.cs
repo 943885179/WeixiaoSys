@@ -17,7 +17,7 @@ namespace BasicsApi.conmon
         private readonly ILogger logger;
         private readonly ILoggerHelper log4;
         private RSAHelper rsa;
-        private RSASettings setting;
+        private readonly RSASettings setting;
         public WeixiaoErrorIMiddleware(ILogger<WeixiaoErrorIMiddleware> logger, ILoggerHelper log4, IOptions<RSASettings> setting)
         {
             this.logger = logger;
@@ -95,13 +95,13 @@ namespace BasicsApi.conmon
             {
                 Data = rsa.AppEncrypt(new ResponseDto() { status = -1, msg = msg })
             };
-            var str = JsonSerializer.Serialize(result, options: new JsonSerializerOptions()
+            /*var str = JsonSerializer.Serialize(result, options: new JsonSerializerOptions()
             {
                 //IgnoreNullValues = true,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
-            var array = Encoding.UTF8.GetBytes(str);
-            var ms = new MemoryStream(array);
+            });*/
+            // var array = Encoding.UTF8.GetBytes(str);
+            // var ms = new MemoryStream(array);
             //await ms.CopyToAsync(context.Response.Body);
             context.Response.ContentType = "application/json;charset=utf-8";
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));

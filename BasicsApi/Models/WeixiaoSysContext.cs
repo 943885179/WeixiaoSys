@@ -45,6 +45,19 @@ namespace BasicsApi.Models
         public virtual DbSet<Shareholder> Shareholder { get; set; }
         public virtual DbSet<UserUsergroup> UserUsergroup { get; set; }
         public virtual DbSet<UsergroupRole> UsergroupRole { get; set; }
+        public virtual DbSet<FlowGraph> FlowGraph { get; set; }
+        public virtual DbSet<FlowGroup> FlowGroup { get; set; }
+        public virtual DbSet<FlowEdge> FlowEdge { get; set; }
+        public virtual DbSet<FlowClipCfg> FlowClipCfg { get; set; }
+        public virtual DbSet<FlowCss> FlowCss { get; set; }
+        public virtual DbSet<FlowEdgeLoopCfg> FlowEdgeLoopCfg { get; set; }
+        public virtual DbSet<FlowFun> FlowFun { get; set; }
+        public virtual DbSet<FlowGroupTitle> FlowGroupTitle { get; set; }
+        public virtual DbSet<FlowIcon> FlowIcon { get; set; }
+        public virtual DbSet<FlowLabelCfgs> FlowLabelCfgs { get; set; }
+        public virtual DbSet<FlowLayout> FlowLayout { get; set; }
+        public virtual DbSet<FlowNode> FlowNode { get; set; }
+        public virtual DbSet<FlowStyle> FlowStyle { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

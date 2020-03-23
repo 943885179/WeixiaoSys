@@ -33,6 +33,8 @@
             <param name="encoding">编码类型</param>
             <param name="privateKey">私钥</param>
             <param name="publicKey">公钥</param>
+            <param name="appKey"></param>
+            <param name="splitStr"></param>
         </member>
         <member name="M:BasicsApi.conmon.RSAHelper.Sign(System.String)">
             <summary>
@@ -177,9 +179,79 @@
             方法设置
             </summary>
         </member>
+        <member name="T:BasicsApi.Models.FlowClipCfg">
+            <summary>
+            sharp为imges特有的属性，剪切图片，默认false不开启
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowClipCfg.Type">
+            <summary>
+            剪切的类型，和Shape传入的一样
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowClipCfg.X">
+            <summary>
+            裁剪图形的 x 坐标 类型为 'circle'、'rect'、'ellipse' 时生效
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowClipCfg.Y">
+            <summary>
+            裁剪图形的 Y 坐标 类型为 'circle'、'rect'、'ellipse' 时生效
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowClipCfg.Show">
+            <summary>
+            是否启用裁剪功能
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowClipCfg.R">
+            <summary>
+            剪裁圆形的半径
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowClipCfg.Width">
+            <summary>
+            剪裁矩形的宽度Number 剪裁 type 为 'rect' 时生效
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowClipCfg.Height">
+            <summary>
+            剪裁矩形的长度Number 剪裁 type 为 'rect' 时生效
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowClipCfg.Rx">
+            <summary>
+            剪裁椭圆的长轴半径Number剪裁 type 为 'ellipse' 时生效
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowClipCfg.Ry">
+            <summary>
+            剪裁椭圆的长轴半径Number 剪裁 type 为 'ellipse' 时生效
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.FlowCss">
+            <summary>
+            添加样式
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowCss.InsertCss">
+            <summary>
+            添加的样式内容 yarn add insertcss;
+            </summary>
+        </member>
         <member name="P:BasicsApi.Models.FlowEdge.Shape">
             <summary>
             类型 默认直线line 不支持控制点；.折线 polyline 支持多个控制点, 二阶贝塞尔曲线 quadratic 三阶贝塞尔曲线 cubic,圆弧线 arc,折线自环 loop,cubic-vertical：垂直方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；cubic-horizontal；水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowEdge.Source">
+            <summary>
+            开始节点
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowEdge.Target">
+            <summary>
+            结束节点
             </summary>
         </member>
         <member name="P:BasicsApi.Models.FlowEdge.Style">
@@ -187,17 +259,17 @@
             边的样式
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.LoopCfg.Position">
+        <member name="P:BasicsApi.Models.FlowEdgeLoopCfg.Position">
             <summary>
             position: 指定自环与节点的相对位置。默认为：top。支持的值有：top, top-right, right,bottom-right, bottom, bottom-left, left, top-left
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.LoopCfg.Dist">
+        <member name="P:BasicsApi.Models.FlowEdgeLoopCfg.Dist">
             <summary>
             dist: 从节点 keyShape 的边缘到自环最顶端的位置，用于指定自环的曲度，默认为节点的高度。
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.LoopCfg.Clockwise">
+        <member name="P:BasicsApi.Models.FlowEdgeLoopCfg.Clockwise">
             <summary>
             clockwise: 指定是否顺时针画环，默认为 true。
             </summary>
@@ -222,6 +294,11 @@
             方法体
             </summary>
         </member>
+        <member name="T:BasicsApi.Models.FlowGraph">
+            <summary>
+            流程图基础配置
+            </summary>
+        </member>
         <member name="P:BasicsApi.Models.FlowGraph.Container">
             <summary>
             图的 DOM 容器，可以传入该 DOM 的 id 或者直接传入容器的 HTML 节点对象
@@ -240,6 +317,11 @@
         <member name="P:BasicsApi.Models.FlowGraph.FitView">
             <summary>
             是否开启画布自适应
+            </summary>
+        </member>
+        <member name="F:BasicsApi.Models.FlowGraph.fitViewPadding">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:BasicsApi.Models.FlowGraph.FitViewPadding">
@@ -295,43 +377,9 @@
             state 样式
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Layout.Type">
-             <summary>
-             必须使用小写，大小写敏感
-             一般图：
-            • Random Layout：随机布局；
-            • Force Layout：经典力导向布局：
-            力导向布局：一个布局网络中，粒子与粒子之间具有引力和斥力，从初始的随机无序的布局不断演变，逐渐趋于平衡稳定的布局方式称之为力导向布局。适用于描述事物间关系，比如人物关系、计算机网络关系等。
-            • Circular Layout：环形布局；
-            • Radial Layout：辐射状布局；
-            • MDS Layout：高维数据降维算法布局；
-            • Fruchterman Layout：Fruchterman 布局，一种力导布局；
-            • Dagre Layout：层次布局。
-            树图布局：
-            • Dendrogram Layout：树状布局（叶子节点布局对齐到同一层）；
-            • CompactBox Layout：紧凑树布局；
-            • Mindmap Layout：脑图布局；
-            • Intended Layout：缩进布局。
-             </summary>
-        </member>
-        <member name="P:BasicsApi.Models.Layout.PreventOverlap">
-            <summary>
-            preventOverlap  防止节点重叠
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.Layout.LinkDistance">
-            <summary>
-            指定边距离
-            </summary>
-        </member>
         <member name="T:BasicsApi.Models.FlowGroup">
             <summary>
             分组
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.FlowGroup.Id">
-            <summary>
-            组Id
             </summary>
         </member>
         <member name="P:BasicsApi.Models.FlowGroup.Title">
@@ -379,9 +427,103 @@
              可选，默认为 0，表示 Y 方向上的偏移量；
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.FlowNode.Id">
+        <member name="P:BasicsApi.Models.FlowIcon.Show">
             <summary>
-            编号
+            是否显示icon
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowIcon.Width">
+             <summary>
+            icon的宽度
+             </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowIcon.Height">
+             <summary>
+            icon的高度
+             </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowIcon.Img">
+            <summary>
+            照片地址
+            </summary>
+        </member>
+        <member name="T:BasicsApi.Models.FlowLabelCfgs">
+            <summary>
+            标签配置属性
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLabelCfgs.Shape">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLabelCfgs.Position">
+            <summary>
+            标签的属性，标签在元素中的位置 文本相对于节点的位置，目前支持的位置有:  'center'，'top'，'left'，'right'，'bottom'。默认为 'center'。
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLabelCfgs.Offset">
+            <summary>
+            文本的偏移，在 'top'，'left'，'right'，'bottom' 位置上的偏移量
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLabelCfgs.Style">
+            <summary>
+            包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLabelCfgs.AutoRotate">
+            <summary>
+            边上的标签文本根据边的方向旋转
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLabelCfgs.LabelCfg">
+            <summary>
+            标签文本配置
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLabelCfgs.LinkPoints">
+            <summary>
+            指定节点周围「上、下、左、右」四个方向上边的连入点LabelCfgs下的只有defaultNode下起作用
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLabelCfgs.RefX">
+            <summary>
+            文本在 X 方向偏移量
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLabelCfgs.RefY">
+            <summary>
+            文本在 y 方向偏移量
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLayout.Type">
+             <summary>
+             必须使用小写，大小写敏感
+             一般图：
+            • Random Layout：随机布局；
+            • Force Layout：经典力导向布局：
+            力导向布局：一个布局网络中，粒子与粒子之间具有引力和斥力，从初始的随机无序的布局不断演变，逐渐趋于平衡稳定的布局方式称之为力导向布局。适用于描述事物间关系，比如人物关系、计算机网络关系等。
+            • Circular Layout：环形布局；
+            • Radial Layout：辐射状布局；
+            • MDS Layout：高维数据降维算法布局；
+            • Fruchterman Layout：Fruchterman 布局，一种力导布局；
+            • Dagre Layout：层次布局。
+            树图布局：
+            • Dendrogram Layout：树状布局（叶子节点布局对齐到同一层）；
+            • CompactBox Layout：紧凑树布局；
+            • Mindmap Layout：脑图布局；
+            • Intended Layout：缩进布局。
+             </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLayout.PreventOverlap">
+            <summary>
+            preventOverlap  防止节点重叠
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowLayout.LinkDistance">
+            <summary>
+            指定边距离
             </summary>
         </member>
         <member name="P:BasicsApi.Models.FlowNode.GroupId">
@@ -507,106 +649,6 @@
             五角星内环大小
             </summary>
         </member>
-        <member name="T:BasicsApi.Models.ClipCfg">
-            <summary>
-            sharp为imges特有的属性，剪切图片，默认false不开启
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ClipCfg.Type">
-            <summary>
-            剪切的类型，和Shape传入的一样
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ClipCfg.X">
-            <summary>
-            裁剪图形的 x 坐标 类型为 'circle'、'rect'、'ellipse' 时生效
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ClipCfg.Y">
-            <summary>
-            裁剪图形的 Y 坐标 类型为 'circle'、'rect'、'ellipse' 时生效
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ClipCfg.Show">
-            <summary>
-            是否启用裁剪功能
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ClipCfg.R">
-            <summary>
-            剪裁圆形的半径
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ClipCfg.Width">
-            <summary>
-            剪裁矩形的宽度Number 剪裁 type 为 'rect' 时生效
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ClipCfg.Height">
-            <summary>
-            剪裁矩形的长度Number 剪裁 type 为 'rect' 时生效
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ClipCfg.Rx">
-            <summary>
-            剪裁椭圆的长轴半径Number剪裁 type 为 'ellipse' 时生效
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.ClipCfg.Ry">
-            <summary>
-            剪裁椭圆的长轴半径Number 剪裁 type 为 'ellipse' 时生效
-            </summary>
-        </member>
-        <member name="T:BasicsApi.Models.LabelCfgs">
-            <summary>
-            标签配置属性
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.LabelCfgs.Shape">
-            <summary>
-            类型
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.LabelCfgs.Position">
-            <summary>
-            标签的属性，标签在元素中的位置 文本相对于节点的位置，目前支持的位置有:  'center'，'top'，'left'，'right'，'bottom'。默认为 'center'。
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.LabelCfgs.Offset">
-            <summary>
-            文本的偏移，在 'top'，'left'，'right'，'bottom' 位置上的偏移量
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.LabelCfgs.Style">
-            <summary>
-            包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.LabelCfgs.AutoRotate">
-            <summary>
-            边上的标签文本根据边的方向旋转
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.LabelCfgs.LabelCfg">
-            <summary>
-            标签文本配置
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.LabelCfgs.LinkPoints">
-            <summary>
-            指定节点周围「上、下、左、右」四个方向上边的连入点LabelCfgs下的只有defaultNode下起作用
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.LabelCfgs.RefX">
-            <summary>
-            文本在 X 方向偏移量
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.LabelCfgs.RefY">
-            <summary>
-            文本在 y 方向偏移量
-            </summary>
-        </member>
         <member name="T:BasicsApi.Models.LinkPoints">
             <summary>
             指定节点周围「上、下、左、右」四个方向上边的连入点
@@ -617,7 +659,11 @@
             是否显示上部的连接点
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:BasicsApi.Models.LinkPoints.Bottom" -->
+        <member name="P:BasicsApi.Models.LinkPoints.Bottom">
+            <summary>
+            是否显示底部的连接点
+            </summary>
+        </member>
         <member name="P:BasicsApi.Models.LinkPoints.Left">
             <summary>
             是否显示左部的连接点
@@ -648,84 +694,54 @@
             连接点描边的宽度
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Icon.Show">
-            <summary>
-            是否显示icon
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.Icon.Width">
-             <summary>
-            icon的宽度
-             </summary>
-        </member>
-        <member name="P:BasicsApi.Models.Icon.Height">
-             <summary>
-            icon的高度
-             </summary>
-        </member>
-        <member name="P:BasicsApi.Models.Icon.Img">
-            <summary>
-            照片地址
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.Style.Fill">
+        <member name="P:BasicsApi.Models.FlowStyle.Fill">
             <summary>
             元素的填充色
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Style.Stroke">
+        <member name="P:BasicsApi.Models.FlowStyle.Stroke">
             <summary>
             元素的描边色
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Style.LineWidth">
+        <member name="P:BasicsApi.Models.FlowStyle.LineWidth">
             <summary>
             描边宽度
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Style.ShadowColor">
+        <member name="P:BasicsApi.Models.FlowStyle.ShadowColor">
             <summary>
             阴影颜色
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Style.ShadowBlur">
+        <member name="P:BasicsApi.Models.FlowStyle.ShadowBlur">
             <summary>
             阴影范围
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Style.ShadowOffsetX">
+        <member name="P:BasicsApi.Models.FlowStyle.ShadowOffsetX">
             <summary>
             阴影 x 方向偏移量
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Style.ShadowOffsetY">
+        <member name="P:BasicsApi.Models.FlowStyle.ShadowOffsetY">
             <summary>
             阴影 y 方向偏移量
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Style.Opacity">
+        <member name="P:BasicsApi.Models.FlowStyle.Opacity">
             <summary>
             透明度
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Style.Radius">
+        <member name="P:BasicsApi.Models.FlowStyle.Radius">
             <summary>
             Shape为rect时候圆角半径 线拐弯处的圆角弧度
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.Style.Offset">
+        <member name="P:BasicsApi.Models.FlowStyle.Offset">
             <summary>
             拐弯处距离节点最小距离	Number     默认为 5，polyline 特有
-            </summary>
-        </member>
-        <member name="T:BasicsApi.Models.FlowStyle">
-            <summary>
-            添加样式
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.FlowStyle.InsertCss">
-            <summary>
-            添加的样式内容 yarn add insertcss;
             </summary>
         </member>
         <member name="P:BasicsApi.Models.ModeOption.Type">

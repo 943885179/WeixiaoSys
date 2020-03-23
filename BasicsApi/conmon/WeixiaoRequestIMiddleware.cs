@@ -14,8 +14,8 @@ namespace BasicsApi.conmon
     {
         private readonly ILogger logger;
         private readonly ILoggerHelper log4;
-        private RSAHelper rsa;
-        private RSASettings setting;
+        private readonly RSAHelper rsa;
+        private readonly RSASettings setting;
         public WeixiaoRequestIMiddleware(ILogger<WeixiaoRequestIMiddleware> logger, ILoggerHelper log4, IOptions<RSASettings> setting)
         {
             this.logger = logger;
@@ -46,37 +46,35 @@ namespace BasicsApi.conmon
                         // await stream.CopyToAsync(context.Request.Body);
                     }
                 }
-                using (var ms = new MemoryStream())
+                using var ms = new MemoryStream();
+                context.Response.Body = ms;
+                await next(context);
+                context.Response.Body.Seek(0, SeekOrigin.Begin);
+                var responseStr = await new StreamReader(ms).ReadToEndAsync();
+                context.Response.Body.Seek(0, SeekOrigin.Begin);
+                var path = context.Request.Path.Value;
+                if (!string.IsNullOrWhiteSpace(responseStr) && context.Response.StatusCode == 200)
                 {
-                    context.Response.Body = ms;
-                    await next(context);
-                    context.Response.Body.Seek(0, SeekOrigin.Begin);
-                    var responseStr = await new StreamReader(ms).ReadToEndAsync();
-                    context.Response.Body.Seek(0, SeekOrigin.Begin);
-                    var path = context.Request.Path.Value;
-                    if (!string.IsNullOrWhiteSpace(responseStr) && context.Response.StatusCode == 200)
+                    if (!path.EndsWith(".json"))
                     {
-                        if (!path.EndsWith(".json"))
+                        var result = new RsaDto()
                         {
-                            var result = new RsaDto()
-                            {
-                                Data = rsa.AppEncrypt(responseStr)
-                            };
-                            //var array= Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(result,Formatting.Indented, new JsonSerializerSettings{ContractResolver = new CamelCasePropertyNamesContractResolver()}));
-                            var array = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result, options: new JsonSerializerOptions()
-                            {
-                                //IgnoreNullValues = true,
-                                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                            })); ;
-                            var newMs = new MemoryStream(array);
-                            await newMs.CopyToAsync(originalBodyStream);
-                        }
-                        else
+                            Data = rsa.AppEncrypt(responseStr)
+                        };
+                        //var array= Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(result,Formatting.Indented, new JsonSerializerSettings{ContractResolver = new CamelCasePropertyNamesContractResolver()}));
+                        var array = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result, options: new JsonSerializerOptions()
                         {
-                            var array = Encoding.UTF8.GetBytes(responseStr);
-                            var newMs = new MemoryStream(array);
-                            await newMs.CopyToAsync(originalBodyStream);
-                        }
+                            //IgnoreNullValues = true,
+                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                        })); ;
+                        var newMs = new MemoryStream(array);
+                        await newMs.CopyToAsync(originalBodyStream);
+                    }
+                    else
+                    {
+                        var array = Encoding.UTF8.GetBytes(responseStr);
+                        var newMs = new MemoryStream(array);
+                        await newMs.CopyToAsync(originalBodyStream);
                     }
                 }
             }
