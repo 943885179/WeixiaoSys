@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BasicsApi.Migrations
 {
-    public partial class first : Migration
+    public partial class flow : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -105,6 +105,158 @@ namespace BasicsApi.Migrations
                         .Annotation("SqlServer:Clustered", false);
                 },
                 comment: "文件表");
+
+            migrationBuilder.CreateTable(
+                name: "FlowClipCfg",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(nullable: true),
+                    X = table.Column<double>(nullable: false),
+                    Y = table.Column<double>(nullable: false),
+                    Show = table.Column<bool>(nullable: false),
+                    R = table.Column<double>(nullable: false),
+                    Width = table.Column<double>(nullable: false),
+                    Height = table.Column<double>(nullable: false),
+                    Rx = table.Column<double>(nullable: false),
+                    Ry = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowClipCfg", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowCss",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InsertCss = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowCss", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowData",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowData", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowEdgeLoopCfg",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Position = table.Column<string>(nullable: true),
+                    Dist = table.Column<int>(nullable: false),
+                    Clockwise = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowEdgeLoopCfg", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowGroupTitle",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Text = table.Column<string>(nullable: true),
+                    Stroke = table.Column<string>(nullable: true),
+                    Fill = table.Column<string>(nullable: true),
+                    fontSize = table.Column<string>(nullable: true),
+                    OffsetX = table.Column<int>(nullable: false),
+                    OffsetY = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowGroupTitle", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowIcon",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Show = table.Column<bool>(nullable: false),
+                    Width = table.Column<double>(nullable: false),
+                    Height = table.Column<double>(nullable: false),
+                    Img = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowIcon", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowLayout",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(nullable: true),
+                    PreventOverlap = table.Column<bool>(nullable: false),
+                    LinkDistance = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowLayout", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowLinkPoints",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Top = table.Column<bool>(nullable: false),
+                    Bottom = table.Column<bool>(nullable: false),
+                    Left = table.Column<bool>(nullable: false),
+                    Right = table.Column<bool>(nullable: false),
+                    Size = table.Column<double>(nullable: false),
+                    Fill = table.Column<string>(nullable: true),
+                    Stroke = table.Column<string>(nullable: true),
+                    LineWidth = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowLinkPoints", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowStyle",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Fill = table.Column<string>(nullable: true),
+                    Stroke = table.Column<string>(nullable: true),
+                    LineWidth = table.Column<int>(nullable: false),
+                    ShadowColor = table.Column<string>(nullable: true),
+                    ShadowBlur = table.Column<string>(nullable: true),
+                    ShadowOffsetX = table.Column<int>(nullable: false),
+                    ShadowOffsetY = table.Column<int>(nullable: false),
+                    Opacity = table.Column<double>(nullable: false),
+                    Radius = table.Column<double>(nullable: false),
+                    Offset = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowStyle", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "operation",
@@ -259,6 +411,71 @@ namespace BasicsApi.Migrations
                         onDelete: ReferentialAction.Restrict);
                 },
                 comment: "股东表");
+
+            migrationBuilder.CreateTable(
+                name: "FlowGroup",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TitleId = table.Column<int>(nullable: true),
+                    ParentId = table.Column<string>(nullable: true),
+                    FlowDataId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowGroup", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlowGroup_FlowData_FlowDataId",
+                        column: x => x.FlowDataId,
+                        principalTable: "FlowData",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowGroup_FlowGroupTitle_TitleId",
+                        column: x => x.TitleId,
+                        principalTable: "FlowGroupTitle",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowLabelCfgs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Shape = table.Column<string>(nullable: true),
+                    Position = table.Column<string>(nullable: true),
+                    StyleId = table.Column<int>(nullable: true),
+                    AutoRotate = table.Column<bool>(nullable: false),
+                    LabelCfgId = table.Column<int>(nullable: true),
+                    LinkPointsId = table.Column<int>(nullable: true),
+                    RefX = table.Column<double>(nullable: false),
+                    RefY = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowLabelCfgs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlowLabelCfgs_FlowLabelCfgs_LabelCfgId",
+                        column: x => x.LabelCfgId,
+                        principalTable: "FlowLabelCfgs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowLabelCfgs_FlowLinkPoints_LinkPointsId",
+                        column: x => x.LinkPointsId,
+                        principalTable: "FlowLinkPoints",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowLabelCfgs_FlowStyle_StyleId",
+                        column: x => x.StyleId,
+                        principalTable: "FlowStyle",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateTable(
                 name: "element",
@@ -492,6 +709,155 @@ namespace BasicsApi.Migrations
                 comment: "员工表");
 
             migrationBuilder.CreateTable(
+                name: "FlowEdge",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Shape = table.Column<string>(nullable: true),
+                    Source = table.Column<string>(nullable: true),
+                    Target = table.Column<string>(nullable: true),
+                    Label = table.Column<string>(nullable: true),
+                    LabelCfgId = table.Column<int>(nullable: true),
+                    StyleId = table.Column<int>(nullable: true),
+                    LoopCfgId = table.Column<int>(nullable: true),
+                    FlowDataId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowEdge", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlowEdge_FlowData_FlowDataId",
+                        column: x => x.FlowDataId,
+                        principalTable: "FlowData",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowEdge_FlowLabelCfgs_LabelCfgId",
+                        column: x => x.LabelCfgId,
+                        principalTable: "FlowLabelCfgs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowEdge_FlowEdgeLoopCfg_LoopCfgId",
+                        column: x => x.LoopCfgId,
+                        principalTable: "FlowEdgeLoopCfg",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowEdge_FlowStyle_StyleId",
+                        column: x => x.StyleId,
+                        principalTable: "FlowStyle",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowGraph",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Container = table.Column<string>(nullable: true),
+                    Width = table.Column<string>(nullable: true),
+                    Height = table.Column<string>(nullable: true),
+                    FitView = table.Column<bool>(nullable: false),
+                    GroupByTypes = table.Column<bool>(nullable: false),
+                    GroupTypes = table.Column<string>(nullable: true),
+                    AutoPaint = table.Column<bool>(nullable: false),
+                    MinZoom = table.Column<double>(nullable: false),
+                    MaxZoom = table.Column<double>(nullable: false),
+                    DefaultNodeId = table.Column<int>(nullable: true),
+                    DefaultEdgeId = table.Column<int>(nullable: true),
+                    LayoutId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowGraph", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlowGraph_FlowLabelCfgs_DefaultEdgeId",
+                        column: x => x.DefaultEdgeId,
+                        principalTable: "FlowLabelCfgs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowGraph_FlowLabelCfgs_DefaultNodeId",
+                        column: x => x.DefaultNodeId,
+                        principalTable: "FlowLabelCfgs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowGraph_FlowLayout_LayoutId",
+                        column: x => x.LayoutId,
+                        principalTable: "FlowLayout",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowNode",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GroupId = table.Column<string>(nullable: true),
+                    X = table.Column<int>(nullable: false),
+                    Y = table.Column<int>(nullable: false),
+                    Label = table.Column<string>(nullable: true),
+                    Shape = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    LabelCfgId = table.Column<int>(nullable: true),
+                    StyleId = table.Column<int>(nullable: true),
+                    LinkPointsId = table.Column<int>(nullable: true),
+                    Img = table.Column<string>(nullable: true),
+                    ClipCfgId = table.Column<int>(nullable: true),
+                    IconId = table.Column<int>(nullable: true),
+                    Direction = table.Column<string>(nullable: true),
+                    InnerR = table.Column<int>(nullable: false),
+                    FlowDataId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowNode", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlowNode_FlowClipCfg_ClipCfgId",
+                        column: x => x.ClipCfgId,
+                        principalTable: "FlowClipCfg",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowNode_FlowData_FlowDataId",
+                        column: x => x.FlowDataId,
+                        principalTable: "FlowData",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowNode_FlowIcon_IconId",
+                        column: x => x.IconId,
+                        principalTable: "FlowIcon",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowNode_FlowLabelCfgs_LabelCfgId",
+                        column: x => x.LabelCfgId,
+                        principalTable: "FlowLabelCfgs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowNode_FlowLinkPoints_LinkPointsId",
+                        column: x => x.LinkPointsId,
+                        principalTable: "FlowLinkPoints",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowNode_FlowStyle_StyleId",
+                        column: x => x.StyleId,
+                        principalTable: "FlowStyle",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "element_element",
                 columns: table => new
                 {
@@ -709,6 +1075,39 @@ namespace BasicsApi.Migrations
                 comment: "用户组用户对照表");
 
             migrationBuilder.CreateTable(
+                name: "FlowG6",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FlowGraphId = table.Column<int>(nullable: true),
+                    FlowDataId = table.Column<int>(nullable: true),
+                    FlowCssId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowG6", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlowG6_FlowCss_FlowCssId",
+                        column: x => x.FlowCssId,
+                        principalTable: "FlowCss",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowG6_FlowData_FlowDataId",
+                        column: x => x.FlowDataId,
+                        principalTable: "FlowData",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowG6_FlowGraph_FlowGraphId",
+                        column: x => x.FlowGraphId,
+                        principalTable: "FlowGraph",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "page_elements",
                 columns: table => new
                 {
@@ -763,6 +1162,101 @@ namespace BasicsApi.Migrations
                         onDelete: ReferentialAction.Restrict);
                 },
                 comment: "菜单权限对照表");
+
+            migrationBuilder.CreateTable(
+                name: "FlowFun",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FunName = table.Column<string>(nullable: true),
+                    FunParameter = table.Column<string>(nullable: true),
+                    FunBody = table.Column<string>(nullable: true),
+                    FlowG6Id = table.Column<int>(nullable: true),
+                    FlowG6Id1 = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowFun", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlowFun_FlowG6_FlowG6Id",
+                        column: x => x.FlowG6Id,
+                        principalTable: "FlowG6",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowFun_FlowG6_FlowG6Id1",
+                        column: x => x.FlowG6Id1,
+                        principalTable: "FlowG6",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowRegisterBehavior",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(nullable: true),
+                    FlowG6Id = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowRegisterBehavior", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlowRegisterBehavior_FlowG6_FlowG6Id",
+                        column: x => x.FlowG6Id,
+                        principalTable: "FlowG6",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowShapeOptions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DrawId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowShapeOptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlowShapeOptions_FlowFun_DrawId",
+                        column: x => x.DrawId,
+                        principalTable: "FlowFun",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowRegisterEdge",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ShapeType = table.Column<string>(nullable: true),
+                    ShapeOptionsId = table.Column<int>(nullable: true),
+                    FlowG6Id = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowRegisterEdge", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlowRegisterEdge_FlowG6_FlowG6Id",
+                        column: x => x.FlowG6Id,
+                        principalTable: "FlowG6",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlowRegisterEdge_FlowShapeOptions_ShapeOptionsId",
+                        column: x => x.ShapeOptionsId,
+                        principalTable: "FlowShapeOptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_area_pid",
@@ -833,6 +1327,141 @@ namespace BasicsApi.Migrations
                 name: "IX_employee_dep_id",
                 table: "employee",
                 column: "dep_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowEdge_FlowDataId",
+                table: "FlowEdge",
+                column: "FlowDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowEdge_LabelCfgId",
+                table: "FlowEdge",
+                column: "LabelCfgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowEdge_LoopCfgId",
+                table: "FlowEdge",
+                column: "LoopCfgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowEdge_StyleId",
+                table: "FlowEdge",
+                column: "StyleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowFun_FlowG6Id",
+                table: "FlowFun",
+                column: "FlowG6Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowFun_FlowG6Id1",
+                table: "FlowFun",
+                column: "FlowG6Id1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowG6_FlowCssId",
+                table: "FlowG6",
+                column: "FlowCssId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowG6_FlowDataId",
+                table: "FlowG6",
+                column: "FlowDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowG6_FlowGraphId",
+                table: "FlowG6",
+                column: "FlowGraphId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowGraph_DefaultEdgeId",
+                table: "FlowGraph",
+                column: "DefaultEdgeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowGraph_DefaultNodeId",
+                table: "FlowGraph",
+                column: "DefaultNodeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowGraph_LayoutId",
+                table: "FlowGraph",
+                column: "LayoutId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowGroup_FlowDataId",
+                table: "FlowGroup",
+                column: "FlowDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowGroup_TitleId",
+                table: "FlowGroup",
+                column: "TitleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowLabelCfgs_LabelCfgId",
+                table: "FlowLabelCfgs",
+                column: "LabelCfgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowLabelCfgs_LinkPointsId",
+                table: "FlowLabelCfgs",
+                column: "LinkPointsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowLabelCfgs_StyleId",
+                table: "FlowLabelCfgs",
+                column: "StyleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowNode_ClipCfgId",
+                table: "FlowNode",
+                column: "ClipCfgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowNode_FlowDataId",
+                table: "FlowNode",
+                column: "FlowDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowNode_IconId",
+                table: "FlowNode",
+                column: "IconId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowNode_LabelCfgId",
+                table: "FlowNode",
+                column: "LabelCfgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowNode_LinkPointsId",
+                table: "FlowNode",
+                column: "LinkPointsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowNode_StyleId",
+                table: "FlowNode",
+                column: "StyleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowRegisterBehavior_FlowG6Id",
+                table: "FlowRegisterBehavior",
+                column: "FlowG6Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowRegisterEdge_FlowG6Id",
+                table: "FlowRegisterEdge",
+                column: "FlowG6Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowRegisterEdge_ShapeOptionsId",
+                table: "FlowRegisterEdge",
+                column: "ShapeOptionsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowShapeOptions_DrawId",
+                table: "FlowShapeOptions",
+                column: "DrawId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_menu_pageId",
@@ -970,6 +1599,21 @@ namespace BasicsApi.Migrations
                 name: "employe_position");
 
             migrationBuilder.DropTable(
+                name: "FlowEdge");
+
+            migrationBuilder.DropTable(
+                name: "FlowGroup");
+
+            migrationBuilder.DropTable(
+                name: "FlowNode");
+
+            migrationBuilder.DropTable(
+                name: "FlowRegisterBehavior");
+
+            migrationBuilder.DropTable(
+                name: "FlowRegisterEdge");
+
+            migrationBuilder.DropTable(
                 name: "page_element");
 
             migrationBuilder.DropTable(
@@ -1006,6 +1650,21 @@ namespace BasicsApi.Migrations
                 name: "position");
 
             migrationBuilder.DropTable(
+                name: "FlowEdgeLoopCfg");
+
+            migrationBuilder.DropTable(
+                name: "FlowGroupTitle");
+
+            migrationBuilder.DropTable(
+                name: "FlowClipCfg");
+
+            migrationBuilder.DropTable(
+                name: "FlowIcon");
+
+            migrationBuilder.DropTable(
+                name: "FlowShapeOptions");
+
+            migrationBuilder.DropTable(
                 name: "element_element");
 
             migrationBuilder.DropTable(
@@ -1027,6 +1686,9 @@ namespace BasicsApi.Migrations
                 name: "role");
 
             migrationBuilder.DropTable(
+                name: "FlowFun");
+
+            migrationBuilder.DropTable(
                 name: "element");
 
             migrationBuilder.DropTable(
@@ -1034,6 +1696,9 @@ namespace BasicsApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "department");
+
+            migrationBuilder.DropTable(
+                name: "FlowG6");
 
             migrationBuilder.DropTable(
                 name: "operation");
@@ -1046,6 +1711,27 @@ namespace BasicsApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "company");
+
+            migrationBuilder.DropTable(
+                name: "FlowCss");
+
+            migrationBuilder.DropTable(
+                name: "FlowData");
+
+            migrationBuilder.DropTable(
+                name: "FlowGraph");
+
+            migrationBuilder.DropTable(
+                name: "FlowLabelCfgs");
+
+            migrationBuilder.DropTable(
+                name: "FlowLayout");
+
+            migrationBuilder.DropTable(
+                name: "FlowLinkPoints");
+
+            migrationBuilder.DropTable(
+                name: "FlowStyle");
         }
     }
 }

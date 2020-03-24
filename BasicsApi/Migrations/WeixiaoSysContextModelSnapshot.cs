@@ -524,6 +524,600 @@ namespace BasicsApi.Migrations
                     b.HasComment("文件表");
                 });
 
+            modelBuilder.Entity("BasicsApi.Models.FlowClipCfg", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Height")
+                        .HasColumnType("float");
+
+                    b.Property<double>("R")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Rx")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Ry")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("Show")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Width")
+                        .HasColumnType("float");
+
+                    b.Property<double>("X")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Y")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowClipCfg");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowCss", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("InsertCss")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowCss");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowData");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowEdge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FlowDataId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Label")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("LabelCfgId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LoopCfgId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Shape")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Source")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StyleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Target")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlowDataId");
+
+                    b.HasIndex("LabelCfgId");
+
+                    b.HasIndex("LoopCfgId");
+
+                    b.HasIndex("StyleId");
+
+                    b.ToTable("FlowEdge");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowEdgeLoopCfg", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Clockwise")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Dist")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowEdgeLoopCfg");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowFun", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FlowG6Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FlowG6Id1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FunBody")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FunName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FunParameter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlowG6Id");
+
+                    b.HasIndex("FlowG6Id1");
+
+                    b.ToTable("FlowFun");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowG6", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FlowCssId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FlowDataId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FlowGraphId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlowCssId");
+
+                    b.HasIndex("FlowDataId");
+
+                    b.HasIndex("FlowGraphId");
+
+                    b.ToTable("FlowG6");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowGraph", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("AutoPaint")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Container")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DefaultEdgeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DefaultNodeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("FitView")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("GroupByTypes")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("GroupTypes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Height")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("LayoutId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("MaxZoom")
+                        .HasColumnType("float");
+
+                    b.Property<double>("MinZoom")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Width")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DefaultEdgeId");
+
+                    b.HasIndex("DefaultNodeId");
+
+                    b.HasIndex("LayoutId");
+
+                    b.ToTable("FlowGraph");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FlowDataId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ParentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TitleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlowDataId");
+
+                    b.HasIndex("TitleId");
+
+                    b.ToTable("FlowGroup");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowGroupTitle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Fill")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OffsetX")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OffsetY")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Stroke")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("fontSize")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowGroupTitle");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowIcon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Height")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Img")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Show")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Width")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowIcon");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowLabelCfgs", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("AutoRotate")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LabelCfgId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LinkPointsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("RefX")
+                        .HasColumnType("float");
+
+                    b.Property<double>("RefY")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Shape")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StyleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LabelCfgId");
+
+                    b.HasIndex("LinkPointsId");
+
+                    b.HasIndex("StyleId");
+
+                    b.ToTable("FlowLabelCfgs");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowLayout", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LinkDistance")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("PreventOverlap")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowLayout");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowLinkPoints", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Bottom")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Fill")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Left")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("LineWidth")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("Right")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Size")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Stroke")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Top")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowLinkPoints");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowNode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ClipCfgId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Direction")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FlowDataId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GroupId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("IconId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Img")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InnerR")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Label")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("LabelCfgId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LinkPointsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Shape")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StyleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("X")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Y")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClipCfgId");
+
+                    b.HasIndex("FlowDataId");
+
+                    b.HasIndex("IconId");
+
+                    b.HasIndex("LabelCfgId");
+
+                    b.HasIndex("LinkPointsId");
+
+                    b.HasIndex("StyleId");
+
+                    b.ToTable("FlowNode");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowRegisterBehavior", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FlowG6Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlowG6Id");
+
+                    b.ToTable("FlowRegisterBehavior");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowRegisterEdge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FlowG6Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ShapeOptionsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShapeType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlowG6Id");
+
+                    b.HasIndex("ShapeOptionsId");
+
+                    b.ToTable("FlowRegisterEdge");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowShapeOptions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("DrawId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DrawId");
+
+                    b.ToTable("FlowShapeOptions");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowStyle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Fill")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LineWidth")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Offset")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Opacity")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Radius")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ShadowBlur")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShadowColor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ShadowOffsetX")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShadowOffsetY")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Stroke")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowStyle");
+                });
+
             modelBuilder.Entity("BasicsApi.Models.Menu", b =>
                 {
                     b.Property<int>("Id")
@@ -1256,6 +1850,144 @@ namespace BasicsApi.Migrations
                         .HasForeignKey("DepId")
                         .HasConstraintName("FK_EMPLOYEE_USER_DEP_DEPARTME")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowEdge", b =>
+                {
+                    b.HasOne("BasicsApi.Models.FlowData", null)
+                        .WithMany("Edges")
+                        .HasForeignKey("FlowDataId");
+
+                    b.HasOne("BasicsApi.Models.FlowLabelCfgs", "LabelCfg")
+                        .WithMany()
+                        .HasForeignKey("LabelCfgId");
+
+                    b.HasOne("BasicsApi.Models.FlowEdgeLoopCfg", "LoopCfg")
+                        .WithMany()
+                        .HasForeignKey("LoopCfgId");
+
+                    b.HasOne("BasicsApi.Models.FlowStyle", "Style")
+                        .WithMany()
+                        .HasForeignKey("StyleId");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowFun", b =>
+                {
+                    b.HasOne("BasicsApi.Models.FlowG6", null)
+                        .WithMany("FlowFronts")
+                        .HasForeignKey("FlowG6Id");
+
+                    b.HasOne("BasicsApi.Models.FlowG6", null)
+                        .WithMany("Ons")
+                        .HasForeignKey("FlowG6Id1");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowG6", b =>
+                {
+                    b.HasOne("BasicsApi.Models.FlowCss", "FlowCss")
+                        .WithMany()
+                        .HasForeignKey("FlowCssId");
+
+                    b.HasOne("BasicsApi.Models.FlowData", "FlowData")
+                        .WithMany()
+                        .HasForeignKey("FlowDataId");
+
+                    b.HasOne("BasicsApi.Models.FlowGraph", "FlowGraph")
+                        .WithMany()
+                        .HasForeignKey("FlowGraphId");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowGraph", b =>
+                {
+                    b.HasOne("BasicsApi.Models.FlowLabelCfgs", "DefaultEdge")
+                        .WithMany()
+                        .HasForeignKey("DefaultEdgeId");
+
+                    b.HasOne("BasicsApi.Models.FlowLabelCfgs", "DefaultNode")
+                        .WithMany()
+                        .HasForeignKey("DefaultNodeId");
+
+                    b.HasOne("BasicsApi.Models.FlowLayout", "Layout")
+                        .WithMany()
+                        .HasForeignKey("LayoutId");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowGroup", b =>
+                {
+                    b.HasOne("BasicsApi.Models.FlowData", null)
+                        .WithMany("Groups")
+                        .HasForeignKey("FlowDataId");
+
+                    b.HasOne("BasicsApi.Models.FlowGroupTitle", "Title")
+                        .WithMany()
+                        .HasForeignKey("TitleId");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowLabelCfgs", b =>
+                {
+                    b.HasOne("BasicsApi.Models.FlowLabelCfgs", "LabelCfg")
+                        .WithMany()
+                        .HasForeignKey("LabelCfgId");
+
+                    b.HasOne("BasicsApi.Models.FlowLinkPoints", "LinkPoints")
+                        .WithMany()
+                        .HasForeignKey("LinkPointsId");
+
+                    b.HasOne("BasicsApi.Models.FlowStyle", "Style")
+                        .WithMany()
+                        .HasForeignKey("StyleId");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowNode", b =>
+                {
+                    b.HasOne("BasicsApi.Models.FlowClipCfg", "ClipCfg")
+                        .WithMany()
+                        .HasForeignKey("ClipCfgId");
+
+                    b.HasOne("BasicsApi.Models.FlowData", null)
+                        .WithMany("Nodes")
+                        .HasForeignKey("FlowDataId");
+
+                    b.HasOne("BasicsApi.Models.FlowIcon", "Icon")
+                        .WithMany()
+                        .HasForeignKey("IconId");
+
+                    b.HasOne("BasicsApi.Models.FlowLabelCfgs", "LabelCfg")
+                        .WithMany()
+                        .HasForeignKey("LabelCfgId");
+
+                    b.HasOne("BasicsApi.Models.FlowLinkPoints", "LinkPoints")
+                        .WithMany()
+                        .HasForeignKey("LinkPointsId");
+
+                    b.HasOne("BasicsApi.Models.FlowStyle", "Style")
+                        .WithMany()
+                        .HasForeignKey("StyleId");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowRegisterBehavior", b =>
+                {
+                    b.HasOne("BasicsApi.Models.FlowG6", null)
+                        .WithMany("RegisterBehaviors")
+                        .HasForeignKey("FlowG6Id");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowRegisterEdge", b =>
+                {
+                    b.HasOne("BasicsApi.Models.FlowG6", null)
+                        .WithMany("RegisterEdges")
+                        .HasForeignKey("FlowG6Id");
+
+                    b.HasOne("BasicsApi.Models.FlowShapeOptions", "ShapeOptions")
+                        .WithMany()
+                        .HasForeignKey("ShapeOptionsId");
+                });
+
+            modelBuilder.Entity("BasicsApi.Models.FlowShapeOptions", b =>
+                {
+                    b.HasOne("BasicsApi.Models.FlowFun", "Draw")
+                        .WithMany()
+                        .HasForeignKey("DrawId");
                 });
 
             modelBuilder.Entity("BasicsApi.Models.Menu", b =>

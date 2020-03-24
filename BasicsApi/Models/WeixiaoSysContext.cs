@@ -58,6 +58,12 @@ namespace BasicsApi.Models
         public virtual DbSet<FlowLayout> FlowLayout { get; set; }
         public virtual DbSet<FlowNode> FlowNode { get; set; }
         public virtual DbSet<FlowStyle> FlowStyle { get; set; }
+        public virtual DbSet<FlowLinkPoints> FlowLinkPoints { get; set; }
+        public virtual DbSet<FlowG6> FlowG6 { get; set; }
+        public virtual DbSet<FlowData> FlowData { get; set; }
+        public virtual DbSet<FlowRegisterBehavior> FlowRegisterBehavior { get; set; }
+        public virtual DbSet<FlowRegisterEdge> FlowRegisterEdge { get; set; }
+        public virtual DbSet<FlowShapeOptions> FlowShapeOptions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

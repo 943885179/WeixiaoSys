@@ -46,7 +46,7 @@ namespace BasicsApi.Models
         {
             get
             {
-                return this.fitViewPadding.Split(',').Select(d => Convert.ToInt32(d)).ToArray();
+                return string.IsNullOrWhiteSpace(this.fitViewPadding) ? null : this.fitViewPadding.Split(',').Select(d => Convert.ToInt32(d)).ToArray();
             }
             set { this.fitViewPadding = string.Join(',', value); }
         }
@@ -108,7 +108,7 @@ namespace BasicsApi.Models
         {
             get
             {
-                return System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(this.modes, options: new JsonSerializerOptions()
+                return string.IsNullOrWhiteSpace(this.modes) ? null : JsonSerializer.Deserialize<Dictionary<string, object>>(this.modes, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -127,9 +127,30 @@ namespace BasicsApi.Models
         /// 样式node可以不设置下x，y，按照规则生成（会让设置了x，y的也失效）,不实现的话则会重叠在0，0位置
         /// </summary>
         public FlowLayout Layout { get; set; }
+        private string nodeStateStyles { get; set; }
         /// <summary>
         /// state 样式
         /// </summary>
-        public Dictionary<string, FlowStyle> NodeStateStyles { get; set; }
+        [NotMapped]
+        //[Column(TypeName = "varchar(5000)")]
+        public Dictionary<string, FlowStyle> NodeStateStyles
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(this.nodeStateStyles) ? null : JsonSerializer.Deserialize<Dictionary<string, FlowStyle>>(this.nodeStateStyles, options: new JsonSerializerOptions()
+                {
+                    IgnoreNullValues = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            }
+            set
+            {
+                this.nodeStateStyles = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
+                {
+                    IgnoreNullValues = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            }
+        }
     }
 }

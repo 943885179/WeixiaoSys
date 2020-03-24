@@ -8,7 +8,7 @@ namespace BasicsApi.Models
     /// <summary>
     /// 添加样式
     /// </summary>
-    public class FlowCss
+    public class FlowCss:WeixiaoEntity
     {
         /// <summary>
         /// 添加的样式内容 yarn add insertcss;

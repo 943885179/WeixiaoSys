@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BasicsApi.Models
@@ -64,14 +67,40 @@ namespace BasicsApi.Models
         ///若有 description 字段则显示在标签文本下方显示 description 内容
         /// </summary>
         public string Shape { get; set; } = "circle";
+        private string size { get; set; }
         /// <summary>
         /// 大小 circle设置半径，矩形椭圆设置长宽[20,10]
         /// </summary>
-        public int[] Size { get; set; }
+        [NotMapped]
+        public int[] Size
+        {
+            get { return string.IsNullOrWhiteSpace(this.size) ? null : this.size.Split(',').Select(d => Convert.ToInt32(d)).ToArray(); }
+            set { this.size = string.Join(',', value); }
+        }
+        private string anchorPoints { get; set; }
         /// <summary>
         /// anchorPoints 该节点可选的连接点集合
         /// </summary>
-        public List<double[][]> AnchorPoints { get; set; }
+        [NotMapped]
+        public List<double[][]> AnchorPoints
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(this.anchorPoints) ? null : JsonSerializer.Deserialize<List<double[][]>>(this.anchorPoints, options: new JsonSerializerOptions()
+                {
+                    IgnoreNullValues = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            }
+            set
+            {
+                this.anchorPoints = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
+                {
+                    IgnoreNullValues = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            }
+        }
         /// <summary>
         /// 附文本,shape设置modelRect生效
         /// </summary>
@@ -84,15 +113,35 @@ namespace BasicsApi.Models
         /// 样式
         /// </summary>
         public FlowStyle Style { get; set; }
+        private string stateStyles { get; set; }
         /// <summary>
         ///各状态下的样式Object只对keyShape起作用
         /// </summary>
-        public Dictionary<string, FlowStyle> StateStyles { get; set; }
+        [NotMapped]
+        public Dictionary<string, FlowStyle> StateStyles
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(this.stateStyles) ? null : JsonSerializer.Deserialize<Dictionary<string, FlowStyle>>(this.stateStyles, options: new JsonSerializerOptions()
+                {
+                    IgnoreNullValues = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            }
+            set
+            {
+                this.stateStyles = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
+                {
+                    IgnoreNullValues = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            }
+        }
 
         /// <summary>
         /// 指定节点周围「上、下、左、右」四个方向上边的连入点
         /// </summary>
-        public LinkPoints LinkPoints { get; set; }
+        public FlowLinkPoints LinkPoints { get; set; }
         /// <summary>
         /// 图片路径，shape设置为image时生效
         /// </summary>
@@ -114,89 +163,5 @@ namespace BasicsApi.Models
         /// 五角星内环大小
         /// </summary>
         public int InnerR { get; set; } = 3 * 8;
-    }
-    /// <summary>
-    /// 指定节点周围「上、下、左、右」四个方向上边的连入点
-    /// </summary>
-    public class LinkPoints : WeixiaoEntity
-    {
-        /// <summary>
-        /// 是否显示上部的连接点
-        /// </summary>
-        public bool Top { get; set; } = true;
-        /// <summary>
-        /// 是否显示底部的连接点
-        /// </summary>
-        public bool Bottom { get; set; } = true;
-        /// <summary>
-        /// 是否显示左部的连接点
-        /// </summary>
-        public bool Left { get; set; } = true;
-        /// <summary>
-        /// 是否显示右部的连接点
-        /// </summary>
-        public bool Right { get; set; } = true;
-        /// <summary>
-        /// 连接点大小
-        /// </summary>
-        public double Size { get; set; } = 3;
-        /// <summary>
-        /// 连接点填充色
-        /// </summary>
-        public string Fill { get; set; } = "#72CC4A";
-        /// <summary>
-        /// 连接点的描边颜色
-        /// </summary>
-        public string Stroke { get; set; } = "#72CC4A";
-        /// <summary>
-        /// 连接点描边的宽度
-        /// </summary>
-        public double LineWidth { get; set; } = 1;
-
-    }
-    public class FlowStyle : WeixiaoEntity
-    {
-
-        /// <summary>
-        /// 元素的填充色
-        /// </summary>
-        public string Fill { get; set; }
-        /// <summary>
-        /// 元素的描边色
-        /// </summary>
-        public string Stroke { get; set; }
-        /// <summary>
-        /// 描边宽度
-        /// </summary>
-        public int LineWidth { get; set; }
-        /// <summary>
-        /// 阴影颜色
-        /// </summary>
-        public string ShadowColor { get; set; }
-        /// <summary>
-        /// 阴影范围
-        /// </summary>
-        public string ShadowBlur { get; set; }
-        /// <summary>
-        /// 阴影 x 方向偏移量
-        /// </summary>
-        public int ShadowOffsetX { get; set; }
-        /// <summary>
-        /// 阴影 y 方向偏移量
-        /// </summary>
-        public int ShadowOffsetY { get; set; }
-        /// <summary>
-        /// 透明度
-        /// </summary>
-        public double Opacity { get; set; } = 1;
-        /// <summary>
-        /// Shape为rect时候圆角半径 线拐弯处的圆角弧度
-        /// </summary>
-        public double Radius { get; set; }
-        /// <summary>
-        /// 拐弯处距离节点最小距离	Number     默认为 5，polyline 特有
-        /// </summary>
-        public double Offset { get; set; } = 5;
-
     }
 }
