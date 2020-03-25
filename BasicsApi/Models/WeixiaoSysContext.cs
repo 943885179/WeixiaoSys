@@ -1070,7 +1070,19 @@ namespace BasicsApi.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USER_USE_USERGROUP_EMP_GROU");
             });
-
+            modelBuilder.Entity<FlowLabelCfgs>(entity =>
+            {
+                entity.HasOne(t => t.LabelCfg)
+                    .WithMany()
+                    .HasForeignKey(t => t.LabelCfgId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+            modelBuilder.Entity<FlowEdge>(entity =>
+            {
+                entity.HasOne(t => t.Style).WithMany().HasForeignKey(t => t.StyleId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    ;
+            });
             modelBuilder.Entity<UsergroupRole>(entity =>
             {
                 entity.HasKey(e => e.Id)

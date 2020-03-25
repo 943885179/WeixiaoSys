@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BasicsApi.Models
 {
-    public class FlowNode : WeixiaoEntity
+    public class FlowNode 
     {
+        [Key]
+        [JsonIgnore]
+        public int Id { get; set; }
+        [JsonPropertyName("id")]
+        public string Code { get; set; }
         /// <summary>
         /// 组别
         /// </summary>
@@ -67,17 +74,17 @@ namespace BasicsApi.Models
         ///若有 description 字段则显示在标签文本下方显示 description 内容
         /// </summary>
         public string Shape { get; set; } = "circle";
-        private string size { get; set; }
+        public string sizeJson { get; set; }
         /// <summary>
         /// 大小 circle设置半径，矩形椭圆设置长宽[20,10]
         /// </summary>
         [NotMapped]
         public int[] Size
         {
-            get { return string.IsNullOrWhiteSpace(this.size) ? null : this.size.Split(',').Select(d => Convert.ToInt32(d)).ToArray(); }
-            set { this.size = string.Join(',', value); }
+            get { return string.IsNullOrWhiteSpace(this.sizeJson) ? null : this.sizeJson.Split(',').Select(d => Convert.ToInt32(d)).ToArray(); }
+            set { this.sizeJson = string.Join(',', value); }
         }
-        private string anchorPoints { get; set; }
+        public string anchorPointsJson { get; set; }
         /// <summary>
         /// anchorPoints 该节点可选的连接点集合
         /// </summary>
@@ -86,7 +93,7 @@ namespace BasicsApi.Models
         {
             get
             {
-                return string.IsNullOrWhiteSpace(this.anchorPoints) ? null : JsonSerializer.Deserialize<List<double[][]>>(this.anchorPoints, options: new JsonSerializerOptions()
+                return string.IsNullOrWhiteSpace(this.anchorPointsJson) ? null : JsonSerializer.Deserialize<List<double[][]>>(this.anchorPointsJson, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -94,7 +101,7 @@ namespace BasicsApi.Models
             }
             set
             {
-                this.anchorPoints = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
+                this.anchorPointsJson = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -113,7 +120,7 @@ namespace BasicsApi.Models
         /// 样式
         /// </summary>
         public FlowStyle Style { get; set; }
-        private string stateStyles { get; set; }
+        public string stateStylesJson { get; set; }
         /// <summary>
         ///各状态下的样式Object只对keyShape起作用
         /// </summary>
@@ -122,7 +129,7 @@ namespace BasicsApi.Models
         {
             get
             {
-                return string.IsNullOrWhiteSpace(this.stateStyles) ? null : JsonSerializer.Deserialize<Dictionary<string, FlowStyle>>(this.stateStyles, options: new JsonSerializerOptions()
+                return string.IsNullOrWhiteSpace(this.stateStylesJson) ? null : JsonSerializer.Deserialize<Dictionary<string, FlowStyle>>(this.stateStylesJson, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -130,30 +137,34 @@ namespace BasicsApi.Models
             }
             set
             {
-                this.stateStyles = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
+                this.stateStylesJson = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 });
             }
         }
-
+        public int LinkPointsId { get; set; }
         /// <summary>
         /// 指定节点周围「上、下、左、右」四个方向上边的连入点
         /// </summary>
+        [ForeignKey("LinkPointsId")]
         public FlowLinkPoints LinkPoints { get; set; }
         /// <summary>
         /// 图片路径，shape设置为image时生效
         /// </summary>
         public string Img { get; set; }
+        public int ClipCfgId { get; set; }
         /// <summary>
         /// sharp为imges特有的属性，剪切图片，默认false不开启
         /// </summary>
+        [ForeignKey("ClipCfgId")]
         public FlowClipCfg ClipCfg { get; set; }
         /// <summary>
         /// 图标（圆，椭圆，菱形，三角形,五角星,方形卡片）
         /// </summary>
-
+        public int IconId { get; set; }
+        [ForeignKey("IconId")]
         public FlowIcon Icon { get; set; }
         /// <summary>
         /// 三角形的方向String 可取值：up、down、left、right，默认为up。
@@ -163,5 +174,8 @@ namespace BasicsApi.Models
         /// 五角星内环大小
         /// </summary>
         public int InnerR { get; set; } = 3 * 8;
+        public int FlowDataId { get; set; }
+        [ForeignKey("FlowDataId")]
+        public virtual FlowData FlowData { get; set; }
     }
 }

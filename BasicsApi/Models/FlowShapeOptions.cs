@@ -1,7 +1,11 @@
-﻿namespace BasicsApi.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BasicsApi.Models
 {
     public class FlowShapeOptions:WeixiaoEntity
     {
+        public int DrawId { get; set; }
+        [ForeignKey("DrawId")]
         public FlowFun Draw { get; set; } = new FlowFun()
         {
             FunName= "draw",

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BasicsApi.Migrations
 {
     [DbContext(typeof(WeixiaoSysContext))]
-    [Migration("20200324102151_flow")]
-    partial class flow
+    [Migration("20200325102049_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -587,6 +587,15 @@ namespace BasicsApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("Gid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("FlowData");
@@ -758,6 +767,12 @@ namespace BasicsApi.Migrations
                     b.Property<string>("Width")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("modesJson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nodeStateStylesJson")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DefaultEdgeId");
@@ -776,13 +791,13 @@ namespace BasicsApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("FlowDataId")
+                    b.Property<int>("FlowDataId")
                         .HasColumnType("int");
 
                     b.Property<string>("ParentId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TitleId")
+                    b.Property<int>("TitleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -879,6 +894,9 @@ namespace BasicsApi.Migrations
                     b.Property<int?>("StyleId")
                         .HasColumnType("int");
 
+                    b.Property<string>("offsetJson")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("LabelCfgId");
@@ -954,8 +972,11 @@ namespace BasicsApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClipCfgId")
+                    b.Property<int>("ClipCfgId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -963,13 +984,13 @@ namespace BasicsApi.Migrations
                     b.Property<string>("Direction")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FlowDataId")
+                    b.Property<int>("FlowDataId")
                         .HasColumnType("int");
 
                     b.Property<string>("GroupId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IconId")
+                    b.Property<int>("IconId")
                         .HasColumnType("int");
 
                     b.Property<string>("Img")
@@ -984,7 +1005,7 @@ namespace BasicsApi.Migrations
                     b.Property<int?>("LabelCfgId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LinkPointsId")
+                    b.Property<int>("LinkPointsId")
                         .HasColumnType("int");
 
                     b.Property<string>("Shape")
@@ -998,6 +1019,15 @@ namespace BasicsApi.Migrations
 
                     b.Property<int>("Y")
                         .HasColumnType("int");
+
+                    b.Property<string>("anchorPointsJson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("sizeJson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("stateStylesJson")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1023,10 +1053,13 @@ namespace BasicsApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("FlowG6Id")
+                    b.Property<int>("FlowG6Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("behaviorJson")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -1043,10 +1076,10 @@ namespace BasicsApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("FlowG6Id")
+                    b.Property<int>("FlowG6Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ShapeOptionsId")
+                    b.Property<int>("ShapeOptionsId")
                         .HasColumnType("int");
 
                     b.Property<string>("ShapeType")
@@ -1068,7 +1101,7 @@ namespace BasicsApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("DrawId")
+                    b.Property<int>("DrawId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1856,7 +1889,7 @@ namespace BasicsApi.Migrations
 
             modelBuilder.Entity("BasicsApi.Models.FlowEdge", b =>
                 {
-                    b.HasOne("BasicsApi.Models.FlowData", null)
+                    b.HasOne("BasicsApi.Models.FlowData", "FlowData")
                         .WithMany("Edges")
                         .HasForeignKey("FlowDataId");
 
@@ -1916,13 +1949,17 @@ namespace BasicsApi.Migrations
 
             modelBuilder.Entity("BasicsApi.Models.FlowGroup", b =>
                 {
-                    b.HasOne("BasicsApi.Models.FlowData", null)
+                    b.HasOne("BasicsApi.Models.FlowData", "FlowData")
                         .WithMany("Groups")
-                        .HasForeignKey("FlowDataId");
+                        .HasForeignKey("FlowDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BasicsApi.Models.FlowGroupTitle", "Title")
                         .WithMany()
-                        .HasForeignKey("TitleId");
+                        .HasForeignKey("TitleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BasicsApi.Models.FlowLabelCfgs", b =>
@@ -1944,15 +1981,21 @@ namespace BasicsApi.Migrations
                 {
                     b.HasOne("BasicsApi.Models.FlowClipCfg", "ClipCfg")
                         .WithMany()
-                        .HasForeignKey("ClipCfgId");
+                        .HasForeignKey("ClipCfgId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("BasicsApi.Models.FlowData", null)
+                    b.HasOne("BasicsApi.Models.FlowData", "FlowData")
                         .WithMany("Nodes")
-                        .HasForeignKey("FlowDataId");
+                        .HasForeignKey("FlowDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BasicsApi.Models.FlowIcon", "Icon")
                         .WithMany()
-                        .HasForeignKey("IconId");
+                        .HasForeignKey("IconId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BasicsApi.Models.FlowLabelCfgs", "LabelCfg")
                         .WithMany()
@@ -1960,7 +2003,9 @@ namespace BasicsApi.Migrations
 
                     b.HasOne("BasicsApi.Models.FlowLinkPoints", "LinkPoints")
                         .WithMany()
-                        .HasForeignKey("LinkPointsId");
+                        .HasForeignKey("LinkPointsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BasicsApi.Models.FlowStyle", "Style")
                         .WithMany()
@@ -1969,27 +2014,35 @@ namespace BasicsApi.Migrations
 
             modelBuilder.Entity("BasicsApi.Models.FlowRegisterBehavior", b =>
                 {
-                    b.HasOne("BasicsApi.Models.FlowG6", null)
+                    b.HasOne("BasicsApi.Models.FlowG6", "FlowG6")
                         .WithMany("RegisterBehaviors")
-                        .HasForeignKey("FlowG6Id");
+                        .HasForeignKey("FlowG6Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BasicsApi.Models.FlowRegisterEdge", b =>
                 {
-                    b.HasOne("BasicsApi.Models.FlowG6", null)
+                    b.HasOne("BasicsApi.Models.FlowG6", "FlowG6")
                         .WithMany("RegisterEdges")
-                        .HasForeignKey("FlowG6Id");
+                        .HasForeignKey("FlowG6Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BasicsApi.Models.FlowShapeOptions", "ShapeOptions")
                         .WithMany()
-                        .HasForeignKey("ShapeOptionsId");
+                        .HasForeignKey("ShapeOptionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BasicsApi.Models.FlowShapeOptions", b =>
                 {
                     b.HasOne("BasicsApi.Models.FlowFun", "Draw")
                         .WithMany()
-                        .HasForeignKey("DrawId");
+                        .HasForeignKey("DrawId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BasicsApi.Models.Menu", b =>

@@ -23,14 +23,17 @@ namespace BasicsApi.Controllers
         {
             // bll = new DepService(db);
         }
-        [HttpGet("Test.json")]
+        [HttpGet("Test")]
         public ResponseDto Test()
         {
             var flow = _db.FlowG6.Include(d => d.FlowCss)
                 .Include(d => d.FlowData).ThenInclude(d=>d.Nodes)
                 .Include(d => d.FlowFronts)
                 .Include(d => d.FlowGraph)
+                .Include(d => d.RegisterBehaviors)
+                .Include(d => d.RegisterEdges)
                 .Include(d => d.FlowGraph.DefaultEdge)
+                .Include(d => d.Ons)
                 .Include(d => d.FlowGraph.DefaultEdge.LabelCfg)
                 .Include(d => d.FlowGraph.DefaultEdge.LabelCfg.LinkPoints)
                 .Include(d => d.FlowGraph.DefaultEdge.LabelCfg.LabelCfg)

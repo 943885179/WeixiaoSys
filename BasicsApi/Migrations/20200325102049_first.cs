@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BasicsApi.Migrations
 {
-    public partial class flow : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -145,7 +145,10 @@ namespace BasicsApi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Gid = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Code = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -418,9 +421,9 @@ namespace BasicsApi.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TitleId = table.Column<int>(nullable: true),
+                    TitleId = table.Column<int>(nullable: false),
                     ParentId = table.Column<string>(nullable: true),
-                    FlowDataId = table.Column<int>(nullable: true)
+                    FlowDataId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -430,13 +433,13 @@ namespace BasicsApi.Migrations
                         column: x => x.FlowDataId,
                         principalTable: "FlowData",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FlowGroup_FlowGroupTitle_TitleId",
                         column: x => x.TitleId,
                         principalTable: "FlowGroupTitle",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -447,6 +450,7 @@ namespace BasicsApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Shape = table.Column<string>(nullable: true),
                     Position = table.Column<string>(nullable: true),
+                    offsetJson = table.Column<string>(nullable: true),
                     StyleId = table.Column<int>(nullable: true),
                     AutoRotate = table.Column<bool>(nullable: false),
                     LabelCfgId = table.Column<int>(nullable: true),
@@ -769,7 +773,9 @@ namespace BasicsApi.Migrations
                     MaxZoom = table.Column<double>(nullable: false),
                     DefaultNodeId = table.Column<int>(nullable: true),
                     DefaultEdgeId = table.Column<int>(nullable: true),
-                    LayoutId = table.Column<int>(nullable: true)
+                    modesJson = table.Column<string>(nullable: true),
+                    LayoutId = table.Column<int>(nullable: true),
+                    nodeStateStylesJson = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -800,21 +806,25 @@ namespace BasicsApi.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(nullable: true),
                     GroupId = table.Column<string>(nullable: true),
                     X = table.Column<int>(nullable: false),
                     Y = table.Column<int>(nullable: false),
                     Label = table.Column<string>(nullable: true),
                     Shape = table.Column<string>(nullable: true),
+                    sizeJson = table.Column<string>(nullable: true),
+                    anchorPointsJson = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     LabelCfgId = table.Column<int>(nullable: true),
                     StyleId = table.Column<int>(nullable: true),
-                    LinkPointsId = table.Column<int>(nullable: true),
+                    stateStylesJson = table.Column<string>(nullable: true),
+                    LinkPointsId = table.Column<int>(nullable: false),
                     Img = table.Column<string>(nullable: true),
-                    ClipCfgId = table.Column<int>(nullable: true),
-                    IconId = table.Column<int>(nullable: true),
+                    ClipCfgId = table.Column<int>(nullable: false),
+                    IconId = table.Column<int>(nullable: false),
                     Direction = table.Column<string>(nullable: true),
                     InnerR = table.Column<int>(nullable: false),
-                    FlowDataId = table.Column<int>(nullable: true)
+                    FlowDataId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -824,19 +834,19 @@ namespace BasicsApi.Migrations
                         column: x => x.ClipCfgId,
                         principalTable: "FlowClipCfg",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FlowNode_FlowData_FlowDataId",
                         column: x => x.FlowDataId,
                         principalTable: "FlowData",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FlowNode_FlowIcon_IconId",
                         column: x => x.IconId,
                         principalTable: "FlowIcon",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FlowNode_FlowLabelCfgs_LabelCfgId",
                         column: x => x.LabelCfgId,
@@ -848,7 +858,7 @@ namespace BasicsApi.Migrations
                         column: x => x.LinkPointsId,
                         principalTable: "FlowLinkPoints",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FlowNode_FlowStyle_StyleId",
                         column: x => x.StyleId,
@@ -1199,7 +1209,8 @@ namespace BasicsApi.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Type = table.Column<string>(nullable: true),
-                    FlowG6Id = table.Column<int>(nullable: true)
+                    behaviorJson = table.Column<string>(nullable: true),
+                    FlowG6Id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1209,7 +1220,7 @@ namespace BasicsApi.Migrations
                         column: x => x.FlowG6Id,
                         principalTable: "FlowG6",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1218,7 +1229,7 @@ namespace BasicsApi.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DrawId = table.Column<int>(nullable: true)
+                    DrawId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1228,7 +1239,7 @@ namespace BasicsApi.Migrations
                         column: x => x.DrawId,
                         principalTable: "FlowFun",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1238,8 +1249,8 @@ namespace BasicsApi.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShapeType = table.Column<string>(nullable: true),
-                    ShapeOptionsId = table.Column<int>(nullable: true),
-                    FlowG6Id = table.Column<int>(nullable: true)
+                    ShapeOptionsId = table.Column<int>(nullable: false),
+                    FlowG6Id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1249,13 +1260,13 @@ namespace BasicsApi.Migrations
                         column: x => x.FlowG6Id,
                         principalTable: "FlowG6",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FlowRegisterEdge_FlowShapeOptions_ShapeOptionsId",
                         column: x => x.ShapeOptionsId,
                         principalTable: "FlowShapeOptions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

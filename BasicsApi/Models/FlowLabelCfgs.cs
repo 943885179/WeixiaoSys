@@ -17,29 +17,32 @@ namespace BasicsApi.Models
         /// 标签的属性，标签在元素中的位置 文本相对于节点的位置，目前支持的位置有:  'center'，'top'，'left'，'right'，'bottom'。默认为 'center'。
         /// </summary>
         public string Position { get; set; } = "center";
-        private string offset { get; set; }
+        public string offsetJson { get; set; }
         /// <summary>
         /// 文本的偏移，在 'top'，'left'，'right'，'bottom' 位置上的偏移量
         /// </summary>
         [NotMapped]
         public int[] Offset
         {
-            get { return string.IsNullOrWhiteSpace(this.offset) ? null : this.offset.Split(',').Select(d => Convert.ToInt32(d)).ToArray(); }
-            set { this.offset = string.Join(',', value); }
+            get { return string.IsNullOrWhiteSpace(this.offsetJson) ? null : this.offsetJson.Split(',').Select(d => Convert.ToInt32(d)).ToArray(); }
+            set { this.offsetJson = string.Join(',', value); }
         }
+        public int StyleId { get; set; }
         /// <summary>
         /// 包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行
         /// </summary>
+        [ForeignKey("StyleId")]
         public FlowStyle Style { get; set; }
         /// <summary>
         /// 边上的标签文本根据边的方向旋转
         /// </summary>
         public bool AutoRotate { get; set; }
+        public int LabelCfgId { get; set; }
         /// <summary>
         /// 标签文本配置
         /// </summary>
-        public FlowLabelCfgs LabelCfg { get; set; }
-
+        public virtual FlowLabelCfgs LabelCfg { get; set; }
+        public int LinkPointsId { get; set; }
         /// <summary>
         /// 指定节点周围「上、下、左、右」四个方向上边的连入点LabelCfgs下的只有defaultNode下起作用
         /// </summary>

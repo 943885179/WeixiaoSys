@@ -229,6 +229,21 @@
             添加的样式内容 yarn add insertcss;
             </summary>
         </member>
+        <member name="P:BasicsApi.Models.FlowData.Gid">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowData.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BasicsApi.Models.FlowData.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
         <member name="P:BasicsApi.Models.FlowEdge.Shape">
             <summary>
             类型 默认直线line 不支持控制点；.折线 polyline 支持多个控制点, 二阶贝塞尔曲线 quadratic 三阶贝塞尔曲线 cubic,圆弧线 arc,折线自环 loop,cubic-vertical：垂直方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；cubic-horizontal；水平方向的三阶贝塞尔曲线，不考虑用户从外部传入的控制点；
@@ -242,11 +257,6 @@
         <member name="P:BasicsApi.Models.FlowEdge.Target">
             <summary>
             结束节点
-            </summary>
-        </member>
-        <member name="P:BasicsApi.Models.FlowEdge.Style">
-            <summary>
-            边的样式
             </summary>
         </member>
         <member name="P:BasicsApi.Models.FlowEdgeLoopCfg.Position">
@@ -319,7 +329,7 @@
             是否开启画布自适应
             </summary>
         </member>
-        <member name="F:BasicsApi.Models.FlowGraph.fitViewPadding">
+        <member name="F:BasicsApi.Models.FlowGraph.fitViewPaddingJson">
             <summary>
             
             </summary>
@@ -679,7 +689,7 @@
             sharp为imges特有的属性，剪切图片，默认false不开启
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.FlowNode.Icon">
+        <member name="P:BasicsApi.Models.FlowNode.IconId">
             <summary>
             图标（圆，椭圆，菱形，三角形,五角星,方形卡片）
             </summary>

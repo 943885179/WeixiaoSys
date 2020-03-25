@@ -34,7 +34,7 @@ namespace BasicsApi.Models
         /// <summary>
         /// 
         /// </summary>
-        private string fitViewPadding;
+        public string fitViewPaddingJson;
         /// <summary>
         /// Array | Number
         /// fitView 为 true 时生效。图适应画布时，指定四周的留白。可以是一个值,
@@ -46,9 +46,9 @@ namespace BasicsApi.Models
         {
             get
             {
-                return string.IsNullOrWhiteSpace(this.fitViewPadding) ? null : this.fitViewPadding.Split(',').Select(d => Convert.ToInt32(d)).ToArray();
+                return string.IsNullOrWhiteSpace(this.fitViewPaddingJson) ? null : this.fitViewPaddingJson.Split(',').Select(d => Convert.ToInt32(d)).ToArray();
             }
-            set { this.fitViewPadding = string.Join(',', value); }
+            set { this.fitViewPaddingJson = string.Join(',', value); }
         }
         //{
         //    get
@@ -102,13 +102,13 @@ namespace BasicsApi.Models
         /// 默认线路样式
         /// </summary>
         public FlowLabelCfgs DefaultEdge { get; set; }
-        private string modes { get; set; }
+        public string modesJson { get; set; }
         [NotMapped]
         public Dictionary<string, object> Modes
         {
             get
             {
-                return string.IsNullOrWhiteSpace(this.modes) ? null : JsonSerializer.Deserialize<Dictionary<string, object>>(this.modes, options: new JsonSerializerOptions()
+                return string.IsNullOrWhiteSpace(this.modesJson) ? null : JsonSerializer.Deserialize<Dictionary<string, object>>(this.modesJson, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -116,7 +116,7 @@ namespace BasicsApi.Models
             }
             set
             {
-                this.modes = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
+                this.modesJson = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -127,7 +127,7 @@ namespace BasicsApi.Models
         /// 样式node可以不设置下x，y，按照规则生成（会让设置了x，y的也失效）,不实现的话则会重叠在0，0位置
         /// </summary>
         public FlowLayout Layout { get; set; }
-        private string nodeStateStyles { get; set; }
+        public string nodeStateStylesJson { get; set; }
         /// <summary>
         /// state 样式
         /// </summary>
@@ -137,7 +137,7 @@ namespace BasicsApi.Models
         {
             get
             {
-                return string.IsNullOrWhiteSpace(this.nodeStateStyles) ? null : JsonSerializer.Deserialize<Dictionary<string, FlowStyle>>(this.nodeStateStyles, options: new JsonSerializerOptions()
+                return string.IsNullOrWhiteSpace(this.nodeStateStylesJson) ? null : JsonSerializer.Deserialize<Dictionary<string, FlowStyle>>(this.nodeStateStylesJson, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -145,7 +145,7 @@ namespace BasicsApi.Models
             }
             set
             {
-                this.nodeStateStyles = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
+                this.nodeStateStylesJson = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase

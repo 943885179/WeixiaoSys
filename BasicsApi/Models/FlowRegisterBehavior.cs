@@ -15,7 +15,7 @@ namespace BasicsApi.Models
         /// 名称
         /// </summary>
         public string Type { get; set; } = "addFlow";
-        private string behavior { get; set; }
+        public string behaviorJson { get; set; }
         /// <summary>
         /// 详细内容
         /// </summary>
@@ -24,7 +24,7 @@ namespace BasicsApi.Models
         {
             get
             {
-                return string.IsNullOrWhiteSpace(this.behavior) ? null : JsonSerializer.Deserialize<Dictionary<string, FlowFun>>(this.behavior, options: new JsonSerializerOptions()
+                return string.IsNullOrWhiteSpace(this.behaviorJson) ? null : JsonSerializer.Deserialize<Dictionary<string, FlowFun>>(this.behaviorJson, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -32,12 +32,16 @@ namespace BasicsApi.Models
             }
             set
             {
-                this.behavior = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
+                this.behaviorJson = JsonSerializer.Serialize(value, options: new JsonSerializerOptions()
                 {
                     IgnoreNullValues = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 });
             }
         }
+
+        public int FlowG6Id { get; set; }
+        [ForeignKey("FlowG6Id")]
+        public FlowG6 FlowG6 { get; set; }
     }
 }
