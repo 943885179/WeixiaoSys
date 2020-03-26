@@ -1,7 +1,6 @@
 <page-header>
 
 </page-header>
-<button nz-button nzType="primary" (click)="save()">查看内容</button>
 <!--<button nz-button nzType="primary" (click)="add('circle')">添加圆</button>
 <button nz-button nzType="primary" (click)="add('rect')">添加矩形</button>
 <button nz-button nzType="primary" (click)="add('ellipse')">添加椭圆</button>
@@ -11,10 +10,18 @@
   <button nz-button nzType="primary" (click)="changeMode(item)">{{item}}</button>
 </nz-button-group>
 <div nz-row>
+  <input nz-input id="dataCode" placeholder="流程编号"
+         [(ngModel)]="flow.code" />
+  <input nz-input id="dataName" placeholder="流程名称" [(ngModel)]="flow.name" />
+  <button nz-button nzType="primary" (click)="save()">保存</button>
+</div>
+<div nz-row>
   <div id="mountNode" nz-col nzSpan="20" style="background-color: #fff;">
 
   </div>
   <div id="itemEdit" nz-col nzSpan="4" style="background-color: #fff;">
+
+    <nz-divider nzText="当前节点设置"></nz-divider>
     <input nz-input id="itemId" placeholder="ID" [(ngModel)]="item.id" />
     <input nz-input id="itemLabel" placeholder="label" [(ngModel)]="item.label" />
     <nz-select id="itemType" [ngModel]="item.type">
@@ -22,5 +29,7 @@
       <nz-option [nzLabel]="'椭圆'" [nzValue]="'ellipse'"></nz-option>
       <nz-option [nzLabel]="'判断'" [nzValue]="'diamond'"></nz-option>
     </nz-select>
+    <nz-divider nzText=""></nz-divider>
+    <button nz-button nzType="primary" (click)="editNode()">修改</button>
   </div>
 </div>

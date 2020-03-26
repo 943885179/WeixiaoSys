@@ -48,7 +48,7 @@ namespace BasicsApi.Models
             {
                 return string.IsNullOrWhiteSpace(this.fitViewPaddingJson) ? null : this.fitViewPaddingJson.Split(',').Select(d => Convert.ToInt32(d)).ToArray();
             }
-            set { this.fitViewPaddingJson = string.Join(',', value); }
+            set { this.fitViewPaddingJson = value == null ? null : string.Join(',', value); }
         }
         //{
         //    get

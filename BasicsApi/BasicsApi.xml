@@ -139,6 +139,13 @@
             <param name="ids"></param>
             <returns></returns>
         </member>
+        <member name="M:BasicsApi.Controllers.FlowController.AddFlow(BasicsApi.Models.FlowData)">
+            <summary>
+            添加流程
+            </summary>
+            <param name="flowData"></param>
+            <returns></returns>
+        </member>
         <member name="T:BasicsApi.Controllers.UserController">
              <summary>
             

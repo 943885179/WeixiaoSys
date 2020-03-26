@@ -18,9 +18,14 @@ export class DashboardComponent implements OnInit {
     graph: Graph;
     type: ITEM_TYPE = "node";
     item = {
+        oldId: "",
         id: "",
         label: "",
         type: "rect"
+    }
+    flow = {
+        code: '',
+        name: ''
     }
     btnList = [];
     async  ngOnInit(): Promise<void> {
@@ -75,9 +80,26 @@ export class DashboardComponent implements OnInit {
         })
     }
     async save() {
-        this.msg.info(JSON.stringify(this.graph.save()));
+        //this.msg.info(JSON.stringify(this.graph.save()));
+        const data: any = this.graph.save();
+        data.code = this.flow.code;
+        data.name = this.flow.name;
+        this.http.post(this.basic.ApiUrl + "flow/addflow", data).subscribe(res => {
+            this.msg.success('保存成功');
+        });
     }
     async changeMode(mode) {
         this.graph.setMode(mode);
+    }
+    async editNode() {
+        this.graph.updateItem(this.item.oldId, {
+            id: this.item.id,
+            label: this.item.label,
+            shape: this.item.type
+        });
+        this.item.oldId = this.item.id;
+        document.getElementById("contextMenu").setAttribute('node', this.item.id);
+        //this.graph.refreshItem(this.item.id);
+        this.graph.refresh();
     }
 }

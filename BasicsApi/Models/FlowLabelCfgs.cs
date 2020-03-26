@@ -25,7 +25,7 @@ namespace BasicsApi.Models
         public int[] Offset
         {
             get { return string.IsNullOrWhiteSpace(this.offsetJson) ? null : this.offsetJson.Split(',').Select(d => Convert.ToInt32(d)).ToArray(); }
-            set { this.offsetJson = string.Join(',', value); }
+            set { this.offsetJson = value == null ? null : string.Join(',', value); }
         }
         /// <summary>
         /// 包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行

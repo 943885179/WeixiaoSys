@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BasicsApi.Models
 {
-    public class FlowNode 
+    public class FlowNode
     {
         [Key]
         [JsonIgnore]
@@ -82,7 +82,7 @@ namespace BasicsApi.Models
         public int[] Size
         {
             get { return string.IsNullOrWhiteSpace(this.sizeJson) ? null : this.sizeJson.Split(',').Select(d => Convert.ToInt32(d)).ToArray(); }
-            set { this.sizeJson = string.Join(',', value); }
+            set { this.sizeJson = value == null ? null : string.Join(',', value); }
         }
         public string anchorPointsJson { get; set; }
         /// <summary>
