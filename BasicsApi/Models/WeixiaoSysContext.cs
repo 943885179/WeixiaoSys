@@ -1,11 +1,19 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;using Microsoft.Extensions.Logging.Console;
 
 namespace BasicsApi.Models
 {
     public partial class WeixiaoSysContext : DbContext
     {
+        public static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] {
+            new DebugLoggerProvider()
+        });
+        //public static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] {
+        //    new ConsoleLoggerProvider((category, level)  => category == DbLoggerCategory.Database.Command.Name&& level == LogLevel.Information, true)
+        //});
         public WeixiaoSysContext()
         {
         }
@@ -69,7 +77,8 @@ namespace BasicsApi.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var dbContextOptionsBuilder = optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=WeixiaoSys;User ID=sa;Password=123;MultipleActiveResultSets=true");
+               // var dbContextOptionsBuilder = optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=WeixiaoSys;User ID=sa;Password=123;MultipleActiveResultSets=true");
+                optionsBuilder.UseLoggerFactory(MyLoggerFactory).UseSqlServer("Data Source=.;Initial Catalog=WeixiaoSys;User ID=sa;Password=123;MultipleActiveResultSets=true");
             }
         }
 
