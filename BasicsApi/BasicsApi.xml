@@ -689,7 +689,7 @@
             sharp为imges特有的属性，剪切图片，默认false不开启
             </summary>
         </member>
-        <member name="P:BasicsApi.Models.FlowNode.IconId">
+        <member name="P:BasicsApi.Models.FlowNode.Icon">
             <summary>
             图标（圆，椭圆，菱形，三角形,五角星,方形卡片）
             </summary>

@@ -78,7 +78,6 @@ export class DashboardComponent implements OnInit {
         this.msg.info(JSON.stringify(this.graph.save()));
     }
     async changeMode(mode) {
-        alert(mode);
         this.graph.setMode(mode);
     }
 }

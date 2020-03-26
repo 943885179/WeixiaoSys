@@ -27,22 +27,18 @@ namespace BasicsApi.Models
             get { return string.IsNullOrWhiteSpace(this.offsetJson) ? null : this.offsetJson.Split(',').Select(d => Convert.ToInt32(d)).ToArray(); }
             set { this.offsetJson = string.Join(',', value); }
         }
-        public int StyleId { get; set; }
         /// <summary>
         /// 包裹标签样式属性的字段 style 与标签其他属性在数据结构上并行
         /// </summary>
-        [ForeignKey("StyleId")]
         public FlowStyle Style { get; set; }
         /// <summary>
         /// 边上的标签文本根据边的方向旋转
         /// </summary>
         public bool AutoRotate { get; set; }
-        public int LabelCfgId { get; set; }
         /// <summary>
         /// 标签文本配置
         /// </summary>
         public virtual FlowLabelCfgs LabelCfg { get; set; }
-        public int LinkPointsId { get; set; }
         /// <summary>
         /// 指定节点周围「上、下、左、右」四个方向上边的连入点LabelCfgs下的只有defaultNode下起作用
         /// </summary>

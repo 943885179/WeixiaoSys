@@ -144,27 +144,21 @@ namespace BasicsApi.Models
                 });
             }
         }
-        public int LinkPointsId { get; set; }
         /// <summary>
         /// 指定节点周围「上、下、左、右」四个方向上边的连入点
         /// </summary>
-        [ForeignKey("LinkPointsId")]
         public FlowLinkPoints LinkPoints { get; set; }
         /// <summary>
         /// 图片路径，shape设置为image时生效
         /// </summary>
         public string Img { get; set; }
-        public int ClipCfgId { get; set; }
         /// <summary>
         /// sharp为imges特有的属性，剪切图片，默认false不开启
         /// </summary>
-        [ForeignKey("ClipCfgId")]
         public FlowClipCfg ClipCfg { get; set; }
         /// <summary>
         /// 图标（圆，椭圆，菱形，三角形,五角星,方形卡片）
         /// </summary>
-        public int IconId { get; set; }
-        [ForeignKey("IconId")]
         public FlowIcon Icon { get; set; }
         /// <summary>
         /// 三角形的方向String 可取值：up、down、left、right，默认为up。
@@ -174,8 +168,5 @@ namespace BasicsApi.Models
         /// 五角星内环大小
         /// </summary>
         public int InnerR { get; set; } = 3 * 8;
-        public int FlowDataId { get; set; }
-        [ForeignKey("FlowDataId")]
-        public virtual FlowData FlowData { get; set; }
     }
 }

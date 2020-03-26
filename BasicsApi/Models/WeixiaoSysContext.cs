@@ -21,6 +21,9 @@ namespace BasicsApi.Models
         public WeixiaoSysContext(DbContextOptions<WeixiaoSysContext> options)
             : base(options)
         {
+            //Database.EnsureDeleted(); 如果存在数据库删除
+            Database.EnsureCreated();//如果不存在数据库，添加
+            //Database.SetInitializer<WeixiaoSysContext>(new CreateDatabaseIfNotExists<WeixiaoSysContext>());
         }
 
         public virtual DbSet<Area> Area { get; set; }
@@ -1078,19 +1081,6 @@ namespace BasicsApi.Models
                     .HasForeignKey(d => d.GroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USER_USE_USERGROUP_EMP_GROU");
-            });
-            modelBuilder.Entity<FlowLabelCfgs>(entity =>
-            {
-                entity.HasOne(t => t.LabelCfg)
-                    .WithMany()
-                    .HasForeignKey(t => t.LabelCfgId)
-                    .OnDelete(DeleteBehavior.Restrict);
-            });
-            modelBuilder.Entity<FlowEdge>(entity =>
-            {
-                entity.HasOne(t => t.Style).WithMany().HasForeignKey(t => t.StyleId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    ;
             });
             modelBuilder.Entity<UsergroupRole>(entity =>
             {

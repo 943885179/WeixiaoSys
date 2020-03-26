@@ -20,18 +20,9 @@ namespace BasicsApi.Models
         /// 结束节点
         /// </summary>
         public string Target { get; set; }
-
         public string Label { get; set; }
-        public int LabelCfgId { get; set; }
-        [ForeignKey("LabelCfgId")]
         public FlowLabelCfgs LabelCfg { get; set; }
-        public int StyleId { get; set; }
         public FlowStyle Style { get; set; }
-        public int LoopCfgId { get; set; }
-        [ForeignKey("LoopCfgId")]
         public FlowEdgeLoopCfg LoopCfg { get; set; }
-        public int FlowDataId { get; set; }
-        [ForeignKey("FlowDataId")]
-        public virtual FlowData FlowData { get; set; }
     }
 }

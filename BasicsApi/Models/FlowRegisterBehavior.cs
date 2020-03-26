@@ -39,9 +39,5 @@ namespace BasicsApi.Models
                 });
             }
         }
-
-        public int FlowG6Id { get; set; }
-        [ForeignKey("FlowG6Id")]
-        public FlowG6 FlowG6 { get; set; }
     }
 }

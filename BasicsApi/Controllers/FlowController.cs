@@ -28,6 +28,8 @@ namespace BasicsApi.Controllers
         {
             var flow = _db.FlowG6.Include(d => d.FlowCss)
                 .Include(d => d.FlowData).ThenInclude(d=>d.Nodes)
+                .Include(d => d.FlowData).ThenInclude(d => d.Edges)
+                .Include(d => d.FlowData).ThenInclude(d => d.Groups)
                 .Include(d => d.FlowFronts)
                 .Include(d => d.FlowGraph)
                 .Include(d => d.RegisterBehaviors)
@@ -47,7 +49,7 @@ namespace BasicsApi.Controllers
             result.data = JsonDocument.Parse(JsonSerializer.Serialize(flow, options: new JsonSerializerOptions()
             {
                 IgnoreNullValues = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             })).RootElement;
             return result;
 
@@ -150,56 +152,56 @@ namespace BasicsApi.Controllers
                 FlowCss = new FlowCss(),
                 FlowData = new FlowData()
                 {
-                    Nodes = new List<FlowNode>()
-                          {
-                              new FlowNode() { Label = "1", Size = new int[] { 80 }, Shape = "rect", Style = new FlowStyle() { Fill = "blue" } },
-                              new FlowNode() { Label = "2", Size = new int[] { 80, 40 }, Shape = "ellipse" },
-                              new FlowNode() { Label = "3", Size = new int[] { 80, 20, 40, 5 }, Shape = "triangle" },
-                              new FlowNode() { Label = "4", Size = new int[] { 80 }, LinkPoints = new FlowLinkPoints { } },
-                              new FlowNode() { Label = "5", Shape = "star", Style = new FlowStyle() { Fill = "red" } },
-                              new FlowNode() { Label = "this s", Shape = "modelRect", Description = "谈谈他", Size = new int[] { 40, 50 } },
-                              new FlowNode() { Label = "this is image", Img = "https://localhost:5001/upload/1.jpg", Shape = "image", Size = new int[] { 40, 20 } }
-                          },
-                    Edges = new List<FlowEdge>
-                          {
-                              new FlowEdge()
-                              {
-                                  Source = "node1",
-                                  Target = "node2",
-                                  Label = "我是描述",
-                                  LabelCfg = new FlowLabelCfgs
-                                  {
-                                      Position = "end"
-                                  }
-                              },
-                              new FlowEdge()
-                              {
-                                  Source = "node1",
-                                  Target = "node3",
-                                  Label = "dda",
-                                  Shape = "quadratic"
-                              },
-                              new FlowEdge()
-                              {
-                                  Source = "node2",
-                                  Target = "node5",
-                                  Label = "dda"
-                              },
-                              new FlowEdge()
-                              {
-                                  Source = "node2",
-                                  Target = "node4",
-                                  Label = "dda"
-                              }
-                          }
+                    //Nodes = new List<FlowNode>()
+                    //      {
+                    //          new FlowNode() { Code="node1", Label = "node1", Size = new int[] { 80 }, Shape = "rect", Style = new FlowStyle() { Fill = "blue" } },
+                    //          new FlowNode() {Code="node2",Label = "node2", Size = new int[] { 80, 40 }, Shape = "ellipse" },
+                    //          new FlowNode() {Code="node3",Label = "node3", Size = new int[] { 80, 20, 40, 5 }, Shape = "triangle" },
+                    //          new FlowNode() {Code="node4",Label = "node4", Size = new int[] { 80 }, LinkPoints = new FlowLinkPoints { } },
+                    //          new FlowNode() {Code="node5",Label = "node5", Shape = "star", Style = new FlowStyle() { Fill = "red" } },
+                    //          new FlowNode() {Code="node6",Label = "this s", Shape = "modelRect", Description = "谈谈他", Size = new int[] { 40, 50 } },
+                    //          new FlowNode() {Code="node7",Label = "this is image", Img = "https://localhost:5001/upload/1.jpg", Shape = "image", Size = new int[] { 40, 20 } }
+                    //      },
+                    //Edges = new List<FlowEdge>
+                    //      {
+                    //          new FlowEdge()
+                    //          {
+                    //              Source = "node1",
+                    //              Target = "node2",
+                    //              Label = "我是描述",
+                    //              LabelCfg = new FlowLabelCfgs
+                    //              {
+                    //                  Position = "end"
+                    //              }
+                    //          },
+                    //          new FlowEdge()
+                    //          {
+                    //              Source = "node1",
+                    //              Target = "node3",
+                    //              Label = "dda",
+                    //              Shape = "quadratic"
+                    //          },
+                    //          new FlowEdge()
+                    //          {
+                    //              Source = "node2",
+                    //              Target = "node5",
+                    //              Label = "dda"
+                    //          },
+                    //          new FlowEdge()
+                    //          {
+                    //              Source = "node2",
+                    //              Target = "node4",
+                    //              Label = "dda"
+                    //          }
+                    //      }
                 },
                 FlowGraph = new FlowGraph()
                 {
-                    // DefaultNode=new LabelCfgs { LinkPoints=new LinkPoints { } },
-                    //layout会让node节点有所偏移，需要进一步解决
-                    // Layout = new Layout
-                    // {
-                    // },
+                    DefaultNode=new FlowLabelCfgs { LinkPoints=new FlowLinkPoints { } },
+                   //layout会让node节点有所偏移，需要进一步解决
+                    Layout = new FlowLayout
+                    {
+                    },
                     Modes = new Dictionary<string, object>() {
                         { "default",new List<object>() {
                            new DragCanvas() ,
