@@ -10,7 +10,7 @@ namespace BasicsApi.Models
         /// </summary>
         public Guid Gid { get; set; }
         /// <summary>
-        /// 
+        /// 流程名称
         /// </summary>
         public string Name { get; set; }
         /// <summary>
@@ -22,31 +22,5 @@ namespace BasicsApi.Models
         public List<FlowEdge> Edges { get; set; }
         public List<FlowGroup> Groups { get; set; }
 
-        public void Test()
-        {
-            System.IO.DriveInfo[] allDrives = System.IO.DriveInfo.GetDrives();
-
-            foreach (System.IO.DriveInfo d in allDrives)
-            {
-                Console.WriteLine("Drive {0}", d.Name);
-                Console.WriteLine("  Drive type: {0}", d.DriveType);
-                if (d.IsReady == true)
-                {
-                    Console.WriteLine("  Volume label: {0}", d.VolumeLabel);
-                    Console.WriteLine("  File system: {0}", d.DriveFormat);
-                    Console.WriteLine(
-                        "  Available space to current user:{0, 15} bytes",
-                        d.AvailableFreeSpace);
-
-                    Console.WriteLine(
-                        "  Total available space:          {0, 15} bytes",
-                        d.TotalFreeSpace);
-
-                    Console.WriteLine(
-                        "  Total size of drive:            {0, 15} bytes ",
-                        d.TotalSize);
-                }
-            }
-        }
     }
 }

@@ -92,6 +92,7 @@ export class DashboardComponent implements OnInit {
         this.graph.setMode(mode);
     }
     async editNode() {
+        console.log(this.item);
         this.graph.updateItem(this.item.oldId, {
             id: this.item.id,
             label: this.item.label,
